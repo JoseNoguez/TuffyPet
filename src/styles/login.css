@@ -1,0 +1,316 @@
+
+        /* --------------------------- */
+        /* 🎨 Variables de Tuffy Pet */
+        /* --------------------------- */
+        :root {
+          
+            --azul-tuffyG: #11395b;
+                       
+          
+        }
+
+             .logo .tuffy {
+    font-family: 'Pacifico', cursive;
+    color: var(--color-primary);
+    font-size: 35px;
+}
+
+.logo .pet {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bolder;
+    color: var(--color-secondary);
+    font-size: 35px;
+}
+
+.tuffy-logo .pet {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    color: #F7C04A;
+}
+
+        /* --------------------------- */
+        /* 💎 Estilos del Modal */
+        /* --------------------------- */
+        .tuffy-modal {            
+            width: 100%;
+            background-color: var(--blanco);
+            padding: 32px;            
+            
+            position: relative;
+        }
+
+        /* Botón de cerrar (X) */
+        .close-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--color-text-muted);
+            font-size: 24px;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .close-btn:hover {
+            color: var(--color-dark);
+        }
+
+        /* Logo */
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        
+/* Estilo del Logo (TuffyPet) */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+    font-size: 1.6rem
+}
+
+#logo #tuffy {
+    font-family: 'Pacifico', cursive;
+    color: var(--color-primary);
+    font-size: 35px;
+}
+
+#logo #pet {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bolder;
+    color: var(--color-secondary);
+    font-size: 35px;
+}
+
+#tuffy-logo #pet {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    color: #F7C04A;
+}
+        
+
+        h2 {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            color: var(--color-dark);
+            margin-bottom: 24px;
+        }
+
+        /* --------------------------- */
+        /* 🔘 Estilos de Botones */
+        /* --------------------------- */
+        .access-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Estilos base para todos los botones de acceso */
+        .btn-base {
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-sm);
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .btn-base:hover:not(:disabled) {
+            opacity: 0.9;
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-base:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Botones Sociales */
+        .btn-google { 
+            background-color: var(--rojo); 
+            color: var(--blanco); 
+            border: 1px solid var(--rojo); 
+        }
+        .btn-apple { 
+            background-color: var(--negro); 
+            color: var(--blanco); 
+            border: 1px solid var(--negro); 
+        }
+
+        /* Botón Especialista (Azul Tuffy) */
+        .btn-specialist { 
+            background-color: var(--azul-tuffyG); 
+            color: var(--blanco); 
+            border: 1px solid var(--azul-tuffyG); 
+        }
+
+        /* Botón Usuario (Verde Menta) */
+        .btn-tuffy { 
+            background-color: var(--amarillo-mostaza); 
+            color: var(--blanco); /* El texto del botón también en blanco */
+            border: 1px solid var(--amarillo-mostaza); 
+        }
+
+        /* Efectos Hover */
+        .btn-specialist:hover:not(:disabled) {
+            background-color: var(--azul-petroleo);
+            border-color: var(--azul-petroleo);
+        }
+
+        .btn-tuffy:hover:not(:disabled) {
+            background-color: #f4c52b; 
+            border-color: #f4c52b;
+        }
+        
+        /* Estilo para iconos (Font Awesome) */
+        .btn-base .icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            font-size: 1.2rem; 
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: inherit; /* Hereda el color del botón (blanco o negro) */
+            text-shadow: none; 
+        }
+        
+        /* Aseguramos que todos los iconos de los botones sociales y de rol sean blancos */
+        .btn-apple .icon, 
+        .btn-specialist .icon, 
+        .btn-google .icon,
+        .btn-tuffy .icon /* También la patita ahora en blanco */
+        {
+            color: var(--blanco);
+        }
+        
+        /* Ajuste específico para iconos FA */
+        .btn-base .icon i {
+            font-size: 1.2rem; 
+            line-height: 1;
+        }
+
+        /* Separador horizontal (simula el ---) */
+        .divider {
+            border: none;
+            border-top: 1px solid var(--gris-piedra);
+            margin: 24px 0;
+            width: 100%;
+        }
+
+        /* --------------------------- */
+        /* 📋 Formulario y Pie */
+        /* --------------------------- */
+        
+        /* Separador "O usa tu cuenta" */
+        .separator {
+            text-align: center;
+            margin: 24px 0;
+        }
+
+        .separator p {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-text-muted);
+        }
+
+        /* Formulario y campos */
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .tuffy-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gris-piedra);
+            border-radius: var(--radius-sm);
+            background-color: var(--color-bg-light); 
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+            font-size: 16px;
+            color: var(--color-dark);
+            box-sizing: border-box; 
+        }
+
+        .tuffy-input:focus {
+            border-color: var(--azul-tuffyG);
+            outline: none;
+            box-shadow: 0 0 0 1px var(--azul-tuffyG);
+        }
+
+        /* Botón de login (Entrar) */
+        .btn-login-action {
+            background-color: var(--azul-tuffyG);
+            color: var(--blanco);
+            font-weight: 700;
+            margin-top: 8px;
+            border: none;
+        }
+        
+        .btn-login-action:hover:not(:disabled) {
+            background-color: var(--azul-petroleo);
+        }
+
+        /* Enlaces de pie de página */
+        .forgot-password, .register-link {
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .forgot-password {
+            margin-top: 4px;
+        }
+
+        .register-link {
+            margin-top: 24px;
+        }
+
+        .link-text {
+            color: var(--azul-tuffyG);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .link-text:hover {
+            text-decoration: underline;
+        }
+
+        /* Mensaje de notificación (sustituto de alert) */
+        #message-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background-color: var(--color-dark);
+            color: var(--blanco);
+            padding: 10px 20px;
+            border-radius: 6px;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, background-color 0.3s;
+            pointer-events: none; 
+        }
+
+        /* Nuevo estilo para el contenedor de carga */
+        #login-message-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 0; /* Espaciado para que se vea bien */
+            text-align: center;
+            color: var(--azul-tuffyG);
+        }

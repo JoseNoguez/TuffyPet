@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Cliente | Tuffy Pet</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@700;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <style>
+        /* ==================================== */
+        /* 🎨 VARIABLES GLOBALES DE TUFFYPET */
+        /* ==================================== */
+        :root {
+            --amarillo-mostaza: #F7C04A;
+            --azul-tuffy: #3E8ECD;
+            --azul-petroleo: #2D82B7;
+            --crema-claro: #FFF8E8;
+            --gris-piedra: #D9D9D9;
+            --blanco: #FFFFFF;
+            --negro: #0F172A;
+
+            --color-primary: var(--azul-tuffy);
+            --color-secondary: var(--amarillo-mostaza);
+            --color-light: var(--crema-claro);
+            
+            --radius: 12px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, .1);
+        }
+        
+        /* BASE, CENTRADO Y POPPINS */
+        body {
+            font-family: 'Poppins', system-ui, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: var(--color-light); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* ==================================== */
+        /* 📝 ESTILOS DEL CONTENEDOR CENTRAL */
+        /* ==================================== */
+        .client-form-container {
+            width: 100%;
+            max-width: 450px; /* Tamaño del formulario centrado */
+            background: var(--blanco);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .client-form-container h2 {
+            color: var(--azul-petroleo);
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        /* --- Estilos de Botones de Acceso Social --- */
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .btn-social {
+            padding: 12px 20px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .btn-google {
+            background-color: #DB4437;
+            color: var(--blanco);
+        }
+
+        .btn-apple {
+            background-color: var(--negro);
+            color: var(--blanco);
+        }
+        
+        .btn-social i {
+            margin-right: 10px;
+        }
+        
+        .divider {
+            margin: 2rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        /* --- Estilos del Formulario --- */
+        .client-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .tuffy-input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid var(--gris-piedra);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .tuffy-input:focus {
+            outline: none;
+            border-color: var(--azul-tuffy);
+            box-shadow: 0 0 0 2px rgba(62, 142, 205, 0.2);
+        }
+
+        .btn-register {
+            background-color: var(--amarillo-mostaza);
+            color: var(--negro);
+            padding: 15px 20px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-register:hover {
+            background-color: #F8C864;
+        }
+        
+        .back-link {
+            display: block;
+            margin-top: 25px;
+            font-size: 0.9rem;
+        }
+
+        .back-link a {
+            color: var(--azul-tuffy);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="client-form-container">
+        
+        <h2>Registro de Cliente</h2>
+        
+        <div class="social-buttons">
+            <button class="btn-social btn-google">
+                <i class="fa-brands fa-google"></i> Entrar con Google
+            </button>
+            <button class="btn-social btn-apple">
+                <i class="fa-brands fa-apple"></i> Entrar con Apple
+            </button>
+        </div>
+        
+        <div class="divider">--- O REGÍSTRATE CON TU CORREO ---</div>
+
+        <form id="registration-form" class="client-form">
+            
+            <input type="email" id="email" name="email" class="tuffy-input" placeholder="Correo Electrónico" required>
+            
+            <input type="password" id="password" name="password" class="tuffy-input" placeholder="Contraseña" required>
+            
+            <input type="password" id="confirm-password" name="confirm-password" class="tuffy-input" placeholder="Confirma Contraseña" required>
+
+            <button type="submit" id="submit-btn" class="btn-register">
+                Registrar
+            </button>
+        </form>
+        
+        <div id="registration-message-container" style="display: none; flex-direction: column; align-items: center; padding: 20px;">
+            <p style="font-weight: 600; color: var(--azul-tuffy);">Registrando cuenta...</p>
+            <i class="fa-solid fa-spinner fa-spin fa-2x" style="color: var(--amarillo-mostaza); margin-top: 10px;"></i>
+        </div>
+
+        <p class="back-link">
+            <a href="/src/views/auth/registro.html">← Volver a selección de perfil</a>
+        </p>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('registration-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const messageContainer = document.getElementById('registration-message-container');
+            
+            if (!form) return;
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                
+                let apiSuccess = false; 
+
+                // 1. Validaciones
+                if (password !== confirmPassword) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Oops...',
+                        text: 'Las contraseñas no coinciden.',
+                    });
+                    return;
+                }
+                
+                // 2. Ocultar formulario y mostrar spinner
+                form.style.display = 'none';
+                messageContainer.style.display = 'flex';
+                
+                // 3. Simulación de Llamada a la API
+                const userData = { 
+                    email: document.getElementById('email').value, 
+                    password, 
+                    role: 'cliente' // Enviando el rol 'cliente'
+                };
+
+                try {
+                    // Simular un tiempo de respuesta de la API (2 segundos)
+                    await new Promise(resolve => setTimeout(resolve, 2000)); 
+
+                    // Simulación de éxito. Cambia a false para probar el error.
+                    apiSuccess = true; 
+
+                    if (apiSuccess) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Registro Exitoso!',
+                            text: 'Tu cuenta ha sido creada. Esta ventana se cerrará en un momento.',
+                            showConfirmButton: false,
+                            timer: 2500
+                        }).then(() => {
+                            // ⭐ CIERRE AUTOMÁTICO DE LA VENTANA
+                            window.close(); 
+                        });
+                    } else {
+                        // Simulación de error de API (ej: el correo ya existe)
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error de Registro',
+                            text: 'El correo electrónico ya está en uso. Intenta de nuevo.',
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error en la llamada simulada a la API:", error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error de Conexión',
+                        text: 'No se pudo completar el registro. Intenta más tarde.',
+                    });
+                } finally {
+                    // 5. Si falló (y no se cerró), mostrar el formulario de nuevo y ocultar el spinner
+                    if (!apiSuccess) {
+                        form.style.display = 'flex';
+                        messageContainer.style.display = 'none';
+                    }
+                }
+            });
+            
+            // Lógica de botones sociales (solo simulación)
+            document.querySelectorAll('.btn-social').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Función No Implementada',
+                        text: `El registro con ${button.textContent.trim().split(' ')[2]} se manejaría mediante una redirección a su plataforma.`,
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

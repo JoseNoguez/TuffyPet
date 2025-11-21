@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Tuffy Pet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="/src/styles/login.css">
+</head>
+<body>
+
+    <div class="tuffy-modal">
+        
+        <button class="close-btn" onclick="window.closeModal('loginModal')" aria-label="Cerrar">
+            &times;
+        </button>
+
+        <div class="logo-container">
+            <div class="tuffy-logo-box">
+                <span style="font-family: 'Pacifico', cursive;
+    color: var(--color-primary);
+    font-size: 35px;">Tuffy</span>
+            <span style="font-family: 'Montserrat', sans-serif;
+    font-weight: bolder;
+    color: var(--color-secondary);
+    font-size: 35px;">Pet</span>
+            </div>
+        </div>
+
+        <h2>Accede a tu cuenta</h2>
+
+        <div class="access-buttons">
+            
+            <button class="btn-base btn-google">
+                <span class="icon"><i class="fa-brands fa-google"></i></span>
+                Entrar con Google
+            </button>
+
+            <button class="btn-base btn-apple">
+                <span class="icon"><i class="fa-brands fa-apple"></i></span>
+                Entrar con Apple
+            </button>
+
+            <button id="btn-tuffy" class="btn-base btn-tuffy">
+                <span class="icon"><i class="fa-solid fa-paw"></i></span>
+                Entra como usuario TuffyPet
+            </button>
+        </div>
+        
+        <div class="separator">
+            <p>--- ERES ESPECIALISTA ---</p>
+        </div>
+        
+        <div class="access-buttons">
+
+            <button id="btn-specialist" class="btn-base btn-specialist">
+                <span class="icon"><i class="fa-solid fa-shield-dog"></i></span>
+                Entra al panel de profesionales
+            </button>           
+
+        </div>
+        
+        <hr class="divider">
+
+        <div id="login-message-container" style="display: none;">
+            <p style="font-weight: 600; color: var(--azul-tuffy);">Iniciando sesión...</p>
+            <i class="fa-solid fa-spinner fa-spin fa-2x" style="color: var(--amarillo-mostaza); margin-top: 10px;"></i>
+        </div>
+        <form id="login-form" class="login-form" style="display: none;">
+            
+            <div>
+                <input type="text" id="username-input" name="username" placeholder="Usuario / Correo" required
+                        class="tuffy-input">
+            </div>
+
+            <div>
+                <input type="password" id="password-input" name="password" placeholder="Contraseña" required
+                        class="tuffy-input">
+            </div>
+
+            <button type="submit" id="submit-button"
+                        class="btn-base btn-login-action">
+                Entrar
+            </button>
+            
+            <p class="forgot-password">
+                <a href="#" class="link-text" onclick="showMessage('Redireccionando a restablecer contraseña', 'info')">¿Olvidaste tu contraseña?</a>
+            </p>
+        </form>
+        
+        <p class="register-link">
+    ¿No tienes cuenta? 
+    <a 
+        href="/src/views/auth/registro.html" 
+        class="link-text" 
+        target="_blank" 
+        onclick="window.closeModal('loginModal')" 
+        >Regístrate aquí</a>
+</p>
+
+    </div>
+
+    <div id="message-box"></div>
+
+<script type="module">
+        // Importamos la función de inicio desde el módulo
+        import { initLoginForm } from '../../js/modules/login.js'; 
+
+        // Esperamos a que el DOM esté completamente cargado antes de inicializar la lógica.
+        document.addEventListener('DOMContentLoaded', () => {
+            initLoginForm();
+        });
+    </script>
+</body>
+</html>

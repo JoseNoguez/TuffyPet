@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Cuenta Gratuita | Tuffy Pet</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@700;800&family=Poppins:wght@300;400;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> 
+    
+    <style>
+        /* ==================================== */
+        /* 🎨 VARIABLES GLOBALES DE TUFFYPET */
+        /* ==================================== */
+        :root {
+            --amarillo-mostaza: #F7C04A;
+            --azul-tuffy: #3E8ECD;
+            --azul-petroleo: #2D82B7;
+            --crema-claro: #FFF8E8;
+            --gris-piedra: #D9D9D9;
+            --blanco: #FFFFFF;
+            --negro: #0F172A;
+
+            --color-primary: var(--azul-tuffy);
+            --color-secondary: var(--amarillo-mostaza);
+            --color-dark: var(--negro);
+            --color-light: var(--crema-claro);
+            --color-text-muted: #64748b;
+            
+            --padding-md: 1.5rem;
+            --padding-lg: 2.8rem;
+            --radius: 16px;
+            --shadow: 0 20px 60px rgba(0, 0, 0, .12); 
+            --shadow-sm: 0 8px 25px rgba(0, 0, 0, .08);
+        }
+        
+        /* ==================================== */
+        /* 🐶 ESTILOS DE LOGO (Incluidos a petición) */
+        /* ==================================== */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: .35rem;
+            font-size: 1.6rem
+        }
+        
+        .logo .tuffy {
+            font-family: 'Pacifico', cursive;
+            color: var(--color-primary);
+            font-size: 35px;
+        }
+        
+        .logo .pet {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bolder;
+            color: var(--amarillo-mostaza);
+            font-size: 35px;
+        }
+        
+        .tuffy-logo .pet {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            color: #F7C04A;
+        }
+        /* ==================================== */
+        
+        /* BASE, CENTRADO Y POPPINS */
+        body {
+            font-family: 'Poppins', system-ui, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: var(--color-light); 
+        }
+        
+        /* Contenedor principal para centrado TOTAL */
+        .main-content.registration-view {
+            min-height: 90vh;
+            width: 100%;
+            display: flex;
+            align-items: center; 
+            justify-content: center; 
+            padding: var(--padding-lg) 0; 
+        }
+
+        /* ==================================== */
+        /* 🐾 ESTILOS DE LA PÁGINA DE REGISTRO */
+        /* ==================================== */
+
+        .registration-box {
+            max-width: 1050px;
+            width: 90%; 
+            margin: 0 auto; 
+            padding: var(--padding-lg);
+            background: var(--blanco);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow); 
+            border: 1px solid var(--gris-piedra);
+        }
+
+        /* ⭐ ENCABEZADO CENTRADO y Sin Negritas ⭐ */
+        .header-content {
+            text-align: center; 
+            padding: 0 20px;
+            margin-bottom: var(--padding-md);
+        }
+
+        .header-content h2 {
+            color: var(--azul-petroleo); 
+            font-size: 2.5rem;
+            font-weight: 500; 
+            margin-bottom: 0.2rem;
+            position: relative;
+        }
+
+        .header-content p {
+            color: var(--color-text-muted);
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-top: 0;
+        }
+        
+        /* --- Cuadrícula de Selección de Rol (Role Grid) --- */
+        .role-grid {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 2rem; 
+        }
+
+        /* --- Tarjeta de Rol Individual (Role Card) --- */
+        .role-card {
+            width: 300px; 
+            flex-shrink: 0; 
+            background: var(--blanco);
+            border: 1px solid var(--gris-piedra);
+            border-radius: var(--radius);
+            padding: 3rem 1.5rem; 
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* EFECTO HOVER */
+        .role-card:hover {
+            border-color: var(--azul-tuffy); 
+            box-shadow: 0 10px 30px rgba(62, 142, 205, 0.2); 
+            transform: translateY(-8px); 
+        }
+
+        .role-card:hover h4 {
+            color: var(--azul-tuffy); 
+        }
+
+        /* IMAGEN */
+        .role-card img {
+            width: 150px; 
+            height: 150px;
+            object-fit:fill;
+            margin-bottom: 1.5rem; 
+            display: block; 
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .role-card h4 {
+            color: var(--azul-petroleo);
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .role-card p {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+            line-height: 1.4;
+            min-height: 50px;
+        }
+
+        /* Media Query para móviles */
+        @media (max-width: 960px) {
+            .role-grid {
+                flex-wrap: wrap; 
+            }
+            .role-card {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-content registration-view">
+        
+        <div id="registration-container" class="registration-box">
+            
+            <div class="header-content">
+                <h2>Crear una cuenta gratuita</h2>
+                <p>Selecciona tu perfil para comenzar el proceso de registro en     
+                <span style="font-family: 'Pacifico', cursive; color: var(--color-primary); font-size: 35px;">Tuffy</span>
+                <span style=" font-family: 'Montserrat', sans-serif;
+            font-weight: bolder;
+            color: var(--amarillo-mostaza);
+            font-size: 35px;">Pet</span>
+            </p>
+            </div>
+
+            <div class="role-grid">
+                
+                <div class="role-card" data-role="cliente">
+                    <img src="/src/assets/img/tuffy.png" alt="Soy paciente">
+                    <h4>Soy cliente</h4>
+                    <p>Comparte información básica con tu especialista antes de la visita.</p>
+                </div>
+                
+                <div class="role-card" data-role="especialista">
+                    <img src="/src/assets/img/fer.png" alt="Soy especialista">
+                    <h4>Soy especialista</h4>
+                    <p>Consigue que tus pacientes te conozcan, confíen en ti y reserven contigo.</p>
+                </div>
+
+                <div class="role-card" data-role="clinica">
+                    <img src="/src/assets/img/animales .png" alt="Soy gerente de una clínica">
+                    <h4>Soy gerente de una clínica</h4>
+                    <p>Da mayor visibilidad a tu clínica con un perfil propio.</p>
+                </div>
+
+            </div>
+            
+        </div>
+
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="/src/js/modules/registro.js"></script>
+
+</body>
+</html>

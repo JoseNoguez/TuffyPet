@@ -1,0 +1,1319 @@
+/* ==================================== */
+/* BASE & TIPOGRAFÍA */
+/* ==================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    /* --- Paleta de Colores --- */
+    --amarillo-mostaza: #F7C04A;
+    /* Usado para días parcialmente disponibles */
+    --azul-tuffy: #3e8ecd;
+    /* Azul principal */
+    --azul-petroleo: #2d82b7;
+    /* Azul oscuro */
+    --verde-menta: #A8E6CF;
+    /* Usado para días disponibles (claro) */
+    --rojo-cereza: #D2042D;
+    --crema-claro: #fff8e8;
+    --gris-piedra: #d9d9d9;
+    --blanco: #ffffff;
+    --negro: #0f172a;
+    --rojo: #ef4444;
+    --verde-disponible: #A8E6CF;
+    /* Usado para días disponibles (claro) */
+    --amarillo-parcial: #F7C04A;
+    /* Versión más oscura de mostaza para el calendario */
+    --rojo-ocupado: #F44336;
+    /* Usado para horas no disponibles */
+    --azul-oscuro-servicios: #123a53;
+    --verde-verificado: #2d82b7;
+
+    /* --- Homologación de Variables Generales --- */
+    --color-primary: var(--azul-tuffy);
+    --color-dark: var(--negro);
+
+    /* Radios de borde (para consistencia) */
+    --radius: 1.5rem;
+    /* 24px - Botones grandes/header */
+    --radius-md: 0.75rem;
+    /* 12px - Tarjetas, Modales */
+    --radius-sm: 0.5rem;
+    /* 8px - Elementos pequeños/Dropdown */
+}
+
+/* --- ANIMACIÓN HOVER PARA CINTILLOS DE SERVICIO --- */
+.card-col-3 .services-badges span {
+    background-color: var(--azul-oscuro-servicios);
+    color: white;
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card-col-3 .services-badges span:hover {
+    background-color: #0f2e42;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* --- ESTILOS BASE Y HEADER --- */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background-color: #f4f5f7;
+    line-height: 1.6;
+    color: var(--negro);
+}
+
+/* 1. HEADER (Caja blanca de pantalla completa) */
+header {
+    background: var(--blanco);
+    padding: 0;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+}
+
+/* 2. WRAPPER (Limita y centra el contenido del header) */
+.header-content-wrapper {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0.5rem 0;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+/* 3. Logo */
+.logo {
+    font-family: 'Pacifico', cursive;
+    font-size: 1.8rem;
+    color: var(--azul-petroleo);
+    order: 1;
+    flex-shrink: 0;
+}
+
+.logo a {
+    text-decoration: none;
+    color: var(--azul-petroleo);
+    display: block;
+}
+
+.logo a:hover {
+    opacity: 0.9;
+}
+
+.logo span {
+    color: var(--amarillo-mostaza);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+
+/* 4. Barra de búsqueda */
+.search-bar {
+    flex: 1;
+    /* Permite que ocupe el espacio central disponible */
+    max-width: 750px;
+    margin: 0 1.5rem;
+    /* Margen para separarlo */
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--gris-piedra);
+    border-radius: var(--radius-md);
+    background-color: var(--blanco);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    order: 2;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    background: transparent;
+}
+
+.search-bar button {
+    background: var(--azul-tuffy);
+    color: white;
+    border: none;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.search-bar button:hover {
+    background-color: var(--azul-petroleo);
+}
+
+/* 5. Contenedor de Acciones a la Derecha */
+.nav-right-actions {
+    order: 3;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+
+
+
+
+
+
+/* Botón de Hamburguesa y Menú Móvil */
+.mobile-menu-toggle {
+    display: none;
+    /* Oculto en desktop */
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--azul-petroleo);
+    margin-right: 0.5rem;
+    /* Margen para separarlo del logo */
+    padding: 5px;
+    transition: transform 0.2s;
+    order: 1;
+}
+
+/* --- BARRA DE FILTROS --- */
+.filters-bar {
+    background-color: var(--azul-tuffy);
+    color: white;
+    display: flex;
+    padding: 0.75rem 0;
+    overflow-x: auto;
+    box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+}
+
+.filters-container {
+    width: 90%;
+    max-width: 1200px;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.select-wrapper {
+    position: relative;
+    display: inline-block;
+    background-color: var(--blanco);
+    border-radius: var(--radius-sm);
+    border: none;
+    box-shadow: none;
+    overflow: hidden;
+    color: var(--negro);
+}
+
+.select-wrapper:hover {
+    background-color: var(--amarillo-mostaza);
+}
+
+.filter-select {
+    /* Eliminación de apariencia nativa */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    /* Reset de estilos */
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background-color: transparent;
+
+    /* Estilos visuales */
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 2.5rem 0.6rem 1rem;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 150px;
+    text-align: left;
+}
+
+.select-arrow {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--azul-tuffy);
+    font-size: 1.2rem;
+    background-color: transparent;
+}
+
+
+/* --- CONTENEDOR PRINCIPAL DE BÚSQUEDA (MAIN) --- */
+main {
+    margin: 0 auto;
+    width: 90%;
+    max-width: 1400px;
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    min-height: calc(100vh - 180px);
+    box-sizing: border-box;
+}
+
+.cards {
+    flex-basis: 80%;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    scrollbar-width: auto;
+}
+
+.map {
+    flex-basis: 20%;
+    flex-grow: 1;
+    background: #e0e0e0;
+    border-radius: var(--radius-md);
+    min-height: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: calc(100px + 1.5rem);
+    align-self: flex-start;
+    background-image: url('https://via.placeholder.com/300x600?text=Mapa+Interactivo+Simulado');
+    background-size: cover;
+    background-position: center;
+}
+
+/* --- TARJETA DE RESULTADO (CARD) --- */
+.card {
+    background: var(--blanco);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    border: 1px solid #eee;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+}
+
+.card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.card-col-1 {
+    flex-basis: 120px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+}
+
+.card-col-1 img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--azul-tuffy);
+}
+
+.card-col-1 .payment-badge {
+    background-color: var(--verde-menta);
+    color: var(--negro);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.stars {
+    color: var(--amarillo-mostaza);
+    font-size: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.stars-row {
+    display: flex;
+    align-items: center;
+}
+
+.stars-row span {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+.opinion-link {
+    color: var(--azul-tuffy);
+    text-decoration: none;
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+}
+
+.card-col-2 {
+    flex-basis: 30%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    position: relative;
+}
+
+.card-col-2 h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    line-height: 1.3;
+    display: flex;
+    align-items: center;
+}
+
+.card-col-2 h3 a {
+    text-decoration: none;
+    color: var(--azul-petroleo);
+    transition: color 0.2s;
+}
+
+.card-col-2 h3 a:hover {
+    color: var(--azul-tuffy);
+}
+
+.card-col-2 .address {
+    font-size: 0.85rem;
+    color: #777;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    cursor: pointer;
+    width: fit-content;
+    transition: color 0.2s;
+    text-decoration: none;
+}
+
+.verified-icon {
+    color: var(--verde-verificado);
+    font-size: 1.1rem;
+    margin-left: 5px;
+    animation: pulse 2s infinite;
+}
+
+.unverified-icon {
+    color: var(--gris-piedra);
+    font-size: 1.1rem;
+    margin-left: 5px;
+    opacity: 0.6;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.card-col-2 .specialty {
+    font-size: 0.85rem;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--rojo-cereza);
+    align-self: flex-start;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+}
+
+.badges-row {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.badges-row span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: var(--amarillo-mostaza);
+    color: var(--negro);
+    padding: 0.3rem 0.7rem;
+    border-radius: var(--radius);
+    font-size: 0.8rem;
+    font-weight: 500;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.badges-row span:hover {
+    background-color: #e5b041;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card-col-2 .cost-select-new {
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed #eee;
+}
+
+.card-col-2 .cost-select-new label {
+    font-size: 0.9rem;
+    color: var(--negro);
+    font-weight: 500;
+}
+
+.card-col-2 .cost-select-new select {
+    padding: 0.4rem 0.6rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--gris-piedra);
+    width: 100%;
+    margin-top: 5px;
+}
+
+/* --- PROMOCIÓN --- */
+.promo-button-container {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 50;
+    text-align: right;
+    width: auto;
+}
+
+.promo-btn {
+    background: var(--rojo);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.5rem 1.2rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    animation: shake 1s infinite alternate, glow 2s infinite ease-in-out;
+    box-shadow: 0 0 5px var(--rojo);
+}
+
+.promo-btn:hover {
+    background-color: #d13a3a;
+    transform: translateY(-1px);
+    animation: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes shake {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(1deg);
+    }
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 5px var(--rojo);
+    }
+
+    50% {
+        box-shadow: 0 0 15px var(--rojo), 0 0 5px rgba(239, 68, 68, 0.7);
+    }
+
+    100% {
+        box-shadow: 0 0 5px var(--rojo);
+    }
+}
+
+/* --- COLUMNA 3 (SERVICIOS) --- */
+.card-col-3 {
+    flex-basis: 300px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-left: 0.8rem;
+    border-left: 1px dashed var(--gris-piedra);
+    justify-content: flex-start;
+}
+
+.card-col-3 h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.95rem;
+    color: var(--negro);
+    font-weight: 600;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.3rem;
+}
+
+.card-col-3 .services-badges {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    justify-items: start;
+}
+
+/* --- COLUMNA 4 (CALENDARIO) --- */
+.card-col-4 {
+    flex-basis: 180px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-left: 0.8rem;
+    border-left: 1px dashed var(--gris-piedra);
+    justify-content: center;
+}
+
+.calendar-widget-container {
+    display: flex;
+    justify-content: center;
+}
+
+.calendar-widget {
+    border: 1px solid #ccc;
+    border-radius: var(--radius-sm);
+    padding: 0.8rem;
+    background-color: #f9f9f9;
+    min-width: 170px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.7rem;
+    color: var(--azul-petroleo);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.calendar-nav button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--azul-petroleo);
+    cursor: pointer;
+    padding: 0.2rem;
+    display: block;
+    transition: color 0.2s;
+}
+
+.calendar-nav button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.calendar-nav button:hover:not(:disabled) {
+    color: var(--azul-tuffy);
+}
+
+.calendar-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.calendar-day-name {
+    font-weight: 500;
+    color: #666;
+    padding-bottom: 3px;
+    font-size: 0.75rem;
+}
+
+.calendar-date {
+    padding: 0.2rem;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.calendar-date.available {
+    background-color: var(--verde-disponible);
+    color: white;
+}
+
+.calendar-date.available:hover {
+    background-color: #388E3C;
+    transform: scale(1.1);
+}
+
+.calendar-date.partially-available {
+    background-color: var(--amarillo-parcial);
+    color: var(--negro);
+}
+
+.calendar-date.partially-available:hover {
+    background-color: #FFA000;
+    transform: scale(1.1);
+}
+
+.calendar-date.unavailable {
+    background-color: var(--gris-piedra);
+    color: #888;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.calendar-date.today {
+    outline: 2px solid var(--azul-tuffy);
+    outline-offset: -1px;
+}
+
+/* --- ESTILOS DE /* --- ESTILOS DE MODALES GENÉRICOS --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--blanco);
+    margin: auto;
+    padding: 20px;
+    border-radius: 0.75rem;
+    width: 80%;
+    max-width: 550px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    animation: fadeIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-button:hover {
+    color: var(--rojo);
+}
+
+.coupon-box {
+    border: 2px dashed var(--rojo);
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: var(--radius-sm);
+    background-color: var(--crema-claro);
+}
+
+.modal-btn.primary {
+    background-color: var(--azul-tuffy);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.modal-btn.primary:hover {
+    background-color: var(--azul-petroleo);
+}
+
+.modal-btn.secondary {
+    background-color: #f0f0f0;
+    color: var(--negro);
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* --- DISEÑO ESPECÍFICO DEL MODAL DE HORARIO --- */
+#scheduleModal .modal-content {
+    max-width: 400px;
+    padding: 30px;
+}
+
+#scheduleModal h2 {
+    color: var(--azul-petroleo);
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+}
+
+.schedule-sections {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.time-section {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: var(--radius-sm);
+    background-color: #f9f9f9;
+    text-align: center;
+    max-height: 250px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--azul-tuffy) #f9f9f9;
+}
+
+.time-section::-webkit-scrollbar {
+    width: 6px;
+}
+
+.time-section::-webkit-scrollbar-thumb {
+    background-color: var(--azul-tuffy);
+    border-radius: 10px;
+}
+
+.time-section h3 {
+    margin: 0 0 10px 0;
+    color: var(--azul-tuffy);
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-bottom: 2px dashed #ddd;
+    padding-bottom: 5px;
+    position: sticky;
+    top: 0;
+    background-color: #f9f9f9;
+    z-index: 10;
+}
+
+.time-slots-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 5px;
+}
+
+.time-slot {
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    background-color: var(--blanco);
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+    font-weight: 500;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.time-slot:not(.unavailable):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-color: var(--azul-tuffy);
+}
+
+.time-slot.unavailable {
+    background-color: var(--rojo-ocupado);
+    color: white;
+    cursor: not-allowed;
+    opacity: 0.6;
+    border: 1px solid var(--rojo-ocupado);
+    pointer-events: none;
+    box-shadow: none;
+}
+
+.time-slot.selected {
+    font-weight: 700;
+    color: var(--negro);
+    border: 3px solid var(--negro);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.time-slot.selected.green-day {
+    background-color: var(--verde-menta);
+    color: var(--negro);
+    border-color: var(--verde-disponible);
+}
+
+.time-slot.selected.yellow-day {
+    background-color: var(--amarillo-mostaza);
+    color: var(--negro);
+    border-color: var(--amarillo-parcial);
+}
+
+
+/* --- MEDIA QUERIES (ADAPTACIÓN MÓVIL) --- */
+@media (max-width: 992px) {
+
+    /* HEADER EN MÓVIL */
+    /* Fila 1: Hamburguesa | TuffyPet | Mi Cuenta */
+    .header-content-wrapper {
+        width: 100%;
+        padding: 0.5rem 1rem;
+        box-sizing: border-box;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+        order: 1;
+        /* Hamburguesa a la izquierda */
+        margin-right: 0.5rem;
+    }
+
+    .logo {
+        margin-left: 0;
+        margin-right: 0;
+        order: 2;
+        /* Logo al centro */
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    .nav-right-actions {
+        order: 3;
+        /* Acciones a la derecha */
+        flex-grow: 0;
+        display: flex;
+    }
+
+    /* Fila 2: Barra de búsqueda */
+    .search-bar {
+        flex: 100%;
+        max-width: 100%;
+        order: 4;
+        /* Fuerza a la segunda línea */
+        margin: 0.5rem 0;
+        padding: 0 0.5rem;
+        width: 100%;
+        box-sizing: border-box;
+        border: none;
+        box-shadow: none;
+    }
+
+    .search-bar input {
+        border: 1px solid var(--gris-piedra);
+        border-right: none;
+        border-radius: var(--radius-md) 0 0 var(--radius-md);
+        padding: 0.75rem 1rem;
+    }
+
+    .search-bar button {
+        border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    }
+
+    /* Ocultar el dropdown de cuenta en la cabecera principal (ya que se usa el modal) */
+    #account-dropdown {
+        display: none !important;
+    }
+
+    /* BARRA DE FILTROS OCULTA EN MÓVIL (se mueve al modal) */
+    .filters-bar {
+        display: none;
+    }
+
+    /* CONTENIDO PRINCIPAL EN MÓVIL */
+    main {
+        flex-direction: column;
+        padding: 1rem;
+        width: 100%;
+        max-width: none;
+    }
+
+    .cards {
+        flex-basis: 100%;
+    }
+
+    .map {
+        display: none;
+    }
+
+    .card {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+    }
+
+    /* REORDENAR LAS COLUMNAS EN MÓVIL: 1, 2, 4 (Calendario), 3 (Servicios) */
+    .card-col-1 {
+        order: 1;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 1rem;
+        align-items: center;
+        width: 100%;
+    }
+
+    .card-col-2 {
+        order: 2;
+        border-bottom: none;
+        padding-bottom: 0;
+        align-items: center;
+        width: 100%;
+    }
+
+    .card-col-4 {
+        order: 3;
+        border-top: 1px dashed var(--gris-piedra);
+        padding-top: 1rem;
+        border-left: none;
+        padding-left: 0;
+        width: 100%;
+    }
+
+    .card-col-3 {
+        order: 4;
+        border-top: 1px dashed var(--gris-piedra);
+        padding-top: 1rem;
+        border-left: none;
+        padding-left: 0;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card-col-3 .services-badges {
+        grid-template-columns: 1fr;
+        /* Una columna en móvil */
+    }
+
+    .card-col-2 .specialty {
+        align-self: center;
+    }
+
+    .card-col-2 .address {
+        width: auto;
+    }
+
+    .badges-row {
+        justify-content: center;
+    }
+
+    .promo-button-container {
+        position: static;
+        text-align: center;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+    }
+
+    .calendar-widget-container {
+        justify-content: center;
+    }
+
+    /* MODAL DE HORARIO EN MÓVIL */
+    .schedule-sections {
+        flex-direction: column;
+    }
+
+    .time-section {
+        max-height: 200px;
+    }
+
+    #scheduleModal .modal-content {
+        max-width: 90%;
+    }
+
+    /* --- MODAL DE HAMBURGUESA PARA MÓVIL --- */
+    #mobileMenuModal .modal-content {
+        max-width: 90%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        border-radius: 0;
+        box-shadow: none;
+        animation: slideInRight 0.3s forwards;
+        overflow-y: auto;
+    }
+
+    #mobileMenuModal {
+        justify-content: flex-end;
+    }
+
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    .mobile-menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background-color: var(--azul-tuffy);
+        color: white;
+    }
+
+    .mobile-menu-header h3 {
+        margin: 0;
+        font-weight: 500;
+    }
+
+    .mobile-filter-content {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        flex-grow: 1;
+    }
+
+    .mobile-filter-content .select-wrapper {
+        width: 100%;
+        display: block;
+    }
+
+    .mobile-filter-content .filter-select {
+        width: 100%;
+        min-width: unset;
+        text-align: left;
+    }
+}
+
+
+
+/*aaaaaaaaa*/
+/* ==================================== */
+/* 🚀 VARIABLES DE COLOR Y DISEÑO (Paleta Oficial) */
+/* ==================================== */
+:root {
+    --amarillo-mostaza: #F7C04A;
+    --azul-tuffy: #3E8ECD;
+    --azul-petroleo: #2D82B7;
+    --verde-menta: #A8E6CF;
+    --crema-claro: #FFF8E8;
+    --gris-piedra: #D9D9D9;
+    --blanco: #FFFFFF;
+    --negro: #0F172A;
+    --rojo: #ef4444;
+
+    --color-primary: var(--azul-tuffy);
+    --color-secondary: var(--amarillo-mostaza);
+    --color-dark: var(--negro);
+    --color-light: var(--crema-claro);
+    /* Fondo General: Crema */
+    --color-text-muted: #64748b;
+    --color-success: var(--verde-menta);
+    --color-bg-light: #F8FCFF;
+
+    --padding-sm: 0.5rem;
+    --padding-md: 1.5rem;
+    --padding-lg: 2.8rem;
+    --border-radius: 16px;
+    --shadow-light: 0 10px 30px rgba(0, 0, 0, .08);
+
+    --radius: 16px;
+    --radius-sm: 12px;
+    --shadow: 0 10px 30px rgba(0, 0, 0, .08);
+    --shadow-sm: 0 6px 18px rgba(0, 0, 0, .06);
+}
+
+
+
+
+body.menu-open {
+    overflow: hidden;
+    /* Evita el scroll del fondo cuando el menú móvil está abierto */
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    display: block
+}
+
+/* Utilidades */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+section {
+    padding: var(--padding-lg) 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    scroll-margin-top: 72px;
+}
+
+/* ============ HEADER / CUENTA ============ */
+.account-container {
+    position: relative;
+}
+
+/* Estilo base para el botón de login (usado cuando está logueado) */
+.btn-login {
+    background: linear-gradient(135deg, var(--color-primary), var(--azul-petroleo));
+    color: var(--blanco);
+    border: none;
+    border-radius: var(--radius);
+    /* 16px */
+    padding: 0.65rem 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.25s ease;
+}
+
+.btn-login:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* --- ESTILO CUANDO ESTÁ LOGUEADO ("Mi cuenta") --- */
+/*
+        * 1. Elimina el gradiente de fondo.
+        * 2. Usa un borde y color de texto azul.
+        * 3. Hace el botón más cuadrado/bloque.
+        */
+.account-container.logged-in .btn-login {
+    background: none;
+    color: var(--azul-petroleo);
+    font-weight: 800;
+    border-bottom: 2.5px solid var(--amarillo-mostaza);
+    width: 180px;
+    height: 50px;
+    display: flex;
+    font-size: 0.9rem;
+    padding-left: 10%;
+    padding-top: 14%;
+}
+
+.account-container.logged-in .btn-login:hover {
+    /* Estilo hover para el estado logueado */
+    background: none;
+    color: var(--amarillo-mostaza);
+    transform: none;
+    /* Asegura que no se mueva */
+    box-shadow: none;
+    border-bottom: 2.5px solid var(--azul-petroleo);
+}
+
+/* --- FIN ESTILO LOGUEADO --- */
+
+/* Dropdown */
+.account-dropdown {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background: var(--blanco);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    min-width: 190px;
+    z-index: 999;
+    animation: fadeIn 0.25s ease;
+}
+
+.account-container.open .account-dropdown {
+    display: flex;
+}
+
+.account-dropdown a,
+.account-dropdown button {
+    padding: 0.75rem 1rem;
+    color: var(--color-dark);
+    font-weight: 500;
+    transition: background 0.2s;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+}
+
+.account-dropdown a:hover,
+.account-dropdown button:hover {
+    background: rgba(62, 142, 205, 0.08);
+    color: var(--azul-tuffy);
+}
+
+/* Usar el ID del elemento para mayor especificidad */
+#logout-btn {
+    border-top: 1px solid var(--gris-piedra);
+    font-weight: 800;
+    color: red;
+    /* Ahora esto debería funcionar */
+    font-family: 'Montserrat', sans-serif;
+    ;
+    padding-left: 20%;
+    text-align: left;
+    display: block;
+    cursor: pointer;
+}

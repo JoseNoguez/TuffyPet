@@ -1,0 +1,168 @@
+/* === Variables de Color de TuffyPet === */
+
+:root {
+    /* Colores Base */
+    --amarillo-mostaza: #F7C04A;
+    --azul-tuffy: #3E8ECD;
+    --crema-claro: #FFF8E8;
+    --gris-piedra: #D9D9D9;
+    --blanco: #FFFFFF;
+    --negro: #0F172A;
+
+    /* Mapeo de Colores Funcionales */
+    --color-primary: var(--azul-tuffy);      /* Azul Principal para headings */
+    --color-secondary: var(--amarillo-mostaza);  /* Amarillo para acentos y logo */
+    --color-dark: var(--negro);              /* Texto */
+    --color-light: var(--crema-claro);       /* Fondo de tarjeta inactivo */
+    
+    /* Mapeo de Fondos */
+    --color-background: var(--color-light);    /* Fondo de la página: Crema */
+    --color-card-bg: var(--blanco);            /* Fondo del contenedor */
+    --color-text: var(--color-dark);         /* Color de texto general */
+    
+    /* Espaciado y Sombra */
+    --radius: 16px;
+    --radius-sm: 12px;
+    --shadow: 0 10px 30px rgba(0, 0, 0, .08);
+}
+
+/* === Estilos Generales === */
+
+body {
+    /* Las fuentes se cargan desde los <link> en el HTML */
+    font-family: 'Poppins', 'Open Sans', Arial, sans-serif;
+    background-color: var(--color-background); /* Usando crema-claro */
+    color: var(--color-text); /* Usando negro */
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.registration-container {
+    background-color: var(--color-card-bg); /* Usando blanco */
+    border-radius: var(--radius); 
+    box-shadow: var(--shadow); 
+    padding: 30px;
+    max-width: 800px;
+    width: 100%;
+}
+
+/* === Cabecera y Logo TuffyPet === */
+
+.registration-header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--gris-piedra); /* Separador sutil */
+    padding-bottom: 15px;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .35rem;
+    font-size: 1.6rem;
+    margin: 0 auto;
+}
+
+.logo .tuffy {
+    font-family: 'Pacifico', cursive;
+    color: var(--color-primary); /* Azul-Tuffy */
+    font-size: 35px;
+}
+
+.logo .pet {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bolder;
+    color: var(--color-secondary); /* Amarillo-Mostaza */
+    font-size: 35px;
+}
+/* Estilo redundante del logo eliminado */
+
+/* === Estilos de Pasos (Steps) === */
+
+.step {
+    display: none; 
+    animation: fadeIn 0.5s ease-out;
+    padding: 20px 0;
+}
+
+.step.active {
+    display: block; 
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.step-heading {
+    color: var(--color-primary); /* Azul-Tuffy */
+    border-bottom: 2px solid var(--gris-piedra);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+}
+
+/* === Estilos de Selección de Rol (Paso 1) === */
+
+.role-selection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.role-selection-card {
+    background-color: var(--color-light); /* Crema-claro como fondo de tarjeta inactivo */
+    border: 2px solid transparent;
+    border-radius: var(--radius-sm); 
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.role-selection-card:hover {
+    background-color: var(--gris-piedra);
+    border-color: var(--color-secondary); /* Amarillo-Mostaza en hover */
+}
+
+.role-selection-card.selected {
+    border-color: var(--color-primary); /* Azul-Tuffy seleccionado */
+    /* Usé var(--color-card-bg) para no inventar color, asumiendo que debe ser sutilmente distinto a light */
+    background-color: var(--color-card-bg); 
+    box-shadow: 0 0 10px rgba(62, 142, 205, 0.3); /* Sombra de Azul-Tuffy */
+}
+
+/* Iconos en Tarjetas de Rol */
+.role-selection-card .icon-large {
+    font-size: 3em;
+    color: var(--color-secondary); /* Amarillo-Mostaza para el icono principal */
+    margin-bottom: 10px;
+    transition: color 0.3s;
+}
+
+.role-selection-card.selected .icon-large,
+.role-selection-card:hover .icon-large {
+    color: var(--color-primary); /* Azul-Tuffy cuando está seleccionado/hover */
+}
+
+.role-selection-card h3 {
+    margin-top: 5px; 
+    font-size: 1.2em;
+    color: var(--color-primary);
+}
+
+/*
+* Estilos eliminados por no estar presentes en el HTML:
+* - Variables: --azul-petroleo, --verde-menta, --rojo, --color-invalid, --color-success, --padding-sm, --padding-md, --padding-lg, --border-radius, --shadow-light, --shadow-sm
+* - Estilos de Formulario (inputs, labels, focus, .column-data, .form-group)
+* - Estilos de Validación (.is-invalid)
+* - Estilos de Archivo (.file-upload-group, .file-status)
+* - Estilos de Checkbox y Consentimiento (.consent-block, .checkbox-group)
+* - Estilos de Botones de Navegación (.navigation-buttons, .action-button)
+*/

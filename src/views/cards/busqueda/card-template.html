@@ -1,0 +1,52 @@
+<div class="card" data-tipo="$$TIPO$$" data-ubicacion="$$UBICACION$$" data-mascota="$$MASCOTA$$" data-calificacion="$$CALIFICACION_FIXED$$"
+    data-disponible="$$DISPONIBLE$$" data-dynamic="true" data-perfil-tipo="$$PERFIL_TIPO$$">
+    <input type="hidden" class="perfil-tipo-hidden" value="$$PERFIL_TIPO$$" />
+
+    <div class="card-col-1">
+        <img src="src/img/$$IMAGEN$$" alt="Foto de $$NOMBRE$$" class="spa-profile-trigger" style="cursor:pointer;">
+        <div class="payment-badge">Pago en línea</div>
+        <div class="stars">
+            <div class="stars-row">$$CALIFICACION_FIXED$$ <i class="material-icons" style="font-size: 1.1rem;">star</i> </div><span
+                class="opinion-link spa-profile-trigger" style="cursor:pointer;">95 Opiniones</span>
+        </div>
+    </div>
+
+    <div class="card-col-2">
+      
+        <h3><span class="card-title spa-profile-trigger" style="cursor:pointer;">$$NOMBRE$$</span><i class="material-icons verified-icon"
+                title="Perfil Verificado">check_circle</i></h3>
+        
+        <div class="specialty">$$TIPO$$ General y Servicios</div>
+        <a href="https://maps.google.com/?q=Av.+Juárez+25,+Col.+Centro,+CDMX" target="_blank" class="address"
+            title="Ver en Google Maps"><i class="material-icons" style="font-size: 1rem;">location_on</i> Ciudad: $$UBICACION$$</a>
+        <div class="badges-row"><span>🏠 Domicilio</span><span>💻 En Línea</span><span>🗓 Cita</span></div>
+        <div class="cost-select-new">
+            <label for="costo$$INDEX$$">Costo Estimado:</label><select id="costo$$INDEX$$">
+                <option value="500">$500 MXN (Consulta General)</option>
+                <option value="800">$800 MXN (Vacunación)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="card-col-4">
+        <div class="calendar-widget-container" id="widgetContainer$$INDEX$$">
+            <div class="calendar-widget" id="calendarWidget$$INDEX$$"></div>
+        </div> 
+        
+       
+    </div>
+
+    <div class="card-col-3">         
+        <h4>Servicios Destacados</h4>
+        <div class="services-badges">
+            <span>💉 Vacunas</span><span>🦷 Odontología</span><span>✂️ Estética</span><span>🚨 Urgencias 24/7</span><span>🐾 Uñas</span><span>💊 Farmacia</span>
+        </div>
+        <div class="promo-button-container">
+            <button class="promo-btn"
+                onclick="window.openPromoModal('20% de descuento en tu primera consulta.')">
+                ¡Promoción!
+                <i class="material-icons" style="font-size: 1rem;">local_offer</i>
+            </button>
+        </div>
+    </div>
+</div>

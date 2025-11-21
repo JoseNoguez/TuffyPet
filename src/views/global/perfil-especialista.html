@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfil - Dr. Alejandro Guzmán | TuffyPet (Doctoralia Style)</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <style>
+        /* ================================================= */
+        /* === [0] VARIABLES Y RESET === */
+        /* ================================================= */
+        :root {
+            --azul-tuffy: #3080c9;     
+            --azul-petroleo: #0b2247;  
+            --verde-check: #00b388; 
+            --gris-piedra: #6c757d;    
+            --gris-claro: #f4f6f8;
+            --blanco: #ffffff;
+            --negro: #333333;
+            --radio-sm: 4px;
+            --radio-md: 8px;
+            --borde-default: 1px solid #e0e0e0;
+            --color-available: #e6fff4; /* Verde muy claro para días disponibles */
+            --color-partial: #fffbe6; /* Amarillo muy claro para días parciales */
+            --box-shadow-light: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body { 
+            margin: 0; padding: 0; 
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--gris-claro);
+            color: var(--negro);
+        }
+        h1, h2, h3 { color: var(--azul-petroleo); font-weight: 600; }
+        a { text-decoration: none; color: var(--azul-tuffy); }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 1rem; }
+
+        /* ================================================= */
+        /* === [1] ESTRUCTURA DE PERFIL Y BLOQUES === */
+        /* ================================================= */
+        .breadcrumb-bar-inline { background-color: var(--blanco); padding: 0.75rem 0 1.5rem 0; font-size: 0.9rem; color: var(--gris-piedra); width: 100%; }
+        .perfil-main { display: flex; gap: 2rem; max-width: 1400px; margin: 0 auto; padding: 0 1rem 2rem 1rem; align-items: flex-start; flex-wrap: wrap; }
+        .perfil-info-column { flex-basis: 65%; flex-grow: 1; min-width: 300px; }
+        .perfil-sidebar-column { flex-basis: 30%; flex-shrink: 0; min-width: 300px; }
+        .sticky-element { position: sticky; top: 1.5rem; z-index: 10; }
+
+        /* Contenedores con fondo blanco y redondeado */
+        .profile-header-block,
+        .calendar-booking-card,
+        .block-card { /* Clase genérica para todos los bloques de contenido */
+            background: var(--blanco); 
+            padding: 2rem; 
+            border-radius: var(--radio-md); 
+            border: var(--borde-default); 
+            box-shadow: var(--box-shadow-light); 
+            margin-bottom: 2rem;
+        }
+
+        .profile-pic { border: 4px solid var(--gris-claro); border-radius: 50%; width: 150px; height: 150px; object-fit: cover; }
+        .rating-balls i { color: #fcc419; font-size: 1.1rem; margin-right: 2px; }
+        
+        /* Estilos de Pestañas (Tabs) con Animación */
+        .pro-tabs-nav { display: flex; border-bottom: 2px solid #ccc; margin-bottom: 2rem; overflow-x: auto; 
+            background: var(--blanco); border-radius: var(--radio-md); padding-top: 10px;
+        }
+        .pro-tab-item { 
+            padding: 1rem 1.5rem; cursor: pointer; color: var(--gris-piedra); border-bottom: 3px solid transparent; 
+            transition: all 0.3s ease; 
+            white-space: nowrap; 
+        }
+        .pro-tab-item.active { color: var(--azul-tuffy); border-bottom: 3px solid var(--azul-tuffy); font-weight: 600; }
+        
+        .pro-tabs-content .pro-tab-content { 
+            display: none; padding-top: 1rem; 
+            opacity: 0; 
+            transition: opacity 0.5s ease; 
+        }
+        .pro-tabs-content .pro-tab-content.active { 
+            display: block; 
+            opacity: 1; 
+        }
+        .noveties-text { background: #e6f0ff; color: var(--azul-petroleo); padding: 1rem; border-radius: var(--radio-md); border-left: 5px solid var(--azul-tuffy); font-weight: 500;}
+
+        /* Estilos para Consultorios */
+        .clinic-card { border: var(--borde-default); padding: 1rem; margin-bottom: 1.5rem; border-radius: var(--radio-md); background: var(--blanco); }
+        .clinic-tabs { display: flex; margin-bottom: 1rem; border-bottom: 1px solid #eee; }
+        .clinic-tab-item { padding: 8px 15px; cursor: pointer; color: var(--gris-piedra); border-bottom: 2px solid transparent; transition: all 0.2s; }
+        .clinic-tab-item.active { color: var(--azul-tuffy); border-bottom: 2px solid var(--azul-tuffy); font-weight: 600; }
+        .clinic-content-item { display: none; padding-top: 10px; }
+        .clinic-content-item.active { display: block; }
+
+        /* Estilos para Opiniones y Dudas (Basados en Image 2) */
+        .review-item, .question-item { 
+            border: var(--borde-default); 
+            border-radius: var(--radio-md); 
+            padding: 1.5rem; 
+            margin-bottom: 1.5rem; 
+            background: var(--blanco); 
+            box-shadow: var(--box-shadow-light);
+        }
+        .review-header, .question-header { 
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; 
+            flex-wrap: wrap;
+        }
+        .review-meta, .question-meta { display: flex; align-items: center; gap: 10px; }
+        .user-avatar { 
+            width: 40px; height: 40px; border-radius: 50%; background-color: #fcc419; /* Color amarillo para diferenciar */
+            color: var(--azul-petroleo); display: flex; justify-content: center; align-items: center; 
+            font-weight: 600; font-size: 1.1rem; flex-shrink: 0;
+        }
+        .verified-badge { 
+            background-color: var(--verde-check); color: white; padding: 3px 8px; border-radius: var(--radio-sm); 
+            font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 5px;
+        }
+        .review-text, .question-text { margin-top: 10px; margin-bottom: 10px; line-height: 1.6; }
+        .review-info-line, .question-info-line { font-size: 0.85rem; color: var(--gris-piedra); margin-top: 5px; }
+        
+        .specialist-response { 
+            background-color: var(--gris-claro); 
+            border-left: 3px solid var(--azul-tuffy); 
+            padding: 1rem; 
+            margin-top: 1.5rem; 
+            border-radius: var(--radio-md);
+            display: flex; gap: 10px; align-items: flex-start;
+        }
+        .specialist-response .profile-pic { width: 40px; height: 40px; border-radius: 50%; } /* Ajuste para avatar de respuesta */
+        .specialist-response-content { flex-grow: 1; }
+        .specialist-response-content strong { color: var(--azul-petroleo); }
+
+        /* Filtros y Búsqueda en Opiniones */
+        .reviews-filters { display: flex; gap: 1rem; margin-top: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .reviews-filters select, .reviews-filters input { 
+            padding: 8px 12px; border: var(--borde-default); border-radius: var(--radio-sm);
+            flex-grow: 1; max-width: 250px; 
+        }
+        .reviews-filters button { 
+            background: var(--azul-tuffy); color: white; border: none; padding: 8px 12px; 
+            border-radius: var(--radio-sm); cursor: pointer;
+        }
+        
+        /* ================================================= */
+        /* === [2] CALENDARIO DE 3 MESES Y RESERVAS === */
+        /* ================================================= */
+        .calendar-booking-card { overflow: hidden; } /* Ya tiene fondo blanco y redondeado con .block-card */
+        .booking-header { background: var(--azul-tuffy); color: white; padding: 1rem; font-size: 1.2rem; text-align: center; }
+        .booking-content { padding: 1rem 1.5rem 1.5rem 1.5rem; }
+        
+        .three-month-calendar-container { 
+            display: flex; 
+            overflow-x: auto; 
+            gap: 1.5rem; 
+            padding-bottom: 10px; 
+        }
+        .calendar-widget { padding: 0.5rem; flex-shrink: 0; width: 280px; } 
+        .calendar-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 1.1rem; }
+        .calendar-nav button { background: none; border: none; cursor: pointer; color: var(--azul-tuffy); padding: 0.5rem; }
+        .calendar-nav span { font-weight: 600; color: var(--azul-petroleo); }
+        
+        /* Círculos para los días */
+        .calendar-container { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 0.9rem; }
+        .calendar-day-name { font-weight: 600; color: var(--gris-piedra); padding: 5px 0; }
+        .calendar-date-wrapper { display: flex; justify-content: center; align-items: center; padding: 2px; }
+        .calendar-date { 
+            display: flex; justify-content: center; align-items: center;
+            width: 30px; height: 30px; 
+            border-radius: 50%; /* CRÍTICO: Círculos */
+            cursor: pointer; transition: all 0.2s; position: relative; font-size: 0.9rem;
+        }
+
+        .calendar-date.available { background-color: var(--color-available); color: var(--verde-check); font-weight: 500; border: 1px solid var(--verde-check); }
+        .calendar-date.partially-available { background-color: var(--color-partial); color: orange; font-weight: 500; border: 1px solid orange; }
+        .calendar-date.unavailable, .calendar-date.past { background-color: #eee; color: #aaa; cursor: default; border: 1px solid #ccc; }
+        .calendar-date.unavailable:hover, .calendar-date.past:hover { background-color: #eee; }
+        .calendar-date.today { border: 2px solid var(--azul-tuffy); font-weight: 700; }
+        .calendar-date.available:hover, .calendar-date.partially-available:hover { transform: scale(1.05); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+
+        /* Media Queries */
+        @media (max-width: 992px) {
+            .perfil-main { flex-direction: column; }
+            .sticky-element { position: static; top: auto; }
+            .perfil-sidebar-column { order: -1; min-width: 100%; margin-bottom: 1.5rem; }
+            .three-month-calendar-container { 
+                overflow-x: scroll; 
+                justify-content: flex-start;
+                padding: 0 10px;
+            }
+        }
+
+        /* --- Estilos de Modal --- */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .modal.active { display: flex; }
+        .modal-content { 
+            background: var(--blanco); padding: 25px; border-radius: var(--radio-md); max-width: 450px; width: 90%; 
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); position: relative; 
+            transform: scale(0.9); opacity: 0; transition: all 0.3s ease; 
+        }
+        .modal.active .modal-content { transform: scale(1); opacity: 1; }
+        .modal-close { position: absolute; top: 10px; right: 10px; font-size: 1.5rem; cursor: pointer; color: var(--gris-piedra); }
+
+        .time-slots-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+        .time-slot { padding: 8px 15px; border: 1px solid var(--azul-tuffy); color: var(--azul-tuffy); border-radius: 50px; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+        .time-slot.selected, .time-slot:hover:not(.unavailable) { background: var(--azul-tuffy); color: white; }
+        .time-slot.unavailable { border: 1px dashed #ccc; color: #aaa; background: #f8f8f8; cursor: default; }
+
+        .modal-form-group { margin-bottom: 1rem; }
+        .modal-form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+        .modal-form-group textarea { 
+            width: 100%; padding: 10px; border: var(--borde-default); border-radius: var(--radio-sm); 
+            min-height: 100px; resize: vertical; box-sizing: border-box; 
+        }
+        .modal-rating-stars { 
+            display: flex; gap: 5px; font-size: 1.8rem; cursor: pointer; color: #e0e0e0; margin-bottom: 1rem;
+        }
+        .modal-rating-stars i.selected { color: #fcc419; }
+
+        .btn-confirm-schedule, .btn-primary { 
+            background: var(--azul-tuffy); color: white; border: none; padding: 10px 20px; 
+            border-radius: var(--radio-md); margin-top: 20px; width: 100%; font-weight: 600; cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .btn-primary:hover { background-color: #216ba5; }
+        .btn-green { background: var(--verde-check); }
+        .btn-green:hover { background: #008f6c; }
+
+        .info-box-review { 
+            background-color: #f0f8ff; 
+            border: 1px solid #d0e8ff;
+            border-radius: var(--radio-md);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: var(--azul-petroleo);
+            font-size: 0.95rem;
+        }
+        .info-box-review i { font-size: 2.5rem; color: var(--azul-tuffy); }
+/* Dentro de tu bloque <style> */
+
+.profile-image-container {
+
+
+
+
+    background-color: #00b388;
+        /* 🔑 ESTOS SON LOS ESTILOS CLAVE */
+    background-size:contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* Si usas la imagen del doctor, el background-image solo se verá en el borde */
+    /* Asegúrate de que el style inline apunte a una ruta válida */
+}
+
+
+
+
+
+    </style>
+</head>
+<body id="specialist-body">
+    
+    <main class="perfil-main">
+        
+        <div class="breadcrumb-bar-inline">
+            <div class="container">
+                <a href="busqueda.html">Página de Inicio</a> / 
+                <a href="busqueda.html?especialidad=Veterinario">Veterinario</a> / 
+                <span>Dr. Alejandro Guzmán</span>
+            </div>
+        </div>
+
+        <div class="perfil-info-column">
+            
+            <section id="resumen" class="profile-header-block">
+                
+                <div class="profile-image-container">    
+                    <img src="" alt="Foto de Perfil" class="profile-pic" id="pro-profile-pic">
+                </div>
+                
+                <div class="profile-details">
+                    <div class="name-badge-row">
+                        <h1 id="pro-name"></h1>
+                        <i class="fa-solid fa-circle-check verified-icon" style="color: var(--verde-check);"></i>
+                    </div>
+                    <p class="specialty-title" id="pro-specialty"></p> 
+                    <p class="specialty-title" id="pro-sub-specialty"></p> 
+                    <p class="summary-line">
+                        <i class="fa-solid fa-location-dot"></i> 
+                        <span id="pro-address"></span>
+                    </p>
+                    <div class="rating-balls" id="pro-rating-badge">
+                         </div>
+                    <p class="summary-line" style="margin-top: 5px;">
+                        <i class="fa-solid fa-user-tag"></i> No. de cédula: <span id="pro-cedula"></span>
+                    </p>
+                    <div class="action-buttons-row">
+                        <button class="btn btn-primary" onclick="document.getElementById('calendario').scrollIntoView({ behavior: 'smooth' })">
+                            <i class="fa-solid fa-calendar-alt"></i> Pedir cita
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <div class="pro-tabs-nav" id="pro-tabs-specialist">
+                </div>
+
+            <div class="pro-tabs-content">
+                <div class="pro-tab-content" id="tab-content-novedades">
+                    <div class="block-card">
+                        <h2>Novedades y Promociones</h2>
+                        <p class="noveties-text"></p>
+                    </div>
+                </div>
+                <div class="pro-tab-content" id="tab-content-experiencia">
+                    <div class="block-card">
+                        <h2>Experiencia y Trayectoria</h2>
+                        <div id="experience-container-specialist"></div>
+                    </div>
+                </div>
+                <div class="pro-tab-content" id="tab-content-consultorios">
+                    <div class="block-card">
+                        <h2>Consultorios de Atención (<span id="consultorios-count"></span>)</h2>
+                        <div id="consultorios-container-specialist"></div>
+                    </div>
+                </div>
+                <div class="pro-tab-content" id="tab-content-servicios-precios">
+                    <div class="block-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                            <h2>Servicios y Precios</h2>
+                            <button class="btn btn-primary" onclick="window.showMessage('Solicitar Nuevo Servicio', 'Pronto podrás solicitar un servicio personalizado.', 'info')">
+                                <i class="fa-solid fa-plus"></i> Añadir servicio
+                            </button>
+                        </div>
+                        <div id="servicios-precios-container-specialist"></div>
+                        <div style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--gris-piedra);">
+                            <a href="#" onclick="window.showMessage('Preguntas sobre Precios', 'Esta sección explica la política de precios del Dr. Guzmán.', 'info'); return false;">¿Cómo funcionan los precios?</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="pro-tab-content" id="tab-content-dudas">
+                    <div class="block-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                            <h2>Dudas Solucionadas</h2>
+                            <button class="btn btn-primary" onclick="window.openModal('addQuestionModal')">
+                                <i class="fa-solid fa-question"></i> Agregar tu duda
+                            </button>
+                        </div>
+                        <div id="dudas-container-specialist"></div>
+                    </div>
+                </div>
+                <div class="pro-tab-content" id="tab-content-opiniones">
+                    <div class="block-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <h2>Opiniones</h2>
+                                <span style="font-weight: 600; color: var(--azul-petroleo);">${MOCK_SPECIALIST_DATA.rating.toFixed(1)}/5 (<span id="pro-reviews-count-header"></span> opiniones)</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="window.openModal('addReviewModal')">
+                                <i class="fa-solid fa-star"></i> Agregar tu opinión
+                            </button>
+                        </div>
+                        
+                        <div class="info-box-review">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <div>
+                                Todas las opiniones son importantes, por este motivo, los especialistas no
+                                pueden pagar para modificar o eliminar opiniones. <a href="#" onclick="window.showMessage('Sobre Opiniones', 'Aquí explicamos nuestra política de opiniones verificadas.', 'info'); return false;">Saber más.</a>
+                            </div>
+                        </div>
+
+                        <div class="reviews-filters">
+                            <select>
+                                <option>Todas las opiniones</option>
+                                <option>5 estrellas</option>
+                                <option>4 estrellas</option>
+                                <option>3 estrellas</option>
+                                <option>2 estrellas</option>
+                                <option>1 estrella</option>
+                            </select>
+                            <input type="text" placeholder="Escribe la palabra que buscas">
+                            <button><i class="fa-solid fa-search"></i></button>
+                        </div>
+
+                        <div id="reviews-container-specialist"></div>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="perfil-sidebar-column">
+
+            <div id="calendario" class="calendar-booking-card sticky-element">
+                <div class="booking-header">Agendar Cita Presencial</div>
+                
+                <div class="booking-content">
+                    <p style="font-weight: 500; color: var(--azul-petroleo);">Selecciona el día disponible:</p>
+
+                    <div class="three-month-calendar-container" id="three-month-calendar-container">
+                        </div>
+                    
+                    <div class="form-section" style="margin-top: 1.5rem;">
+                        <label for="clinic-address-sidebar"><i class="fa-solid fa-location-dot"></i> Dirección:</label>
+                        <select class="form-select" id="clinic-address-sidebar" style="width: 100%; padding: 8px; border: var(--borde-default); border-radius: var(--radio-sm); margin-top: 5px;">
+                            <option>Av. Coyoacán 123, Del Valle Norte, CDMX</option>
+                            <option>Hospital Sur, Col. Jardín, GDL</option>
+                        </select>
+                    </div>
+                    <div class="form-section" style="margin-top: 1rem;">
+                        <label for="service-select-specialist"><i class="fa-solid fa-tags"></i> Servicio:</label>
+                        <select class="form-select" id="service-select-specialist" style="width: 100%; padding: 8px; border: var(--borde-default); border-radius: var(--radio-sm); margin-top: 5px;"></select>
+                    </div>
+                    <button class="btn-confirm-schedule btn-green" style="cursor: default;">
+                        Reservar Cita
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="scheduleModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="window.closeModal('scheduleModal')">&times;</span>
+            <h2>Seleccionar Hora</h2>
+            <p style="color: var(--gris-piedra);">Día: <strong id="scheduleModalDate"></strong></p>
+            
+            <div id="timeSlotsContainer">
+                </div>
+
+            <button class="btn-confirm-schedule btn-green" onclick="window.confirmSchedule()">
+                Confirmar Cita a las <span id="selectedTimeDisplay" style="font-weight: 700;">—</span>
+            </button>
+        </div>
+    </div>
+    
+    <div id="addReviewModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="window.closeModal('addReviewModal')">&times;</span>
+            <h2>Agregar tu Opinión</h2>
+            <p style="color: var(--gris-piedra);">¡Tu feedback es muy valioso para la comunidad TuffyPet!</p>
+            
+            <div class="modal-form-group">
+                <label>Tu valoración (1 a 5 balones):</label>
+                <div id="reviewRatingStars" class="modal-rating-stars">
+                    <i class="fa-solid fa-star" data-rating="1"></i>
+                    <i class="fa-solid fa-star" data-rating="2"></i>
+                    <i class="fa-solid fa-star" data-rating="3"></i>
+                    <i class="fa-solid fa-star" data-rating="4"></i>
+                    <i class="fa-solid fa-star" data-rating="5"></i>
+                </div>
+            </div>
+            
+            <div class="modal-form-group">
+                <label for="reviewComment">Tu comentario:</label>
+                <textarea id="reviewComment" placeholder="Escribe tu experiencia con el Dr. Guzmán..."></textarea>
+            </div>
+
+            <button class="btn-primary btn-green" onclick="window.submitReview()">Dejar Opinión</button>
+        </div>
+    </div>
+
+    <div id="addQuestionModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="window.closeModal('addQuestionModal')">&times;</span>
+            <h2>Agregar tu Duda</h2>
+            <p style="color: var(--gris-piedra);">El Dr. Guzmán resolverá tu pregunta en breve. ¡Ayuda a otros pacientes!</p>
+            
+            <div class="modal-form-group">
+                <label for="questionText">Tu pregunta:</label>
+                <textarea id="questionText" placeholder="Ej: Mi perro tose mucho, ¿es grave?"></textarea>
+            </div>
+
+            <button class="btn-primary btn-green" onclick="window.submitQuestion()">Enviar Duda</button>
+        </div>
+    </div>
+
+    <script>
+        // ----------------------------------------------------
+        // --- SIMULACIÓN DE MÓDULOS CORE Y UTILS (MIGRADO) ---
+        // ----------------------------------------------------
+        const ROLES = { ADMIN: 'Admin', USUARIO: 'Usuario' };
+        const WEEK_DAYS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+        let selectedTime = null;
+        let selectedDayAvailability = null;
+        let calendarDates = {}; // Almacena el mes actual por calendario
+        let currentReviewRating = 0; // Para el modal de añadir opinión
+
+        // Funciones expuestas globalmente (Mock/Utilities)
+        window.getIsLoggedIn = () => ({ isLoggedIn: true, userRole: 'Admin' }).isLoggedIn; 
+        window.getUserRole = () => ({ isLoggedIn: true, userRole: 'Admin' }).userRole;
+        window.showMessage = (title, text, icon = 'info') => {
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({ icon, title, text, confirmButtonColor: '#3e8ecd' });
+            } else {
+                console.warn(`[SweetAlert Mock] ${title}: ${text}`);
+                alert(`${title}: ${text}`);
+            }
+        };
+        window.Error_Solicitud = (text) => window.showMessage('Error de Solicitud', text, 'warning');
+        window.openModal = (id) => {
+            const modal = document.getElementById(id);
+            modal.classList.add('active');
+            setTimeout(() => modal.querySelector('.modal-content').style.opacity = 1, 10);
+        };
+        window.closeModal = (id) => {
+            const modal = document.getElementById(id);
+            modal.querySelector('.modal-content').style.opacity = 0;
+            setTimeout(() => modal.classList.remove('active'), 300);
+        };
+        
+        // ----------------------------------------------------
+        // --- MOCK DE DATOS DE API (Ajustado) ---
+        // ----------------------------------------------------
+        const MOCK_SPECIALIST_DATA = {
+            type: 'specialist',
+            proId: 'p789j23k',
+            name: 'Dr. Alejandro Guzmán',
+            specialty: 'Médico Veterinario',
+            subSpecialty: 'Nutrición y Control de Peso',
+            address: 'Av. Coyoacán 123, Del Valle Norte, CDMX',
+            cedula: '10293847',
+            yearsExperience: 15,
+            patientsAttended: 15000,
+            rating: 4.8, 
+            reviewCount: 282,
+            profilePicUrl: 'https://i.pravatar.cc/150?u=alejandro_guzman_vet', 
+            noveties: '¡Promoción de desparasitación al 50% con consulta general, válida hasta fin de mes!',
+            reviews: [
+                { name: 'Sofía L.', initials: 'SL', date: '2025-11-10', stars: 5, text: 'Excelente atención, el Dr. Guzmán fue muy claro y amable con mi perrito. La visita a domicilio fue un plus!', clinic: 'Sede Principal TuffyPet', verified: true, specialistResponse: { date: '2025-11-12', text: 'Gracias Sofía! Me alegra que tu mascota esté mejor. Es un gusto atenderles.'} },
+                { name: 'Ricardo P.', initials: 'RP', date: '2025-10-25', stars: 4, text: 'Buena experiencia. Tardó un poco en la cita, pero el diagnóstico fue acertado. Recomiendo el Hospital Sur.', clinic: 'Hospital Sur GDL', verified: true, specialistResponse: null },
+                { name: 'Anónimo', initials: 'AN', date: '2025-09-15', stars: 5, text: '¡El mejor veterinario de la ciudad! Muy profesional y atento.', clinic: 'Sede Principal TuffyPet', verified: false, specialistResponse: null },
+            ],
+            services: [
+                { name: 'Consulta General', price: 500, details: 'Revisión completa de mascota.' },
+                { name: 'Vacunación', price: 350, details: 'Aplicación de vacuna séxtuple o antirrábica.' },
+                { name: 'Consulta en línea', price: 300, details: 'Asesoría vía videollamada.' }
+            ],
+            experience: ['Jefe de Clínica Veterinaria UNAM (2010 - 2015)', 'Especialidad en Cirugía (2015 - 2017)', 'Práctica Privada TuffyPet (2017 - Actual)'],
+            consultorios: [
+                { name: 'Sede Principal TuffyPet', address: 'Av. Coyoacán 123, Del Valle Norte, CDMX', phone: '55 1234 5678' },
+                { name: 'Hospital Sur GDL', address: 'Calle Falsa 456, Col. Jardín, GDL', phone: '33 9876 5432' },
+            ],
+            dudas: [
+                { question: 'Mi perro no quiere comer, ¿qué hago?', answer: 'Podría ser un problema dental o gastrointestinal. Recomiendo una revisión presencial.' },
+                { question: '¿Vacunas para gatos de interior?', answer: 'Aunque sea de interior, es fundamental la vacuna triple felina. Agenda para una valoración.' }
+            ]
+        };
+
+        // ----------------------------------------------------
+        // 📅 LÓGICA DE CALENDARIO Y DISPONIBILIDAD
+        // ----------------------------------------------------
+        function formatTime(hour) {
+            var h = hour % 12 || 12;
+            var ampm = hour < 12 ? 'AM' : 'PM';
+            return `${h}:00 ${ampm}`; 
+        }
+
+        function createTimeSlot(time, isUnavailable) {
+            var slot = document.createElement('div');
+            slot.className = 'time-slot';
+            slot.textContent = formatTime(time);
+
+            if (isUnavailable) {
+                slot.classList.add('unavailable');
+                slot.title = "No disponible";
+            } else {
+                slot.onclick = () => selectTimeSlot(slot, formatTime(time));
+            }
+            return slot;
+        }
+
+        window.openScheduleModal = (nameString, availabilityClass) => {
+            selectedDayAvailability = availabilityClass;
+            document.getElementById('scheduleModalDate').textContent = nameString;
+            var slotsContainer = document.getElementById('timeSlotsContainer');
+            if (!slotsContainer) return;
+            slotsContainer.innerHTML = '';
+            selectedTime = null;
+            document.getElementById('selectedTimeDisplay').textContent = '—';
+
+            var allTimes = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+            var unavailableHours = [13, 19]; 
+
+            var amSlots = allTimes.filter(h => h < 12);
+            var pmSlots = allTimes.filter(h => h >= 12);
+
+            [
+                { title: 'Mañana (AM)', hours: amSlots }, 
+                { title: 'Tarde (PM)', hours: pmSlots }
+            ].forEach((section, index) => {
+                var sectionElement = document.createElement('div');
+                sectionElement.className = 'time-section';
+                sectionElement.innerHTML = `<h3>${section.title}</h3><div class="time-slots-container" id="timeSlots${index}"></div>`;
+                var container = sectionElement.querySelector(`#timeSlots${index}`);
+                section.hours.forEach(hour => {
+                    var isUnavailable = unavailableHours.includes(hour);
+                    container.appendChild(createTimeSlot(hour, isUnavailable));
+                });
+                slotsContainer.appendChild(sectionElement);
+            });
+
+            window.openModal('scheduleModal');
+        }
+
+        function selectTimeSlot(element, time) {
+            if (element.classList.contains('unavailable')) return;
+
+            document.querySelectorAll('#timeSlotsContainer .time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+
+            element.classList.add('selected');
+            selectedTime = time;
+            document.getElementById('selectedTimeDisplay').textContent = time;
+        }
+
+        window.confirmSchedule = () => {
+            if (!selectedTime) {
+                window.showMessage('Atención', 'Por favor, selecciona una hora para tu cita.', 'warning');
+                return;
+            }
+
+            if (!window.getIsLoggedIn()) { 
+                window.showMessage('Acceso denegado', 'Debes iniciar sesión para confirmar una cita.', 'error');
+                window.closeModal('scheduleModal'); 
+                return;
+            }
+
+            window.showMessage('¡Cita Confirmada! 🎉', `Su cita fue confirmada a las **${selectedTime}** horas.`, 'success');
+            window.closeModal('scheduleModal');
+        }
+
+        function getAvailability(date, profileIndex) {
+            var day = date.getDate();
+            var weekDay = date.getDay(); 
+
+            if (profileIndex === 0) {
+                if (weekDay === 0) return 'unavailable'; // Domingo
+                if (day % 4 === 0) return 'unavailable';
+                if (day % 5 === 0) return 'partially-available';
+                return 'available';
+            } 
+            return 'available';
+        }
+
+        window.renderCalendar = (containerId, dateToShow, profileIndex) => {
+            var container = document.getElementById(containerId);
+            if (!container) return;
+
+            if (containerId.includes('calendar-widget-')) {
+                 calendarDates[containerId] = dateToShow.getTime();
+            }
+            container.innerHTML = '';
+
+            var currentMonth = dateToShow.getMonth();
+            var currentYear = dateToShow.getFullYear();
+            var today = new Date();
+            var todayNoTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+            var monthYearString = dateToShow.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+            var calendarNav = document.createElement('div');
+            calendarNav.className = 'calendar-nav';
+
+            const isFirstMonth = containerId === 'calendar-widget-0';
+            const navButtonsHtml = isFirstMonth ? `
+                <button class="prev-month" onclick="window.navigateThreeMonths(${dateToShow.getTime()}, -1, ${profileIndex})" title="Mes anterior">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button class="next-month" onclick="window.navigateThreeMonths(${dateToShow.getTime()}, 1, ${profileIndex})" title="Mes siguiente">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            ` : '';
+
+            calendarNav.innerHTML = `
+                ${isFirstMonth ? navButtonsHtml.split('</button>')[0] + '</button>' : ''}
+                <span>${monthYearString.charAt(0).toUpperCase() + monthYearString.slice(1)}</span>
+                ${isFirstMonth ? navButtonsHtml.split('</button>')[1] : ''}
+            `;
+            
+            if (!isFirstMonth) {
+                calendarNav.innerHTML = `<span>${monthYearString.charAt(0).toUpperCase() + monthYearString.slice(1)}</span>`;
+            }
+            
+            container.appendChild(calendarNav);
+
+            var dayNames = document.createElement('div');
+            dayNames.className = 'calendar-container';
+            WEEK_DAYS.forEach(day => {
+                var dayName = document.createElement('span');
+                dayName.className = 'calendar-day-name';
+                dayName.textContent = day;
+                dayNames.appendChild(dayName);
+            });
+            container.appendChild(dayNames);
+
+            var calendarGrid = document.createElement('div');
+            calendarGrid.className = 'calendar-container';
+
+            var firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+            var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            for (var i = 0; i < firstDayOfMonth; i++) {
+                var emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-date-wrapper';
+                calendarGrid.appendChild(emptyDay);
+            }
+
+            for (var day = 1; day <= daysInMonth; day++) {
+                var date = new Date(currentYear, currentMonth, day);
+                var dateString = date.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' });
+
+                var dayWrapper = document.createElement('div');
+                dayWrapper.className = 'calendar-date-wrapper';
+                
+                var dayElement = document.createElement('span');
+                dayElement.textContent = day;
+                dayElement.className = 'calendar-date';
+
+                var isToday = todayNoTime.getTime() === new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+                var isPast = date < todayNoTime;
+                var availability = getAvailability(date, profileIndex);
+
+                if (isToday) { dayElement.classList.add('today'); }
+                if (isPast) { dayElement.classList.add('unavailable', 'past'); }
+
+                if (!isPast && availability !== 'unavailable') {
+                    dayElement.classList.add(availability);
+                    dayElement.onclick = (function(d, a) {
+                        return function() {
+                            const profile = MOCK_SPECIALIST_DATA;
+                            window.openScheduleModal(`${profile.name} - ${d}`, a);
+                        };
+                    })(dateString, availability);
+                } else if (!isPast) {
+                     dayElement.classList.add('unavailable');
+                     dayElement.onclick = () => window.showMessage('No Disponible', 'El doctor no atiende este día.', 'info');
+                }
+
+                dayWrapper.appendChild(dayElement);
+                calendarGrid.appendChild(dayWrapper);
+            }
+
+            container.appendChild(calendarGrid);
+        }
+
+        window.renderThreeMonths = (startDate, profileIndex) => {
+            const container = document.getElementById('three-month-calendar-container');
+            if (!container) return;
+            container.innerHTML = ''; 
+
+            for (let i = 0; i < 3; i++) {
+                const date = new Date(startDate);
+                date.setMonth(date.getMonth() + i);
+
+                const monthContainer = document.createElement('div');
+                monthContainer.className = 'calendar-widget';
+                monthContainer.id = `calendar-widget-${i}`;
+                container.appendChild(monthContainer);
+
+                window.renderCalendar(monthContainer.id, date, profileIndex);
+            }
+            calendarDates['three-month-start'] = startDate.getTime();
+        };
+
+        window.navigateThreeMonths = (dateTimestamp, monthOffset, profileIndex) => {
+            var newDate = new Date(dateTimestamp);
+            newDate.setMonth(newDate.getMonth() + monthOffset);
+            window.renderThreeMonths(newDate, profileIndex);
+        }
+
+        window.renderSpecialistCalendar = () => {
+             const start = calendarDates['three-month-start'] ? new Date(calendarDates['three-month-start']) : new Date();
+             window.renderThreeMonths(start, 0);
+        };
+
+        // ----------------------------------------------------
+        // --- LÓGICA DE MODALES DE OPINIÓN Y DUDA ---
+        // ----------------------------------------------------
+        
+        window.setupReviewRating = () => {
+            const starsContainer = document.getElementById('reviewRatingStars');
+            if (!starsContainer) return;
+
+            starsContainer.querySelectorAll('.fa-star').forEach(star => {
+                star.addEventListener('click', (e) => {
+                    const rating = parseInt(e.target.dataset.rating);
+                    currentReviewRating = rating;
+                    starsContainer.querySelectorAll('.fa-star').forEach(s => {
+                        s.classList.remove('selected');
+                        if (parseInt(s.dataset.rating) <= rating) {
+                            s.classList.add('selected');
+                        }
+                    });
+                });
+            });
+        };
+
+        window.submitReview = () => {
+            const comment = document.getElementById('reviewComment').value.trim();
+            if (currentReviewRating === 0) {
+                window.showMessage('Error', 'Por favor, selecciona una valoración con las estrellas.', 'warning');
+                return;
+            }
+            if (comment.length < 10) {
+                window.showMessage('Error', 'Tu comentario es demasiado corto. Mínimo 10 caracteres.', 'warning');
+                return;
+            }
+
+            // Mock de envío
+            window.showMessage(
+                '¡Opinión enviada! 🎉', 
+                `Gracias por tu valoración de **${currentReviewRating}/5** y tu comentario. Será publicada tras la revisión.`, 
+                'success'
+            );
+
+            // Limpiar y cerrar
+            document.getElementById('reviewComment').value = '';
+            currentReviewRating = 0;
+            document.querySelectorAll('#reviewRatingStars .fa-star').forEach(s => s.classList.remove('selected'));
+            window.closeModal('addReviewModal');
+        };
+
+        window.submitQuestion = () => {
+            const question = document.getElementById('questionText').value.trim();
+            if (question.length < 15) {
+                window.showMessage('Error', 'La pregunta debe ser más detallada (mínimo 15 caracteres).', 'warning');
+                return;
+            }
+
+            // Mock de envío
+            window.showMessage(
+                '¡Duda enviada! 📬', 
+                `Tu pregunta ha sido enviada al Dr. Guzmán: **"${question.substring(0, 30)}..."**. Te notificaremos cuando responda.`, 
+                'success'
+            );
+
+            // Limpiar y cerrar
+            document.getElementById('questionText').value = '';
+            window.closeModal('addQuestionModal');
+        };
+
+        // ----------------------------------------------------
+        // --- FUNCIONES DE RENDERIZADO GENERAL (Ajustado) ---
+        // ----------------------------------------------------
+
+        window.renderStars = (rating) => {
+            let starsHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                const isSelected = i <= rating;
+                const color = isSelected ? '#fcc419' : '#e0e0e0';
+                starsHtml += `<i class="fa-solid fa-star" style="color: ${color};"></i>`;
+            }
+            return `<div class="review-stars">${starsHtml}</div>`;
+        }
+
+        window.renderReviews = (reviews) => {
+            if (!reviews || reviews.length === 0) return '<p>Aún no hay opiniones de pacientes. ¡Sé el primero en opinar!</p>';
+            
+            return reviews.map(r => `
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="review-meta">
+                            <span class="user-avatar">${r.initials}</span>
+                            <div style="line-height: 1.2;">
+                                <span class="reviewer-name" style="font-weight: 600; display: block;">${r.name}</span>
+                                ${r.verified ? `<span class="verified-badge"><i class="fa-solid fa-check"></i> CITA VERIFICADA</span>` : `<span style="font-size: 0.8rem; color: #aaa;">Opinión anónima</span>`}
+                            </div>
+                        </div>
+                        <div class="rating-and-stars" style="text-align: right; margin-top: 5px;">
+                            ${window.renderStars(r.stars)}
+                        </div>
+                    </div>
+                    <p class="review-text">${r.text}</p>
+                    <div class="review-info-line">
+                        <i class="fa-solid fa-calendar-alt"></i> Publicada el ${new Date(r.date).toLocaleDateString('es-ES')}
+                        <span style="margin: 0 5px;">|</span>
+                        <i class="fa-solid fa-location-dot"></i> ${r.clinic}
+                    </div>
+                    ${r.specialistResponse ? `
+                        <div class="specialist-response">
+                            <img src="${MOCK_SPECIALIST_DATA.profilePicUrl}" alt="Avatar Dr." class="profile-pic">
+                            <div class="specialist-response-content">
+                                <strong>Respuesta del Dr. Guzmán:</strong>
+                                <p style="margin: 5px 0 0 0; font-size: 0.9rem;">${r.specialistResponse.text}</p>
+                                <span style="font-size: 0.8rem; color: var(--gris-piedra);">El ${new Date(r.specialistResponse.date).toLocaleDateString('es-ES')}</span>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        window.renderConsultorios = (consultorios) => {
+             return `<div class="clinic-card" style="padding: 1.5rem;">
+                 <p style="color: var(--gris-piedra);">El Dr. Guzmán atiende en estas ubicaciones:</p>
+                 <div class="clinic-tabs" id="consultorio-tabs" style="border-bottom: none;">
+                     ${consultorios.map((c, i) => `<div class="clinic-tab-item ${i === 0 ? 'active' : ''}" data-index="${i}" onclick="window.handleClinicTabChange(this)">${c.name}</div>`).join('')}
+                 </div>
+                 ${consultorios.map((c, i) => `
+                     <div class="clinic-content-item ${i === 0 ? 'active' : ''}" id="consultorio-content-${i}" style="border-top: var(--borde-default); padding-top: 15px;">
+                         <p><strong><i class="fa-solid fa-map-marker-alt" style="margin-right: 5px;"></i> Dirección:</strong> ${c.address}</p>
+                         <p><strong><i class="fa-solid fa-phone" style="margin-right: 5px;"></i> Teléfono:</strong> <a href="tel:${c.phone}">${c.phone}</a></p>
+                         <button style="border: none; background: #eee; padding: 8px 15px; border-radius: var(--radio-sm); margin-top: 10px; cursor: pointer;" onclick="window.showMessage('Mapa', 'Abriendo Google Maps para ${c.address}')">
+                            <i class="fa-solid fa-map"></i> Ver en mapa
+                         </button>
+                     </div>
+                 `).join('')}
+             </div>`;
+        }
+
+        window.handleClinicTabChange = (tabElement) => {
+             const tabIndex = tabElement.dataset.index;
+             document.querySelectorAll('#consultorio-tabs .clinic-tab-item').forEach(item => item.classList.remove('active'));
+             document.querySelectorAll('.clinic-content-item').forEach(content => content.classList.remove('active'));
+             
+             tabElement.classList.add('active');
+             document.getElementById(`consultorio-content-${tabIndex}`).classList.add('active');
+        }
+        
+        window.renderDudas = (dudas) => {
+             return dudas.map(d => `
+                 <div class="question-item">
+                     <div class="question-header">
+                         <div class="question-meta">
+                            <span class="user-avatar">??</span>
+                            <span style="font-weight: 600;">Duda de Paciente</span>
+                         </div>
+                     </div>
+                     <p class="question-text"><strong>Pregunta:</strong> ${d.question}</p>
+                     
+                     <div class="specialist-response">
+                        <img src="${MOCK_SPECIALIST_DATA.profilePicUrl}" alt="Avatar Dr." class="profile-pic">
+                         <div class="specialist-response-content">
+                            <strong>Respuesta del Dr. Guzmán:</strong>
+                            <p style="margin: 5px 0 0 0; font-size: 0.9rem;">${d.answer}</p>
+                         </div>
+                     </div>
+                 </div>
+             `).join('');
+        }
+        
+        window.renderServiciosPrecios = (services) => {
+            return services.map(s => `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px dashed #eee;">
+                    <div>
+                        <p style="font-weight: 600; margin: 0;">${s.name}</p>
+                        <p style="font-size: 0.9rem; color: var(--verde-check); margin: 0;">$${s.price.toLocaleString()} MXN</p>
+                        <a href="#" style="font-size: 0.8rem;" onclick="window.showMessage('Detalles del Servicio', '${s.details}', 'info'); return false;">Detalles</a>
+                    </div>
+                    <button class="btn-primary" style="padding: 8px 15px; width: auto; margin-top: 0; background: var(--verde-check);" onclick="document.getElementById('calendario').scrollIntoView({ behavior: 'smooth' })">
+                        Agendar cita
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        window.handleTabChange = (e) => {
+            const tabElement = e.target.closest('.pro-tab-item');
+            if (!tabElement) return;
+
+            const tabsContainer = tabElement.closest('.pro-tabs-nav');
+            const contentContainer = tabsContainer.nextElementSibling;
+            if (!tabsContainer || !contentContainer || !contentContainer.classList.contains('pro-tabs-content')) return;
+
+            const tabId = tabElement.dataset.tab;
+            
+            // 1. Remover 'active' y animar salida
+            tabsContainer.querySelectorAll('.pro-tab-item').forEach(item => item.classList.remove('active'));
+            contentContainer.querySelectorAll('.pro-tab-content').forEach(content => {
+                if (content.classList.contains('active')) {
+                    content.style.opacity = 0;
+                    setTimeout(() => content.classList.remove('active'), 300);
+                }
+            });
+            
+            // 2. Añadir 'active' al nuevo contenido después del retraso de la animación
+            tabElement.classList.add('active');
+            const targetContent = contentContainer.querySelector(`#tab-content-${tabId}`);
+            if (targetContent) {
+                 setTimeout(() => {
+                    targetContent.classList.add('active');
+                    targetContent.style.opacity = 1; 
+                 }, 30);
+            }
+        }
+
+        // ----------------------------------------------------
+        // --- LÓGICA DE INICIALIZACIÓN DEL PERFIL ---
+        // ----------------------------------------------------
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.getElementById('specialist-body')) {
+                
+                const data = MOCK_SPECIALIST_DATA;
+                if (!data || data.type !== 'specialist') return;
+
+                // Rellenar Info Principal
+                document.getElementById('pro-name').textContent = data.name;
+                document.getElementById('pro-specialty').textContent = data.specialty;
+                document.getElementById('pro-sub-specialty').textContent = data.subSpecialty;
+                document.getElementById('pro-profile-pic').src = data.profilePicUrl;
+                document.getElementById('pro-cedula').textContent = data.cedula;
+                
+                // Rellenar Stats y Rating (Balones)
+                document.getElementById('pro-rating-badge').innerHTML = `${window.renderStars(data.rating)} <span style="font-weight: 600;">${data.rating.toFixed(1)}/5</span> (${data.reviewCount} opiniones)`;
+                document.getElementById('pro-reviews-count-header').textContent = data.reviewCount;
+                
+                // Rellenar Sidebar (Servicios)
+                const serviceSelect = document.getElementById('service-select-specialist');
+                serviceSelect.innerHTML = data.services.map(s => `<option>${s.name} ($${s.price})</option>`).join('');
+                
+                // Pestañas (Inyectar estructura y contenido)
+                const tabsNav = document.getElementById('pro-tabs-specialist');
+                const tabsData = [
+                    { id: 'novedades', title: 'Novedades', icon: 'fa-bullhorn' },
+                    { id: 'experiencia', title: 'Experiencia', icon: 'fa-briefcase' },
+                    { id: 'consultorios', title: 'Consultorios', icon: 'fa-location-dot' },
+                    { id: 'servicios-precios', title: 'Servicios y Precios', icon: 'fa-tags' },
+                    { id: 'dudas', title: 'Dudas', icon: 'fa-question' },
+                    { id: 'opiniones', title: `Opiniones`, icon: 'fa-comments' },
+                ];
+
+                tabsNav.innerHTML = tabsData.map((t, i) => 
+                   `<div class="pro-tab-item ${i === 0 ? 'active' : ''}" data-tab="${t.id}"><i class="fa-solid ${t.icon}"></i> ${t.title}</div>`
+                ).join('');
+
+                document.querySelector('#tab-content-novedades .noveties-text').textContent = data.noveties;
+                document.getElementById('experience-container-specialist').innerHTML = `
+                    <h3>Trayectoria Profesional</h3>
+                    <ul class="experience-list" style="padding-left: 20px;">${data.experience.map(e => `<li style="margin-bottom: 5px;">${e}</li>`).join('')}</ul>
+                `;
+                document.getElementById('consultorios-container-specialist').innerHTML = window.renderConsultorios(data.consultorios);
+                document.getElementById('consultorios-count').textContent = data.consultorios.length;
+                document.getElementById('servicios-precios-container-specialist').innerHTML = window.renderServiciosPrecios(data.services);
+                document.getElementById('dudas-container-specialist').innerHTML = window.renderDudas(data.dudas);
+                document.getElementById('reviews-container-specialist').innerHTML = window.renderReviews(data.reviews);
+                
+                // Inicializar la primera pestaña
+                document.getElementById('pro-tabs-specialist').addEventListener('click', window.handleTabChange);
+                const initialTab = document.querySelector('.pro-tab-item[data-tab="novedades"]');
+                if(initialTab) {
+                    initialTab.click(); 
+                } else {
+                     document.getElementById('tab-content-novedades').classList.add('active'); 
+                }
+                
+                // Inicializar el calendario de 3 meses y el sistema de rating
+                window.renderSpecialistCalendar();
+                window.setupReviewRating();
+            }
+        });
+    </script>
+</body>
+</html>

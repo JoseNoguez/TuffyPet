@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de la Clínica</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+<link rel="stylesheet" href="/src/styles/perfil.css">
+    
+</head>
+<body id="clinic-body">
+    
+    <header style="background: var(--azul-petroleo); color: white; padding: 10px; text-align: center;">
+        PERFIL DE CLÍNICA - CON ESPECIALISTAS
+    </header>
+
+    <section class="pro-profile-page">
+        <div class="pro-container">
+            
+            <div class="pro-main-column">
+                
+                <div class="pro-info-block">
+                    <div class="pro-header">
+                        <img 
+                            id="clinic-profile-pic" 
+                            class="pro-profile-image" 
+                            src="" 
+                            alt="Logo de la Clínica"
+                        >
+                        <div class="pro-name-container">
+                            <h1 id="clinic-name" class="pro-name"></h1>
+                            <p id="clinic-slogan" class="pro-specialty"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="pro-stats">
+                        <div class="pro-stat-item">
+                            <span id="clinic-rating-badge"></span>
+                            <span>Calificación</span>
+                        </div>
+                        <div class="pro-stat-item">
+                            <strong id="clinic-reviews-count">0</strong>
+                            <span>Opiniones</span>
+                        </div>
+                        <div class="pro-stat-item">
+                            <i class="fa-solid fa-star-half-stroke" style="color: var(--amarillo-mostaza); font-size: 1.5rem;"></i>
+                            <span>Certificación</span>
+                        </div>
+                    </div>
+                    
+                    <div class="pro-details-list">
+                        <div class="pro-detail-item">
+                            <i class="fa-solid fa-location-dot icon-spacing"></i>
+                            <strong>Dirección:</strong> <span id="clinic-address"></span>
+                        </div>
+                    </div>
+
+                    <div class="pro-action-buttons">
+                        <button class="btn btn-primary-outline" onclick="window.showMessage('Contacto', 'Llamando a la clínica...')">
+                            <i class="fa-solid fa-phone"></i> Llamar Ahora
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pro-tabs-container">
+                    <div class="pro-tabs-nav" id="pro-tabs-clinic">
+                        <div class="pro-tab-item active" data-tab="novedades">Novedades</div>
+                        <div class="pro-tab-item" data-tab="opiniones">Opiniones</div>
+                        <div class="pro-tab-item" data-tab="especialistas">Especialistas</div>
+                        <div class="pro-tab-item" data-tab="servicios">Servicios</div>
+                    </div>
+
+                    <div class="pro-tabs-content">
+                        <div id="tab-content-novedades" class="pro-tab-content"></div>
+                        <div id="tab-content-opiniones" class="pro-tab-content">
+                            <h3>Opiniones de Pacientes (<span id="opiniones-count-clinic"></span>)</h3>
+                            <div id="reviews-container-clinic"></div>
+                        </div>
+                        <div id="tab-content-especialistas" class="pro-tab-content">
+                            <h3>Nuestro Equipo Médico</h3>
+                            <ul id="specialist-list-container" class="specialist-list">
+                                </ul>
+                        </div>
+                        <div id="tab-content-servicios" class="pro-tab-content"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="pro-sidebar-column">
+                <div class="pro-appointment-card">
+                    <h2><i class="fa-solid fa-calendar-check icon-spacing"></i> Agenda de la Clínica</h2>
+                    
+                    <div class="location-details">
+                        <i class="fa-solid fa-map-marker-alt icon-spacing"></i>
+                        <p id="clinic-address-sidebar-clinic"></p>
+                    </div>
+
+                    <label for="service-select-clinic">Servicio Requerido:</label>
+                    <select id="service-select-clinic" class="form-select">
+                        </select>
+
+                    <div id="calendar-container-clinic" class="calendar-mock-container">
+                        </div>
+
+                    <button class="btn btn-primary" onclick="window.showMessage('Reserva', 'Selecciona un día en el calendario y luego la hora en el pop-up.')">
+                        Reservar Cita
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="scheduleModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close" onclick="window.closeModal('scheduleModal')"><i class="fa-solid fa-times-circle"></i></span>
+            <h3>Horarios Disponibles para: <span id="scheduleModalDate" style="color:var(--azul-tuffy);"></span></h3>
+            
+            <div id="timeSlotsContainer"></div>
+
+            <button class="btn btn-primary" style="margin-top: 1.5rem;" onclick="confirmSchedule()">
+                Confirmar Cita
+            </button>
+        </div>
+    </div>
+    
+    <div id="specialistModal" class="modal-overlay">
+        <div class="modal-content specialist-modal-content">
+            <span class="modal-close" onclick="window.closeModal('specialistModal')"><i class="fa-solid fa-times-circle"></i></span>
+            <div id="specialistModalContent">
+                </div>
+        </div>
+    </div>
+       <script type="module" src="/src/js/modules/perfil.js"></script>
+    <script>
+        // ... Pegar el contenido del punto B (JavaScript) aquí ...
+        
+        // Lógica de Renderizado específica de la Clínica
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Función de Inicialización del Calendario (profileIndex 1)
+            window.renderCalendarClinic = () => {
+                renderCalendar('calendar-container-clinic', calendarDates['calendar-container-clinic'] ? new Date(calendarDates['calendar-container-clinic']) : new Date(), 1);
+            };
+
+            const data = MOCK_CLINIC_DATA;
+            if (!data || data.type !== 'clinic') return;
+
+            // Rellenar Info Principal
+            document.getElementById('clinic-name').textContent = data.name;
+            document.getElementById('clinic-slogan').textContent = data.slogan;
+            document.getElementById('clinic-profile-pic').src = data.profilePicUrl;
+            document.getElementById('clinic-address').textContent = data.address;
+            
+            // Rellenar Stats
+            document.getElementById('clinic-rating-badge').innerHTML = `${renderStars(data.rating)} ${data.rating.toFixed(1)}/5`;
+            document.getElementById('clinic-reviews-count').textContent = data.reviewCount;
+
+            // Rellenar Sidebar
+            document.getElementById('clinic-address-sidebar-clinic').textContent = data.address;
+            const serviceSelect = document.getElementById('service-select-clinic');
+            serviceSelect.innerHTML = data.services.map(s => `<option>${s}</option>`).join('');
+
+            // Pestañas
+            document.getElementById('tab-content-novedades').innerHTML = `<p class="noveties-text">${data.noveties}</p>`;
+            document.getElementById('reviews-container-clinic').innerHTML = renderReviews(data.reviews);
+            document.getElementById('opiniones-count-clinic').textContent = data.reviewCount;
+            
+            // Pestaña Especialistas
+            const specialistList = document.getElementById('specialist-list-container');
+            // Usamos MOCK_SPECIALIST_DATA como mock para el modal, ya que es el perfil detallado.
+            specialistList.innerHTML = data.specialists.map(s => `
+                <li>
+                    <img class="specialist-avatar" src="${s.profilePicUrl}" alt="${s.name}">
+                    <div class="specialist-info">
+                        <h4>${s.name}</h4>
+                        <p>${s.specialty}</p>
+                    </div>
+                    <button class="btn-view-profile" onclick="renderSpecialistProfileModal(MOCK_SPECIALIST_DATA)">
+                        <i class="fa-solid fa-user-circle"></i> Ver Perfil
+                    </button>
+                </li>
+            `).join('');
+
+            // Pestaña Servicios
+            document.getElementById('tab-content-servicios').innerHTML = `
+                <h3>Servicios de la Clínica</h3>
+                <ul class="service-list">${data.services.map(s => `<li>${s}</li>`).join('')}</ul>
+            `;
+            
+            // Inicializar Listeners y Calendario
+            document.getElementById('pro-tabs-clinic').addEventListener('click', handleTabChange);
+            document.querySelector('.pro-tab-item[data-tab="novedades"]').click();
+            window.renderCalendarClinic();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<link rel="stylesheet" href="/src/styles/landing.css">
+<nav class="nav">
+    <div class="nav-inner">
+        <button class="hamburger" id="hamburger-btn" aria-label="Abrir menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="logo">
+            <span class="tuffy">Tuffy</span>
+            <span class="pet">Pet</span>
+        </div>
+
+        <div class="menu" id="menu">
+            <a href="#funciona">Cómo funciona</a>
+            <a href="#historia">Nosotros</a>
+            <a href="#opiniones">Opiniones</a>
+            <a href="#planes">Planes</a>
+        </div>
+
+        <div id="account-container" class="account-container"> 
+
+            <button id="auth-btn" class="btn btn-login" type="button">
+                Iniciar Sesión
+            </button>
+
+            <div id="account-dropdown" class="account-dropdown">
+                <p style="padding: 0.75rem 1rem; font-weight: 700;">Hola, <span id="user-name">Usuario</span></p>
+                <a href="#perfil">Mi Perfil</a>
+                <a href="#perfil">Mis Mascotas</a>
+                <a href="#perfil">Mis Pagos</a>
+                <a href="#reservas">Mis Citas</a>
+                <button class="logout-btn"  id="logout-btn" type="button"> <i class="fa-solid fa-door-closed"></i>Cerrar Sesión</button>
+            </div>
+        </div>
+
+    </div>
+</nav>
+
+<main id="landing-main-content">
+
+    <header class="hero" id="inicio">     
+        <div class="container">
+
+            <div class="hero-header">         
+                <h1>Todo para tu mejor amigo, en un solo lugar.</h1>
+                <p class="lead">Encuentra veterinarios, clínicas y especialistas verificados. Agenda citas, recibe
+                    recordatorios y gestiona todo desde un panel fácil de usar.</p>
+            </div>
+
+            <div class="hero-card">
+                <p style="font-weight: 700; margin-bottom: 0.5rem; color: var(--color-dark);">¿Qué servicio necesitas
+                    hoy?</p>
+                <div class="search" aria-label="Buscador de especialistas">
+                    <div class="search-row">
+                        <input id="q" placeholder="Buscar por nombre o especialidad"
+                            aria-label="Buscar por nombre o especialidad">
+                        <select id="city" aria-label="Ciudad">
+                            <option value="">Ciudad</option>
+                            <option>CDMX</option>
+                            <option>Jalisco</option>
+                            <option>Nuevo León</option>
+                            <option>Estado de México</option>
+                            <option>Puebla</option>
+                            <option>Querétaro</option>
+                        </select>
+                        <button class="btn btn-primary" id="btn-search"><i class="fa-solid fa-magnifying-glass"></i>
+                            Buscar</button>
+                    </div>
+                </div>
+                <div class="services-grid" style="margin-top:.8rem" aria-label="Atajos de servicios">
+                    <button class="svc" data-service="veterinario"><i
+                            class="fa-solid fa-user-doctor"></i><span>Veterinario</span></button>
+                    <button class="svc" data-service="clinica"><i
+                            class="fa-solid fa-house-medical"></i><span>Clínicas</span></button>
+                    <button class="svc" data-service="estetica"><i
+                            class="fa-solid fa-scissors"></i><span>Estéticas</span></button>
+                    <button class="svc" data-service="adiestrador"><i
+                            class="fa-solid fa-paw"></i><span>Adiestramiento</span></button>
+                    <button class="svc" data-service="guarderia"><i
+                            class="fa-solid fa-hotel"></i><span>Guarderías</span></button>
+                    <button class="svc" data-service="paseo"><i class="fa-solid fa-dog"></i><span>Paseos</span></button>
+                    <button class="svc" data-service="hospital"><i
+                            class="fa-solid fa-hospital"></i><span>Hospitales</span></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="funciona">
+        <h2 class="section-title">Como funciona <span class="tuffy-logo">Tuffy<span class="pet">Pet</span></span></h2>
+        <div class="container" style="display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem">
+            <div class="svc" style="text-align:center">
+                <i class="fa-solid fa-magnifying-glass"></i><span>1. Busca</span>
+                <p class="muted">Especialistas verificados </br>cerca de ti.</p>
+            </div>
+            <div class="svc" style="text-align:center">
+                <i class="fa-solid fa-calendar-check"></i><span>2. Agenda</span>
+                <p class="muted">Reserva en minutos desde </br>cualquier dispositivo.</p>
+            </div>
+            <div class="svc" style="text-align:center">
+                <i class="fa-solid fa-bell"></i><span>3. Recibe recordatorios</span>
+                <p class="muted">Notificaciones por correo o WhatsApp.</p>
+            </div>
+            <div class="svc" style="text-align:center">
+                <i class="fa-solid fa-heart"></i><span>4. Confía</span>
+                <p class="muted">Opiniones reales y perfiles </br>con experiencia.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="happy">
+        <h2 class="section-title">Nuestros clientes </h2>
+        <div class="container pet-carousel">
+            <button class="pet-nav prev" aria-label="Anterior">‹</button>
+            <div class="pet-viewport">
+                <div class="pet-track" id="pet-track">
+                    <div class="pet"><img src="/src/assets/img/TuffyAndTammy.jpeg" alt="Max">
+                        <p class="caption">Max — Pomerania</p>
+                    </div>
+                    <div class="pet"><img src="/src/assets/img/TuffyCansado.jpeg" alt="Luna">
+                        <p class="caption">Luna — Labrador</p>
+                    </div>
+                    <div class="pet"><img src="/src/assets/img/TuffyEnojado.jpeg" alt="Kira">
+                        <p class="caption">Kira — Pastor Alemán</p>
+                    </div>
+                    <div class="pet"><img src="/src/assets/img/TuffyFiestero.jpeg" alt="Coco">
+                        <p class="caption">Coco — Chihuahueño</p>
+                    </div>
+                    <div class="pet"><img src="/src/assets/img/TuffyPedo.jpeg" alt="Coco">
+                        <p class="caption">Coco — Chihuahueño</p>
+                    </div>
+                    <div class="pet"><img src="/src/assets/img/TuffySecurity.jpeg" alt="Coco">
+                        <p class="caption">Coco — Chihuahueño</p>
+                    </div>
+                </div>
+            </div>
+            <button class="pet-nav next" aria-label="Siguiente">›</button>
+        </div>
+    </section>
+
+    <section id="historia">
+        <h2 class="section-title">Nosotros</h2>
+        <div class="container tabs">
+            <div class="tab-list">
+                <button class="tab-btn active" data-tab="tab-hist">Historia</button>
+                <button class="tab-btn" data-tab="tab-val">Valores</button>
+                <button class="tab-btn" data-tab="tab-eq">Nuestro equipo</button>
+            </div>
+            <div id="tab-hist" class="tab-panel active">
+                TuffyVet nació en 2025 de una idea muy simple, pero poderosa:<br />
+                <strong>Encontrar buen cuidado para nuestras mascotas no debería ser tan difícil.</strong><br /><br />
+
+                Todo comenzó con Tuffy Guardado, un French Poodle que fue mucho más que una mascota: fue familia.<br />
+                Cada vez que Tuffy se enfermaba o necesitaba un baño o corte de pelo, no siempre sabíamos a dónde
+                llevarlo.<br />
+                <strong>A veces lo atendíamos nosotros mismos, con amor pero sin experiencia.</strong><br />
+                Hoy recordamos esos momentos con cariño… pero también con la certeza de que, a veces, no recibía el
+                cuidado que
+                merecía.<br />
+                Porque no siempre es fácil encontrar el lugar correcto.<br />
+                Porque muchas veces, quienes no tienen mascotas no entienden lo que significan para nosotros.<br />
+                Son quienes están ahí siempre. En los buenos y malos días.<br />
+                Nos dan lo mejor de ellos, aunque no siempre podamos darles lo mismo.<br /><br />
+
+                <strong>
+                    Tuffy vivió 13 años llenos de amor, travesuras y lealtad.
+                    Su partida nos dejó una enseñanza: no es que no queramos darles lo mejor… es que a veces simplemente
+                    no
+                    sabemos dónde encontrarlo.<br />
+                    Y cuando lo encontramos, ya es tarde.
+                </strong><br /><br />
+
+                Por eso nació TuffyVet.<br />
+                Para que tú sí puedas darle a tu compañero o compañera peluda el cariño, la atención y el cuidado que se
+                merece.<br />
+                Sin vueltas. Sin estrés. Sin errores.<br /><br />
+
+                TuffyVet es su legado.<br />
+                Gracias, Tuffy Guardado, por enseñarnos a amar sin condiciones…<br />
+                y por recordarnos que ellos también merecen lo mejor.
+                </p>
+            </div>
+            <div id="tab-val" class="tab-panel">
+                <div class="values-grid">
+                    <div class="value-card"><i class="fa-solid fa-hand-holding-heart"></i>
+                        <h4>Cuidado genuino</h4>
+                        <p>Tratamos a cada mascota como familia.</p>
+                    </div>
+                    <div class="value-card"><i class="fa-solid fa-shield-dog"></i>
+                        <h4>Seguridad primero</h4>
+                        <p>Profesionales verificados y procesos claros.</p>
+                    </div>
+                    <div class="value-card"><i class="fa-solid fa-people-group"></i>
+                        <h4>Comunidad</h4>
+                        <p>Tutores y especialistas colaboran por su bienestar.</p>
+                    </div>
+                    <div class="value-card"><i class="fa-solid fa-lightbulb"></i>
+                        <h4>Innovación</h4>
+                        <p>Mejoramos continuamente la experiencia de cuidado.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="tab-eq" class="tab-panel">
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
+                    <div class="card-op"><img src="/src/assets/img/TuffyCansado.jpeg" alt="Miembro 1"><strong>Tuffy
+                            Guardado</strong>
+                        <p>Fundador y CEO (Chief Executive Olfateador)</p>
+                    </div>
+                    <div class="card-op"><img
+                            src="https://img.freepik.com/vector-premium/icono-hombre_1076610-16678.jpg"
+                            alt="Miembro 2"><strong>Ivan Reyero.</strong>
+                        <p>Desarrollo</p>
+                    </div>
+                    <div class="card-op"><img src="https://cdn-icons-png.flaticon.com/512/6185/6185632.png"
+                            alt="Miembro 3"><strong>Fernanda Gonzalez</strong>
+                        <p>Directora</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="opiniones">
+        <h2 class="section-title">Opiniones de quienes confían en <span class="tuffy-logo">Tuffy<span
+                    class="pet">Pet</span></span></h2>
+
+        <div class="container carousel">
+            <button class="car-nav prev" aria-label="Anterior">‹</button>
+            <div class="viewport">
+                <div class="track" id="track">
+                    <article class="card-op"><img
+                            src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop"
+                            alt="Ana"><strong>Ana — CDMX</strong>
+                        <p>“Reservé en minutos y el recordatorio me salvó el día.”</p>
+                    </article>
+                    <article class="card-op"><img
+                            src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=200&auto=format&fit=crop"
+                            alt="Dr. Marco"><strong>Dr. Marco — GDL</strong>
+                        <p>“La agenda y los perfiles verificados mejoraron nuestra operación.”</p>
+                    </article>
+                    <article class="card-op"><img
+                            src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=200&auto=format&fit=crop"
+                            alt="Lucía"><strong>Lucía — MTY</strong>
+                        <p>“Encontré dermatología felina y el servicio fue excelente.”</p>
+                    </article>
+                    <article class="card-op"><img
+                            src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=200&auto=format&fit=crop"
+                            alt="Sofía"><strong>Sofía — QRO</strong>
+                        <p>“El proceso es claro y la comunicación, inmediata.”</p>
+                    </article>
+                    <article class="card-op"><img
+                            src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=200&auto=format&fit=crop"
+                            alt="Dr. Marco"><strong>Dr. Marco — GDL</strong>
+                        <p>“La agenda y los perfiles verificados mejoraron nuestra operación.”</p>
+                    </article>
+                    <article class="card-op"><img
+                            src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=200&auto=format&fit=crop"
+                            alt="Lucía"><strong>Lucía — MTY</strong>
+                        <p>“Encontré dermatología felina y el servicio fue excelente.”</p>
+                    </article>
+                    <article class="card-op"><img
+                            src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop"
+                            alt="Ana"><strong>Ana — CDMX</strong>
+                        <p>“Reservé en minutos y el recordatorio me salvó el día.”</p>
+                    </article>
+                    <article class="card-op"><img
+                            src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=200&auto=format&fit=crop"
+                            alt="Dr. Marco"><strong>Dr. Marco — GDL</strong>
+                        <p>“La agenda y los perfiles verificados mejoraron nuestra operación.”</p>
+                    </article>
+                    <article class="card-op"><img
+                            src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=200&auto=format&fit=crop"
+                            alt="Lucía"><strong>Lucía — MTY</strong>
+                        <p>“Encontré dermatología felina y el servicio fue excelente.”</p>
+                    </article>
+                    <article class="card-op"><img
+                            src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=200&auto=format&fit=crop"
+                            alt="Sofía"><strong>Sofía — QRO</strong>
+                        <p>“El proceso es claro y la comunicación, inmediata.”</p>
+                    </article>
+                    <article class="card-op"><img
+                            src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=200&auto=format&fit=crop"
+                            alt="Dr. Marco"><strong>Dr. Marco — GDL</strong>
+                        <p>“La agenda y los perfiles verificados mejoraron nuestra operación.”</p>
+                    </article>
+                    <article class="card-op"><img
+                            src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=200&auto=format&fit=crop"
+                            alt="Lucía"><strong>Lucía — MTY</strong>
+                        <p>“Encontré dermatología felina y el servicio fue excelente.”</p>
+                    </article>
+                </div>
+            </div>
+            <button class="car-nav next" aria-label="Siguiente">›</button>
+        </div>
+    </section>
+
+    <section id="planes">
+        <h2 class="section-title">Planes y beneficios</h2>
+        <div class="plans">
+            <div class="plan-grid">
+                <article class="plan free">
+                    <span class="badge">GRATIS</span>
+                    <h3>Básico</h3>
+                    <p>Para empezar con citas y recordatorios.</p>
+                    <div class="price">$0 / mes</div>
+                    <ul>
+                        <li>Citas ilimitadas</li>
+                        <li>Perfil de mascota</li>
+                        <li>Recordatorios por correo</li>
+                    </ul>
+                    <button class="btn btn-primary">Comenzar</button>
+                </article>
+                <article class="plan highlight">
+                    <h3>Especialista</h3>
+                    <p>Para veterinarios independientes.</p>
+                    <ul>
+                        <li>Agenda avanzada</li>
+                        <li>Gestión de pacientes</li>
+                        <li>Reportes y métricas</li>
+                    </ul>
+                    <button class="btn btn-secondary">Solicitar información</button>
+                </article>
+                <article class="plan highlight">
+                    <h3>Profesional Plus</h3>
+                    <p>Para negocios .</p>
+                    <ul>
+                        <li>Agenda avanzada</li>
+                        <li>Gestión de pacientes</li>
+                        <li>Reportes y métricas</li>
+                    </ul>
+                    <button class="btn btn-secondary">Solicitar información</button>
+                </article>
+                <article class="plan highlight">
+                    <h3>Clínica Plus</h3>
+                    <p>Equipos y sucursales con alta demanda.</p>
+                    <ul>
+                        <li>Multiusuarios y roles</li>
+                        <li>Notificaciones SMS</li>
+                        <li>Soporte prioritario</li>
+                    </ul>
+                    <button class="btn btn-secondary">Solicitar información</button>
+                </article>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container foot">
+        <div>
+            <img src="/src/assets/img/Logos/trueLogo.png" alt="TuffyPet logo" style="height: 150px;width: 350px;">
+            <p>© <span id="year"></span> TuffyPet. Todos los derechos reservados.</p>
+        </div>
+        <div>
+            <strong>Compañía</strong>
+            <ul style="list-style:none;padding:0;margin:.4rem 0 0">
+                <li><a href="#funciona">Cómo funciona</a></li>
+                <li><a href="#historia">Nosotros</a></li>
+                <li><a href="#planes">Planes</a></li>
+            </ul>
+        </div>
+        <div>
+            <strong>Legal</strong>
+            <ul style="list-style:none;padding:0;margin:.4rem 0 0">
+                <li><a href="#">Aviso de privacidad</a></li>
+                <li><a href="#">Términos</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<button id="toTop" class="to-top" aria-label="Ir arriba"><i class="fa-solid fa-angle-up"></i></button>
+<a class="waf" href="https://wa.me/5215555555555?text=Hola%20TuffyPet%2C%20quisiera%20informaci%C3%B3n" target="_blank"
+    rel="noopener" aria-label="Chatear por WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>

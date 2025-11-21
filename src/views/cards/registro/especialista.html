@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Especialista | Tuffy Pet</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <style>
+        /* ==================================== */
+        /* 🎨 VARIABLES GLOBALES DE TUFFYPET */
+        /* ==================================== */
+        :root {
+            --amarillo-mostaza: #F7C04A;
+            --azul-tuffy: #3E8ECD;
+            --azul-petroleo: #2D82B7;
+            --crema-claro: #FFF8E8;
+            --gris-piedra: #D9D9D9;
+            --blanco: #FFFFFF;
+            --negro: #0F172A;
+            --rojo-error: #EF4444;
+            --verde-ok: #10B981;
+            --gris-claro: #F3F4F6; /* Color de fondo para Obligatorios */
+
+            --color-primary: var(--azul-tuffy);
+            --color-secondary: var(--amarillo-mostaza);
+            --color-light: var(--crema-claro);
+            
+            --radius: 12px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, .1);
+        }
+        
+        /* BASE, CENTRADO Y POPPINS */
+        body {
+            font-family: 'Poppins', system-ui, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: var(--color-light); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* ==================================== */
+        /* 📝 ESTILOS DEL CONTENEDOR CENTRAL */
+        /* ==================================== */
+        .specialist-form-container {
+            width: 100%;
+            max-width: 650px;
+            background: var(--blanco);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .specialist-form-container h2 {
+            color: var(--azul-petroleo);
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .form-step h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* --- Estilos del Formulario --- */
+        .specialist-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            text-align: left;
+        }
+        
+        .form-step {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            padding-top: 15px;
+        }
+        
+        /* --- Inputs y Selects --- */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .input-row > div {
+            flex: 1;
+        }
+
+        .tuffy-input, .tuffy-select {
+            width: 100%;
+            padding: 14px 15px; 
+            border: 1px solid var(--gris-piedra);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .tuffy-input:focus, .tuffy-select:focus {
+            outline: none;
+            border-color: var(--azul-tuffy);
+            box-shadow: 0 0 0 2px rgba(62, 142, 205, 0.2);
+        }
+        
+        /* Estilo de error */
+        .error-input {
+            border: 2px solid var(--rojo-error) !important;
+            background-color: #fef2f2;
+        }
+        
+        /* Etiqueta para errores */
+        label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--negro);
+        }
+
+        .error-message {
+            color: var(--rojo-error);
+            font-size: 0.8rem;
+            margin-top: 3px;
+        }
+        
+        /* ==================================== */
+        /* 📄 ESTILOS ESPECÍFICOS DEL PASO 3 (HORIZONTAL) */
+        /* ==================================== */
+        .step-3-content-wrapper {
+            display: flex;
+            gap: 25px; 
+        }
+        
+        .doc-column {
+            flex: 1;
+            padding: 15px; 
+            border-radius: var(--radius);
+            border: 1px solid var(--gris-piedra);
+        }
+        
+        .doc-column h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--gris-piedra);
+        }
+        
+        .obligatorios-column {
+            background-color: var(--gris-claro);
+        }
+        
+        .obligatorios-column h4 {
+            color: var(--rojo-error);
+            border-bottom-color: var(--rojo-error);
+        }
+        
+        .opcionales-column {
+            background-color: #F8F8FF;
+        }
+        
+        .opcionales-column h4 {
+            color: var(--azul-tuffy);
+            border-bottom-color: var(--azul-tuffy);
+        }
+
+        /* Estilo de ítem de Documento */
+        .document-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #ccc;
+            padding: 10px; 
+            border-radius: 8px;
+            background-color: var(--blanco);
+            margin-bottom: 8px;
+            transition: all 0.2s;
+        }
+
+        .document-item.error-input { /* Usamos error-input para resaltar los faltantes */
+            border: 1px solid var(--rojo-error);
+            background-color: #FEF2F2; 
+        }
+
+        .document-item.complete {
+            border: 1px solid var(--verde-ok);
+            background-color: #F0FFF4; 
+        }
+
+        .document-item label {
+            flex-grow: 1;
+            font-weight: 500;
+            font-size: 0.9rem; 
+            margin-right: 8px;
+            line-height: 1.3;
+        }
+
+        .document-item input[type="file"] {
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
+        }
+        
+        .document-item .file-label {
+            background-color: var(--azul-tuffy);
+            color: white;
+            padding: 8px 15px; 
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem; 
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .document-item .file-label:hover {
+            background-color: var(--azul-petroleo);
+        }
+
+        .document-item .status-icon {
+            font-size: 1.2rem; 
+            margin-left: 15px; 
+            color: var(--rojo-error);
+            width: 20px;
+            text-align: center;
+        }
+        
+        .document-item.complete .status-icon {
+            color: var(--verde-ok);
+        }
+        /* Fin Estilos Paso 3 */
+        /* ==================================== */
+
+        /* --- Botones de Navegación --- */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+        
+        .btn-action {
+            padding: 15px 30px; 
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-prev {
+            background-color: var(--gris-piedra);
+            color: var(--negro);
+        }
+
+        .btn-next, .btn-submit {
+            background-color: var(--amarillo-mostaza);
+            color: var(--negro);
+        }
+
+        .btn-next:hover, .btn-submit:hover {
+            background-color: #F8C864;
+        }
+        
+        .back-link {
+            display: block;
+            margin-top: 25px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .back-link a {
+            color: var(--azul-tuffy);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="specialist-form-container">
+        
+        <h2>Registro de Especialista</h2>
+        
+        <form id="registration-form" class="specialist-form">
+            
+            <div id="step-1" class="form-step" style="display: flex;">
+                <h3>Paso 1: Datos Personales</h3>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="first-name">Nombre(s) *</label>
+                        <input type="text" id="first-name" name="first-name" class="tuffy-input" placeholder="Nombre(s)" required>
+                        <span id="error-first-name" class="error-message"></span>
+                    </div>
+                    <div class="input-group">
+                        <label for="last-name">Apellido(s) *</label>
+                        <input type="text" id="last-name" name="last-name" class="tuffy-input" placeholder="Apellido(s)" required>
+                        <span id="error-last-name" class="error-message"></span>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="specialty">Especialidad *</label>
+                        <select id="specialty" name="specialty" class="tuffy-select" required>
+                            <option value="">Selecciona tu Especialidad</option>
+                            <option value="adiestrador">Adiestramiento</option>                            
+                            <option value="estetica">Groomer</option>                            
+                            <option value="paseador">Paseo de Mascotas</option>
+                            <option value="veterinario">Veterinario</option>
+                        </select>
+                        <span id="error-specialty" class="error-message"></span>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="location">Ubicación (Mock) *</label>
+                        <select id="location" name="location" class="tuffy-select" required>
+                            <option value="">Selecciona tu localidad (Mock)</option>
+                            <option value="CDMX">Ciudad de México</option>
+                            <option value="GDL">Guadalajara</option>
+                            <option value="MTY">Monterrey</option>
+                        </select>
+                        <span id="error-location" class="error-message"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="step-2" class="form-step">
+                <h3>Paso 2: Contacto y Credenciales</h3>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="phone">Teléfono *</label>
+                        <input type="text" id="phone" name="phone" class="tuffy-input" placeholder="Teléfono" required>
+                        <span id="error-phone" class="error-message"></span>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Correo Electrónico *</label>
+                        <input type="email" id="email" name="email" class="tuffy-input" placeholder="Correo Electrónico" required>
+                        <span id="error-email" class="error-message"></span>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="password">Contraseña *</label>
+                        <input type="password" id="password" name="password" class="tuffy-input" placeholder="Contraseña" required>
+                        <span id="error-password" class="error-message"></span>
+                    </div>
+                    <div class="input-group">
+                        <label for="confirm-password">Confirma Contraseña *</label>
+                        <input type="password" id="confirm-password" name="confirm-password" class="tuffy-input" placeholder="Confirma Contraseña" required>
+                        <span id="error-confirm-password" class="error-message"></span>
+                    </div>
+                </div>
+                
+                <div id="cedula-group" class="input-group" style="display: none;"> 
+                    <label for="cedula">Cédula Profesional *</label>
+                    <input type="text" id="cedula" name="cedula" class="tuffy-input" placeholder="Número de Cédula" required>
+                    <span id="error-cedula" class="error-message"></span>
+                </div>
+            </div>
+
+            <div id="step-3" class="form-step">
+                <h3>Paso 3: Documentación (<span id="specialty-name-display"></span>)</h3>
+
+                <div class="step-3-content-wrapper">
+                    
+                    <div class="doc-column obligatorios-column">
+                        <h4>Documentos Requeridos <i class="fa-solid fa-file-circle-exclamation"></i></h4>
+                        <p style="font-size: 0.85rem; color: #555; margin-bottom: 15px;">
+                            Estos documentos son **necesarios para la verificación**, pero la solicitud se enviará aunque no los cargues ahora.
+                        </p>
+
+                        <div id="document-list-obligatorio">
+                            
+                            <div class="document-item" data-doc="doc-identificacion">
+                                <label>Identificación oficial (INE/Pasaporte)</label>
+                                <input type="file" id="doc-identificacion" name="doc-identificacion-file">
+                                <label for="doc-identificacion" class="file-label">Subir</label>
+                                <span class="status-icon"><i class="fa-solid fa-file-circle-xmark"></i></span>
+                            </div>
+
+                            <div id="doc-cedula-group" class="document-item" data-doc="doc-cedula" style="display: none;">
+                                <label>Cédula Profesional (Archivo PDF)</label>
+                                <input type="file" id="doc-cedula-file" name="doc-cedula-file">
+                                <label for="doc-cedula-file" class="file-label">Subir</label>
+                                <span class="status-icon"><i class="fa-solid fa-file-circle-xmark"></i></span>
+                            </div>
+                            
+                            <div id="doc-curso-group" class="document-item" data-doc="doc-curso" style="display: none;">
+                                <label>Diploma o Certificación del Curso</label>
+                                <input type="file" id="doc-curso-file" name="doc-curso-file">
+                                <label for="doc-curso-file" class="file-label">Subir</label>
+                                <span class="status-icon"><i class="fa-solid fa-file-circle-xmark"></i></span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="doc-column opcionales-column">
+                        <h4>Documentos Opcionales <i class="fa-solid fa-star"></i></h4>
+                        <p style="font-size: 0.85rem; color: #555; margin-bottom: 15px;">
+                            Documentación adicional que puede enriquecer tu perfil.
+                        </p>
+
+                        <div id="document-list-opcional">
+                            
+                            <div class="document-item">
+                                <label>Carta de Recomendación (1 o 2)</label>
+                                <input type="file" id="doc-carta">
+                                <label for="doc-carta" class="file-label">Subir</label>
+                                <span class="status-icon"><i class="fa-solid fa-cloud-arrow-up"></i></span>
+                            </div>
+                            
+                            <div class="document-item">
+                                <label>Fotos de tu lugar de trabajo/servicio</label>
+                                <input type="file" id="doc-fotos">
+                                <label for="doc-fotos" class="file-label">Subir</label>
+                                <span class="status-icon"><i class="fa-solid fa-cloud-arrow-up"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigation-buttons">
+                <button type="button" id="prev-btn" class="btn-action btn-prev" style="display: none;">← Anterior</button>
+                <button type="button" id="next-btn" class="btn-action btn-next">Siguiente →</button>
+                <button type="submit" id="submit-btn" class="btn-action btn-submit">Registrar</button>
+            </div>
+        </form>
+        
+        <p class="back-link">
+            <a href="/src/views/auth/registro.html">← Volver a selección de perfil</a>
+        </p>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('registration-form');
+            const step1 = document.getElementById('step-1');
+            const step2 = document.getElementById('step-2');
+            const step3 = document.getElementById('step-3');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            const specialtySelect = document.getElementById('specialty');
+            const cedulaGroup = document.getElementById('cedula-group');
+            const docCedulaGroup = document.getElementById('doc-cedula-group');
+            const docCursoGroup = document.getElementById('doc-curso-group');
+            const specialtyNameDisplay = document.getElementById('specialty-name-display'); 
+            const docObligatorioList = document.getElementById('document-list-obligatorio');
+            const docOpcionalList = document.getElementById('document-list-opcional');
+
+            let currentStep = 1;
+            
+            // ===================================
+            // --- FUNCIONES DE UTILIDAD ---
+            // ===================================
+
+            function getSpecialtyName(value) {
+                const map = {
+                    'adiestrador': 'Adiestramiento',
+                    'clinica': 'Clínica Veterinaria (MVZ)',
+                    'estetica': 'Estética Canina',
+                    'guarderia': 'Guardería',
+                    'hospital': 'Hospital Veterinaria (MVZ)',
+                    'paseador': 'Paseo de Mascotas',
+                    'veterinario': 'Medicina Veterinaria (MVZ)'
+                };
+                return map[value] || 'Servicio General';
+            }
+            
+            function toggleConditionalFields() {
+                const specialty = specialtySelect.value;
+                const isVeterinarioType = specialty === 'veterinario' || specialty === 'hospital' || specialty === 'clinica';
+                const needsCourse = specialty === 'adiestrador' || specialty === 'estetica' || specialty === 'guarderia' || specialty === 'paseador';
+                
+                // Cédula (Input de texto en Paso 2)
+                cedulaGroup.style.display = isVeterinarioType ? 'flex' : 'none';
+                document.getElementById('cedula').required = isVeterinarioType; 
+                
+                // Documento de Cédula (Archivo en Paso 3)
+                docCedulaGroup.style.display = isVeterinarioType ? 'flex' : 'none';
+                
+                // Documento de Curso (Archivo en Paso 3)
+                docCursoGroup.style.display = needsCourse ? 'flex' : 'none';
+
+                if (currentStep === 3) {
+                     validateStep3Visuals();
+                }
+            }
+
+            function validateStep(stepElement) {
+                let isValid = true;
+                const requiredInputs = stepElement.querySelectorAll('[required]:not([style*="none"])');
+
+                requiredInputs.forEach(input => {
+                    const errorElement = document.getElementById(`error-${input.id}`);
+                    
+                    input.classList.remove('error-input');
+                    if (errorElement) errorElement.textContent = '';
+                    
+                    if (!input.value.trim()) {
+                        isValid = false;
+                        input.classList.add('error-input');
+                        if (errorElement) errorElement.textContent = 'Rellena este campo.';
+                    } else if (input.id === 'phone') {
+                        const phoneRegex = /^\d+$/; 
+                        if (!phoneRegex.test(input.value.trim())) {
+                            isValid = false;
+                            input.classList.add('error-input');
+                            if (errorElement) errorElement.textContent = 'El teléfono solo debe contener números.';
+                        }
+                    } else if (input.id === 'email' && !input.value.includes('@')) {
+                        isValid = false;
+                        input.classList.add('error-input');
+                        if (errorElement) errorElement.textContent = 'Ingresa un correo válido.';
+                    } else if (input.id === 'confirm-password') {
+                        const passwordInput = document.getElementById('password');
+                        if (input.value !== passwordInput.value) {
+                            isValid = false;
+                            input.classList.add('error-input');
+                            if (errorElement) errorElement.textContent = 'Las contraseñas no coinciden.';
+                        }
+                    }
+                });
+
+                return isValid;
+            }
+            
+            /**
+             * FUNCIÓN CLAVE: Solo valida la VISUALIZACIÓN de los documentos, no bloquea el envío.
+             */
+            function validateStep3Visuals() {
+                // Iterar solo sobre los documentos que están visibles
+                const visibleRequiredFileInputs = docObligatorioList.querySelectorAll('.document-item[style*="flex"] input[type="file"], .document-item:not([style*="none"]) input[type="file"]');
+                
+                visibleRequiredFileInputs.forEach(fileInput => {
+                    const docItem = fileInput.closest('.document-item');
+                    
+                    // Limpiar clases de estado
+                    docItem.classList.remove('complete', 'error-input');
+                    
+                    if (fileInput.files.length === 0) {
+                        // Documento faltante (muestra error visual, pero NO bloquea)
+                        docItem.classList.add('error-input');
+                        docItem.querySelector('.status-icon i').className = 'fa-solid fa-file-circle-xmark';
+                    } else {
+                        // Documento cargado
+                        docItem.classList.add('complete');
+                        docItem.querySelector('.status-icon i').className = 'fa-solid fa-file-circle-check';
+                    }
+                });
+                
+                return true; 
+            }
+
+            function validateOptionalFileVisuals() {
+                docOpcionalList.querySelectorAll('input[type="file"]').forEach(fileInput => {
+                    const docItem = fileInput.closest('.document-item');
+                    
+                    if (fileInput.files.length > 0) {
+                        docItem.classList.add('complete');
+                        docItem.querySelector('.status-icon i').className = 'fa-solid fa-file-circle-check';
+                        const fileName = fileInput.files[0].name;
+                        docItem.querySelector('.file-label').textContent = fileName.length > 10 ? 'Archivo OK' : fileName;
+                    } else {
+                        docItem.classList.remove('complete');
+                        docItem.querySelector('.status-icon i').className = 'fa-solid fa-cloud-arrow-up'; 
+                        docItem.querySelector('.file-label').textContent = 'Subir';
+                    }
+                });
+            }
+
+            function goToStep(step) {
+                currentStep = step;
+                
+                // Ocultar todos los pasos y botones
+                step1.style.display = 'none';
+                step2.style.display = 'none';
+                step3.style.display = 'none';
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = 'none'; // Se oculta por defecto y se muestra en el paso 3
+
+                if (currentStep === 1) {
+                    step1.style.display = 'flex';
+                    nextBtn.style.display = 'block';
+                } else if (currentStep === 2) {
+                    step2.style.display = 'flex';
+                    prevBtn.style.display = 'block';
+                    nextBtn.style.display = 'block';
+                } else if (currentStep === 3) {
+                    step3.style.display = 'flex';
+                    prevBtn.style.display = 'block';
+                    // 🚨 CAMBIO EN JS: Ahora siempre se muestra el botón de registro en el Paso 3
+                    submitBtn.style.display = 'block'; 
+                    
+                    const specialtyValue = specialtySelect.value;
+                    specialtyNameDisplay.textContent = getSpecialtyName(specialtyValue);
+                    
+                    toggleConditionalFields(); 
+                    validateStep3Visuals(); 
+                    validateOptionalFileVisuals(); 
+                }
+            }
+            
+            // ===================================
+            // --- HANDLERS DE EVENTOS ---
+            // ===================================
+
+            specialtySelect.addEventListener('change', () => {
+                toggleConditionalFields();
+            });
+
+            document.querySelectorAll('input[type="file"]').forEach(input => {
+                input.addEventListener('change', function() {
+                    validateStep3Visuals(); 
+                    validateOptionalFileVisuals();
+                });
+            });
+
+            nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentStep === 1 && validateStep(step1)) {
+                    goToStep(2);
+                } else if (currentStep === 2 && validateStep(step2)) {
+                    goToStep(3);
+                }
+            });
+
+            prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentStep === 3) {
+                    goToStep(2);
+                } else if (currentStep === 2) {
+                    goToStep(1);
+                }
+            });
+
+            // Envío final del formulario (Step 3) 
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Actualizar íconos visuales antes de enviar (no bloquea)
+                validateStep3Visuals(); 
+                
+                // 1. Desactivar botones y simular carga
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Finalizando Registro...';
+                prevBtn.disabled = true;
+
+                // 2. Mostrar SweetAlert de carga
+                Swal.fire({
+                    title: 'Enviando Documentación...',
+                    html: '<i class="fa-solid fa-spinner fa-spin fa-2x" style="color: var(--amarillo-mostaza); margin-top: 10px;"></i>',
+                    allowOutsideClick: false,
+                    showConfirmButton: false                    
+                });
+                
+                // MOCK DE API
+                let apiSuccess = true; 
+
+                try {
+                    await new Promise(resolve => setTimeout(resolve, 2000)); 
+                    Swal.close(); 
+                    
+                    if (apiSuccess) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Registro Enviado!',
+                            html: 'Tu solicitud ha sido recibida y se validará la documentación (opcional). Presiona OK para cerrar.',
+                            showConfirmButton: true,
+                            confirmButtonText: 'OK',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.close(); 
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error de Conexión',
+                            text: 'Fallo al intentar conectar con el servidor. Presiona OK para volver a la selección de perfil.',
+                            showConfirmButton: true,
+                            confirmButtonText: 'OK',
+                        }).then((result) => {
+                             if (result.isConfirmed) {
+                                window.location.href = '/src/views/auth/registro.html'; 
+                            }
+                        });
+                    }
+                } catch (error) {
+                    Swal.close(); 
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error de Conexión',
+                        text: 'Fallo al intentar conectar con el servidor. Presiona OK para volver a la selección de perfil.',
+                        showConfirmButton: true,
+                        confirmButtonText: 'OK',
+                    }).then((result) => {
+                         if (result.isConfirmed) {
+                            window.location.href = '/src/views/auth/registro.html'; 
+                        }
+                    });
+                } finally {
+                    if (!apiSuccess) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Registrar';
+                        prevBtn.disabled = false;
+                    }
+                }
+            });
+            
+            // Inicialización: Empezar en el paso 1
+            goToStep(1);
+            toggleConditionalFields();
+            specialtyNameDisplay.textContent = '[Selecciona una]';
+        });
+    </script>
+</body>
+</html>
