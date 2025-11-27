@@ -1,5 +1,5 @@
 // RUTA: /src/js/utils/pageLoader.js
-// RESPONSABILIDAD: Controlar el ciclo de vida de la carga de vistas (HTML + JS) en la SPA.
+// RESPONSABILIDAD: Controlar el ciclo de vida de la carga de vistas (HTML + JS + CSS) en la SPA.
 
 import { Error_Solicitud } from './coreUtils.js';
 
@@ -22,7 +22,7 @@ export function stopPageLoad() {
 }
 
 // ===================================
-// B. GESTIÓN DEL MÓDULO (Ejecución de JS)
+// B. GESTIÓN DEL MÓDULO (Ejecución de JS) y CSS
 // ===================================
 
 function unloadPreviousModule() {
@@ -32,6 +32,28 @@ function unloadPreviousModule() {
     }
     currentModule = null;
 }
+
+/**
+ * Inyecta dinámicamente un archivo CSS si aún no ha sido cargado.
+ * @param {string} cssPath - Ruta al archivo CSS.
+ */
+function loadCss(cssPath) {
+    if (!cssPath) return;
+
+    // Verificar si ya se cargó el CSS para evitar duplicados
+    const existingLink = document.querySelector(`link[href="${cssPath}"]`);
+    if (existingLink) {
+        console.log(`💬 CSS ya cargado: ${cssPath}`);
+        return;
+    }
+
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = cssPath;
+    document.head.appendChild(link);
+    console.log(`🎨 CSS inyectado: ${cssPath}`);
+}
+
 
 async function executeModule(moduleName) {
     if (moduleCache[moduleName]) {
@@ -64,11 +86,14 @@ async function executeModule(moduleName) {
 // C. FUNCIÓN PRINCIPAL DE RENDERING
 // ===================================
 
-export async function loadView(htmlPath, moduleName) {
+export async function loadView(htmlPath, moduleName, cssPath) { // ⭐ Nuevo parámetro cssPath opcional
     unloadPreviousModule();
     startPageLoad();
 
     try {
+        // 0. Cargar CSS si existe
+        loadCss(cssPath);
+
         // 1. Cargar e Inyectar HTML
         const response = await fetch(htmlPath);
         if (!response.ok) { throw new Error(`No se encontró el archivo HTML: ${htmlPath}`); }
@@ -135,9 +160,12 @@ export function initAnchorScrollHandler() {
 // E. FUNCIÓN PARA CARGAR VISTAS COMO MODAL
 // ===================================
 
-export async function loadModalView(htmlPath, moduleName, targetElement) {
+export async function loadModalView(htmlPath, moduleName, targetElement, cssPath) { // ⭐ Nuevo parámetro cssPath opcional
     startPageLoad(); 
     try {
+        // 0. Cargar CSS si existe
+        loadCss(cssPath);
+
         const response = await fetch(htmlPath);
         if (!response.ok) throw new Error(`No se encontró ${htmlPath}`);
 
@@ -169,5 +197,97 @@ export async function loadModalView(htmlPath, moduleName, targetElement) {
         Error_Solicitud(`No se pudo cargar el modal. ${error.message}`);
     } finally {
         stopPageLoad(); 
+    }
+}
+
+// ===================================
+// F. FUNCIÓN PARA CARGAR FRAGMENTOS HTML (Template Loader)
+// ===================================
+
+/**
+ * 📥 Carga y devuelve el contenido HTML, e inyecta CSS si se proporciona.
+ * Diseñado para cargar plantillas y fragmentos de UI (como tarjetas o componentes).
+ * @param {string} htmlPath - Ruta al archivo HTML del fragmento.
+ * @param {string} [cssPath] - Ruta opcional al archivo CSS asociado.
+ * @returns {Promise<string>} Promesa que resuelve al contenido HTML como cadena.
+ */
+export async function loadHtmlFragment(htmlPath, cssPath) { // ⭐ Esta es la función base
+    
+    try {
+        // 1. Cargar CSS (no necesita await, es asíncrono)
+        loadCss(cssPath); 
+
+        // 2. Cargar HTML
+        const response = await fetch(htmlPath);
+        if (!response.ok) {
+            throw new Error(`No se encontró el fragmento HTML: ${htmlPath}`);
+        }
+        const htmlContent = await response.text();
+        console.log(`✅ Fragmento HTML cargado: ${htmlPath}`);
+        return htmlContent;
+
+    } catch (error) {
+        console.error('❌ Error al cargar el fragmento HTML:', error);
+        throw error; 
+    }
+}
+
+// ===================================
+// G. ⭐ NUEVA FUNCIÓN: CARGAR VISTA COMO COMPONENTE (Perfiles)
+// ===================================
+
+/**
+ * 🧱 Carga un componente/vista completo (HTML + JS + CSS) y lo inyecta 
+ * en un contenedor de destino específico sin afectar el módulo principal (busqueda.js).
+ * * @param {string} htmlPath - Ruta al archivo HTML del componente.
+ * @param {string} moduleName - Nombre del módulo JS (ej: 'perfilEspecialista').
+ * @param {string} cssPath - Ruta al archivo CSS.
+ * @param {HTMLElement} targetElement - El elemento del DOM donde inyectar el HTML (ej: cardsContainer).
+ */
+// Modifica la definición de la función:
+export async function loadComponentView(htmlPath, moduleName, cssPath, targetElement, initData) { // ⭐ Agrega initData
+    if (!targetElement) {
+        console.error("❌ loadComponentView: targetElement es nulo.");
+        Error_Solicitud("Error interno: Contenedor de destino no definido.");
+        return;
+    }
+
+    startPageLoad();
+    // No limpiar aquí, ya que el router es el que carga las vistas principales. 
+    // Solo si estás seguro de que el componente reemplaza todo el contenido del contenedor principal. 
+    // Para el perfil, es correcto:
+    targetElement.innerHTML = ''; 
+
+    try {
+        // ... (Cargar HTML y CSS) ...
+        const htmlContent = await loadHtmlFragment(htmlPath, cssPath);
+        targetElement.innerHTML = htmlContent;
+        window.scrollTo(0, 0); 
+        console.log(`✅ Componente de vista inyectado en ${targetElement.id || targetElement.tagName}: ${htmlPath}`);
+
+        // 2. Ejecutar Lógica JS
+        let componentModule;
+        // ... (Lógica para importar y cachear el módulo) ...
+        if (moduleCache[moduleName]) {
+            componentModule = moduleCache[moduleName];
+        } else {
+            const modulePath = `/src/js/modules/${moduleName}.js`; 
+            componentModule = await import(modulePath);
+            moduleCache[moduleName] = componentModule;
+        }
+
+
+        if (componentModule && typeof componentModule.init === 'function') {
+            // ⭐ CAMBIO CLAVE: Pasar initData (que será el 'index') a la función init()
+            componentModule.init(initData); 
+            console.log(`✨ Lógica de componente ${moduleName} inicializada con datos.`);
+        } else {
+             console.warn(`Módulo de componente ${moduleName} cargado, pero no tiene una función 'init(data)'.`);
+        }
+
+    } catch (error) {
+        // ... (Manejo de errores) ...
+    } finally {
+        stopPageLoad();
     }
 }

@@ -1,0 +1,251 @@
+
+        /* ================================================= */
+        /* === [0] VARIABLES Y RESET === */
+        /* ================================================= */
+        :root {
+            --azul-tuffy: #3080c9;     
+            --azul-petroleo: #0b2247;  
+            --verde-check: #00b388; 
+            --gris-piedra: #6c757d;    
+            --gris-claro: #f4f6f8;
+            --blanco: #ffffff;
+            --negro: #333333;
+            --radio-sm: 4px;
+            --radio-md: 8px;
+            --borde-default: 1px solid #e0e0e0;
+            --color-available: #e6fff4; /* Verde muy claro para días disponibles */
+            --color-partial: #fffbe6; /* Amarillo muy claro para días parciales */
+            --box-shadow-light: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        body { 
+            margin: 0; padding: 0; 
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--gris-claro);
+            color: var(--negro);
+        }
+        h1, h2, h3 { color: var(--azul-petroleo); font-weight: 600; }
+        a { text-decoration: none; color: var(--azul-tuffy); }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 1rem; }
+
+        /* ================================================= */
+        /* === [1] ESTRUCTURA DE PERFIL Y BLOQUES === */
+        /* ================================================= */
+        .breadcrumb-bar-inline { background-color: var(--blanco); padding: 0.75rem 0 1.5rem 0; font-size: 0.9rem; color: var(--gris-piedra); width: 100%; }
+        .perfil-main { display: flex; gap: 2rem; max-width: 1400px; margin: 0 auto; padding: 0 1rem 2rem 1rem; align-items: flex-start; flex-wrap: wrap; }
+        .perfil-info-column { flex-basis: 65%; flex-grow: 1; min-width: 300px; }
+        .perfil-sidebar-column { flex-basis: 30%; flex-shrink: 0; min-width: 300px; }
+        .sticky-element { position: sticky; top: 1.5rem; z-index: 10; }
+
+        /* Contenedores con fondo blanco y redondeado */
+        .profile-header-block,
+        .calendar-booking-card,
+        .block-card { /* Clase genérica para todos los bloques de contenido */
+            background: var(--blanco); 
+            padding: 2rem; 
+            border-radius: var(--radio-md); 
+            border: var(--borde-default); 
+            box-shadow: var(--box-shadow-light); 
+            margin-bottom: 2rem;
+        }
+
+        .profile-pic { border: 4px solid var(--gris-claro); border-radius: 50%; width: 150px; height: 150px; object-fit: cover; }
+        .rating-balls i { color: #fcc419; font-size: 1.1rem; margin-right: 2px; }
+        
+        /* Estilos de Pestañas (Tabs) con Animación */
+        .pro-tabs-nav { display: flex; border-bottom: 2px solid #ccc; margin-bottom: 2rem; overflow-x: auto; 
+            background: var(--blanco); border-radius: var(--radio-md); padding-top: 10px;
+        }
+        .pro-tab-item { 
+            padding: 1rem 1.5rem; cursor: pointer; color: var(--gris-piedra); border-bottom: 3px solid transparent; 
+            transition: all 0.3s ease; 
+            white-space: nowrap; 
+        }
+        .pro-tab-item.active { color: var(--azul-tuffy); border-bottom: 3px solid var(--azul-tuffy); font-weight: 600; }
+        
+        .pro-tabs-content .pro-tab-content { 
+            display: none; padding-top: 1rem; 
+            opacity: 0; 
+            transition: opacity 0.5s ease; 
+        }
+        .pro-tabs-content .pro-tab-content.active { 
+            display: block; 
+            opacity: 1; 
+        }
+        .noveties-text { background: #e6f0ff; color: var(--azul-petroleo); padding: 1rem; border-radius: var(--radio-md); border-left: 5px solid var(--azul-tuffy); font-weight: 500;}
+
+        /* Estilos para Consultorios */
+        .clinic-card { border: var(--borde-default); padding: 1rem; margin-bottom: 1.5rem; border-radius: var(--radio-md); background: var(--blanco); }
+        .clinic-tabs { display: flex; margin-bottom: 1rem; border-bottom: 1px solid #eee; }
+        .clinic-tab-item { padding: 8px 15px; cursor: pointer; color: var(--gris-piedra); border-bottom: 2px solid transparent; transition: all 0.2s; }
+        .clinic-tab-item.active { color: var(--azul-tuffy); border-bottom: 2px solid var(--azul-tuffy); font-weight: 600; }
+        .clinic-content-item { display: none; padding-top: 10px; }
+        .clinic-content-item.active { display: block; }
+
+        /* Estilos para Opiniones y Dudas (Basados en Image 2) */
+        .review-item, .question-item { 
+            border: var(--borde-default); 
+            border-radius: var(--radio-md); 
+            padding: 1.5rem; 
+            margin-bottom: 1.5rem; 
+            background: var(--blanco); 
+            box-shadow: var(--box-shadow-light);
+        }
+        .review-header, .question-header { 
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; 
+            flex-wrap: wrap;
+        }
+        .review-meta, .question-meta { display: flex; align-items: center; gap: 10px; }
+        .user-avatar { 
+            width: 40px; height: 40px; border-radius: 50%; background-color: #fcc419; /* Color amarillo para diferenciar */
+            color: var(--azul-petroleo); display: flex; justify-content: center; align-items: center; 
+            font-weight: 600; font-size: 1.1rem; flex-shrink: 0;
+        }
+        .verified-badge { 
+            background-color: var(--verde-check); color: white; padding: 3px 8px; border-radius: var(--radio-sm); 
+            font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 5px;
+        }
+        .review-text, .question-text { margin-top: 10px; margin-bottom: 10px; line-height: 1.6; }
+        .review-info-line, .question-info-line { font-size: 0.85rem; color: var(--gris-piedra); margin-top: 5px; }
+        
+        .specialist-response { 
+            background-color: var(--gris-claro); 
+            border-left: 3px solid var(--azul-tuffy); 
+            padding: 1rem; 
+            margin-top: 1.5rem; 
+            border-radius: var(--radio-md);
+            display: flex; gap: 10px; align-items: flex-start;
+        }
+        .specialist-response .profile-pic { width: 40px; height: 40px; border-radius: 50%; } /* Ajuste para avatar de respuesta */
+        .specialist-response-content { flex-grow: 1; }
+        .specialist-response-content strong { color: var(--azul-petroleo); }
+
+        /* Filtros y Búsqueda en Opiniones */
+        .reviews-filters { display: flex; gap: 1rem; margin-top: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .reviews-filters select, .reviews-filters input { 
+            padding: 8px 12px; border: var(--borde-default); border-radius: var(--radio-sm);
+            flex-grow: 1; max-width: 250px; 
+        }
+        .reviews-filters button { 
+            background: var(--azul-tuffy); color: white; border: none; padding: 8px 12px; 
+            border-radius: var(--radio-sm); cursor: pointer;
+        }
+        
+        /* ================================================= */
+        /* === [2] CALENDARIO DE 3 MESES Y RESERVAS === */
+        /* ================================================= */
+        .calendar-booking-card { overflow: hidden; } /* Ya tiene fondo blanco y redondeado con .block-card */
+        .booking-header { background: var(--azul-tuffy); color: white; padding: 1rem; font-size: 1.2rem; text-align: center; }
+        .booking-content { padding: 1rem 1.5rem 1.5rem 1.5rem; }
+        
+        .three-month-calendar-container { 
+            display: flex; 
+            overflow-x: auto; 
+            gap: 1.5rem; 
+            padding-bottom: 10px; 
+        }
+        .calendar-widget { padding: 0.5rem; flex-shrink: 0; width: 280px; } 
+        .calendar-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 1.1rem; }
+        .calendar-nav button { background: none; border: none; cursor: pointer; color: var(--azul-tuffy); padding: 0.5rem; }
+        .calendar-nav span { font-weight: 600; color: var(--azul-petroleo); }
+        
+        /* Círculos para los días */
+        .calendar-container { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 0.9rem; }
+        .calendar-day-name { font-weight: 600; color: var(--gris-piedra); padding: 5px 0; }
+        .calendar-date-wrapper { display: flex; justify-content: center; align-items: center; padding: 2px; }
+        .calendar-date { 
+            display: flex; justify-content: center; align-items: center;
+            width: 30px; height: 30px; 
+            border-radius: 50%; /* CRÍTICO: Círculos */
+            cursor: pointer; transition: all 0.2s; position: relative; font-size: 0.9rem;
+        }
+
+        .calendar-date.available { background-color: var(--color-available); color: var(--verde-check); font-weight: 500; border: 1px solid var(--verde-check); }
+        .calendar-date.partially-available { background-color: var(--color-partial); color: orange; font-weight: 500; border: 1px solid orange; }
+        .calendar-date.unavailable, .calendar-date.past { background-color: #eee; color: #aaa; cursor: default; border: 1px solid #ccc; }
+        .calendar-date.unavailable:hover, .calendar-date.past:hover { background-color: #eee; }
+        .calendar-date.today { border: 2px solid var(--azul-tuffy); font-weight: 700; }
+        .calendar-date.available:hover, .calendar-date.partially-available:hover { transform: scale(1.05); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+
+        /* Media Queries */
+        @media (max-width: 992px) {
+            .perfil-main { flex-direction: column; }
+            .sticky-element { position: static; top: auto; }
+            .perfil-sidebar-column { order: -1; min-width: 100%; margin-bottom: 1.5rem; }
+            .three-month-calendar-container { 
+                overflow-x: scroll; 
+                justify-content: flex-start;
+                padding: 0 10px;
+            }
+        }
+
+        /* --- Estilos de Modal --- */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .modal.active { display: flex; }
+        .modal-content { 
+            background: var(--blanco); padding: 25px; border-radius: var(--radio-md); max-width: 450px; width: 90%; 
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); position: relative; 
+            transform: scale(0.9); opacity: 0; transition: all 0.3s ease; 
+        }
+        .modal.active .modal-content { transform: scale(1); opacity: 1; }
+        .modal-close { position: absolute; top: 10px; right: 10px; font-size: 1.5rem; cursor: pointer; color: var(--gris-piedra); }
+
+        .time-slots-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+        .time-slot { padding: 8px 15px; border: 1px solid var(--azul-tuffy); color: var(--azul-tuffy); border-radius: 50px; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+        .time-slot.selected, .time-slot:hover:not(.unavailable) { background: var(--azul-tuffy); color: white; }
+        .time-slot.unavailable { border: 1px dashed #ccc; color: #aaa; background: #f8f8f8; cursor: default; }
+
+        .modal-form-group { margin-bottom: 1rem; }
+        .modal-form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+        .modal-form-group textarea { 
+            width: 100%; padding: 10px; border: var(--borde-default); border-radius: var(--radio-sm); 
+            min-height: 100px; resize: vertical; box-sizing: border-box; 
+        }
+        .modal-rating-stars { 
+            display: flex; gap: 5px; font-size: 1.8rem; cursor: pointer; color: #e0e0e0; margin-bottom: 1rem;
+        }
+        .modal-rating-stars i.selected { color: #fcc419; }
+
+        .btn-confirm-schedule, .btn-primary { 
+            background: var(--azul-tuffy); color: white; border: none; padding: 10px 20px; 
+            border-radius: var(--radio-md); margin-top: 20px; width: 100%; font-weight: 600; cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .btn-primary:hover { background-color: #216ba5; }
+        .btn-green { background: var(--verde-check); }
+        .btn-green:hover { background: #008f6c; }
+
+        .info-box-review { 
+            background-color: #f0f8ff; 
+            border: 1px solid #d0e8ff;
+            border-radius: var(--radio-md);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: var(--azul-petroleo);
+            font-size: 0.95rem;
+        }
+        .info-box-review i { font-size: 2.5rem; color: var(--azul-tuffy); }
+/* Dentro de tu bloque <style> */
+
+.profile-image-container {
+
+
+
+
+    background-color: #00b388;
+        /* 🔑 ESTOS SON LOS ESTILOS CLAVE */
+    background-size:contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* Si usas la imagen del doctor, el background-image solo se verá en el borde */
+    /* Asegúrate de que el style inline apunte a una ruta válida */
+}
+
+
+
+
+
