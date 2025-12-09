@@ -1,52 +1,82 @@
-<div class="card" data-tipo="$$TIPO$$" data-ubicacion="$$UBICACION$$" data-mascota="$$MASCOTA$$" data-calificacion="$$CALIFICACION_FIXED$$"
-    data-disponible="$$DISPONIBLE$$" data-dynamic="true" data-perfil-tipo="$$PERFIL_TIPO$$">
-    <input type="hidden" class="perfil-tipo-hidden" value="$$PERFIL_TIPO$$" />
+<div class="card"
+     data-pro-id="$$PRO_ID$$"
+     data-tipo="$$TIPO$$"
+     data-ubicacion="$$UBICACION$$"
+     data-mascota="$$MASCOTA$$"
+     data-calificacion="$$CALIFICACION_FIXED$$"
+     data-disponible="$$DISPONIBLE$$"
+     data-online="$$ONLINE$$"
+     data-presencial="$$PRESENCIAL$$"
+     data-perfil-tipo="$$PERFIL_TIPO$$"
+     data-costo="$$COSTO_MINIMO$$"
+     data-servicios="$$SERVICIOS_IDS$$">
 
+    <input type="hidden" class="perfil-tipo-hidden" value="$$PERFIL_TIPO$$">
+
+    <!-- COL 1 -->
     <div class="card-col-1">
-        <img src="src/img/$$IMAGEN$$" alt="Foto de $$NOMBRE$$" class="spa-profile-trigger" style="cursor:pointer;">
-        <div class="payment-badge">Pago en línea</div>
+        <div class="card-img-wrapper">
+            <img src="$$IMAGEN$$"
+                 alt="Foto de $$NOMBRE$$"
+                 class="open-profile"
+                 style="cursor:pointer;">
+        </div>
+
         <div class="stars">
-            <div class="stars-row">$$CALIFICACION_FIXED$$ <i class="material-icons" style="font-size: 1.1rem;">star</i> </div><span
-                class="opinion-link spa-profile-trigger" style="cursor:pointer;">95 Opiniones</span>
+            <div class="stars-row">
+                $$CALIFICACION_FIXED$$ <i class="material-icons">star</i>
+            </div>
+            <span class="open-profile opinion-link">$$REVIEW_COUNT$$ Opiniones</span>
         </div>
     </div>
 
+    <!-- COL 2 -->
     <div class="card-col-2">
-      
-        <h3><span class="card-title spa-profile-trigger" style="cursor:pointer;">$$NOMBRE$$</span><i class="material-icons verified-icon"
-                title="Perfil Verificado">check_circle</i></h3>
-        
-        <div class="specialty">$$TIPO$$ General y Servicios</div>
-        <a href="https://maps.google.com/?q=Av.+Juárez+25,+Col.+Centro,+CDMX" target="_blank" class="address"
-            title="Ver en Google Maps"><i class="material-icons" style="font-size: 1rem;">location_on</i> Ciudad: $$UBICACION$$</a>
-        <div class="badges-row"><span>🏠 Domicilio</span><span>💻 En Línea</span><span>🗓 Cita</span></div>
+        <h3>
+            <span class="card-title open-profile">$$NOMBRE$$</span>
+            <i class="material-icons verified-icon">check_circle</i>
+        </h3>
+
+        <div class="specialty">$$SPECIALTY$$</div>
+
+        <p class="address open-profile">
+            <i class="material-icons">location_on</i> $$UBICACION$$
+        </p>
+
+        <div class="badges-row">
+            $$BADGE_PRESENCIAL$$
+            $$BADGE_ONLINE$$
+        </div>
+
         <div class="cost-select-new">
-            <label for="costo$$INDEX$$">Costo Estimado:</label><select id="costo$$INDEX$$">
-                <option value="500">$500 MXN (Consulta General)</option>
-                <option value="800">$800 MXN (Vacunación)</option>
+            <label for="costo$$INDEX$$">Costo Estimado:</label>
+            <select id="costo$$INDEX$$">
+                $$COSTOS_OPTIONS$$
             </select>
         </div>
     </div>
 
+    <!-- COL 4 -->
     <div class="card-col-4">
-        <div class="calendar-widget-container" id="widgetContainer$$INDEX$$">
-            <div class="calendar-widget" id="calendarWidget$$INDEX$$"></div>
-        </div> 
-        
-       
+        <div class="calendar-mini" id="calendarMiniContainer$$INDEX$$">
+            <div class="calendar-mini-header">
+                <button class="mini-prev-month"><i class="fa-solid fa-chevron-left"></i></button>
+                <span class="mini-month-title"></span>
+                <button class="mini-next-month"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+            <div class="calendar-mini-grid"></div>
+        </div>
     </div>
 
-    <div class="card-col-3">         
+    <!-- COL 3 -->
+    <div class="card-col-3">
         <h4>Servicios Destacados</h4>
+
         <div class="services-badges">
-            <span>💉 Vacunas</span><span>🦷 Odontología</span><span>✂️ Estética</span><span>🚨 Urgencias 24/7</span><span>🐾 Uñas</span><span>💊 Farmacia</span>
+            $$SERVICIOS_BADGES$$
         </div>
-        <div class="promo-button-container">
-            <button class="promo-btn"
-                onclick="window.openPromoModal('20% de descuento en tu primera consulta.')">
-                ¡Promoción!
-                <i class="material-icons" style="font-size: 1rem;">local_offer</i>
-            </button>
-        </div>
+
+        $$PROMO_BUTTON_HTML$$
     </div>
+
 </div>

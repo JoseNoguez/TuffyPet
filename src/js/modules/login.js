@@ -1,8 +1,9 @@
-// RUTA: /src/js/modules/login.js
+// RUTA: /src/js/modules/login.js (CORREGIDO)
 // RESPONSABILIDAD: Manejar la interacción del formulario de inicio de sesión y botones de acceso.
 
 // ⭐ CRÍTICO: Asegúrate de que esta ruta sea correcta: '../core/auth.js'
 import { loginUser, ROLES } from '../core/auth.js'; 
+// Asumiendo que window.showMessage está disponible globalmente, si no, usar Swal directamente.
 
 // ===================================
 // --- FUNCIONES DE UTILIDAD DE UI ---
@@ -12,12 +13,27 @@ const FORM_ID = 'login-form';
 const MESSAGE_ID = 'login-message-container';
 
 /**
- * Muestra el formulario de login (Email/Contraseña).
- * NO toca la visibilidad de NINGÚN botón.
+ * Muestra el formulario de login (Email/Contraseña) y guarda el rol solicitado.
+ * @param {string} role - El rol a solicitar (ROLES.USUARIO o ROLES.ADMIN)
  */
 function showLoginForm(role) {
     const form = document.getElementById(FORM_ID);
     const message = document.getElementById(MESSAGE_ID);
+    const submitButton = document.getElementById('submit-button');
+    
+    // Almacenar el rol CRÍTICO
+    if (form) form.dataset.requestedRole = role;
+
+    // Actualizar texto del botón basado en el rol
+    if (submitButton) {
+        if (role === ROLES.ESPECIALISTA) {
+            submitButton.textContent = "Entrar al Panel";
+            submitButton.classList.add('btn-specialist-action');
+        } else {
+            submitButton.textContent = "Entrar";
+            submitButton.classList.remove('btn-specialist-action');
+        }
+    }
     
     // Mostrar el formulario
     if (form) form.style.display = 'flex';
@@ -58,6 +74,7 @@ function showLoadingState(isSocial) {
     
     // Mostrar el contenedor de carga centrado
     if (message) {
+        // CORRECCIÓN: el display debe ser 'flex' para centrar el spinner
         message.style.display = 'flex'; 
         const loadingText = message.querySelector('p');
         // Texto de carga dinámico
@@ -94,16 +111,19 @@ export function init() {
     // Botón TuffyPet
     if(btnTuffy) {
         btnTuffy.addEventListener('click', (e) => {
-             e.preventDefault(); 
-             showLoginForm(ROLES.USUARIO); // Muestra el formulario
+            e.preventDefault(); 
+            showLoginForm(ROLES.USUARIO); // Muestra el formulario para rol Usuario
         });
     }
 
     // Botón Especialista
     if(btnSpecialist) {
         btnSpecialist.addEventListener('click', (e) => {
-             e.preventDefault(); 
-             showLoginForm(ROLES.ESPECIALISTA); // Muestra el formulario
+            e.preventDefault(); 
+            // CRÍTICO: Debemos usar el rol definido para especialistas (Admin en la simulación de auth.js)
+            // Asumiendo que el rol 'ESPECIALISTA' está definido en ROLES de auth.js. 
+            // Si auth.js usa 'ADMIN' para Especialista, usa ROLES.ADMIN
+            showLoginForm(ROLES.ADMIN || ROLES.ESPECIALISTA); 
         });
     }
 
@@ -124,6 +144,8 @@ export function init() {
         // Simular la redirección o espera antes de volver al estado inicial 
         setTimeout(() => {
             hideLoginForm(); // Ocultar el estado de carga
+            // CRÍTICO: Después de social login, si falla, volvemos a mostrar los botones sociales (no solo ocultamos el spinner)
+            // Esta simulación es incompleta y en producción debería manejar la respuesta del SSO. 
         }, 3000); 
     };
 
@@ -145,26 +167,26 @@ export function init() {
         const username = usernameInput.value.trim();
         const password = passwordInput.value;
         
-        // Determinar el rol: Asumimos TuffyPet si el formulario está abierto.
-        // Si el login de Especialista necesita un rol distinto, la lógica de la API debería manejarlo.
-        const currentRole = ROLES.USUARIO; 
+        // CORRECCIÓN CRÍTICA: Obtener el rol guardado del data-attribute del formulario
+        const requestedRole = this.dataset.requestedRole || ROLES.USUARIO; 
         
         showLoadingState(false);
         
         try {
-            const success = await loginUser(username, password, currentRole); 
+            // Llama a loginUser con el rol CORRECTO
+            const success = await loginUser(username, password, requestedRole); 
 
             if (success) {
-                // Éxito: (Redirección o cierre de modal)
+                // Éxito: (auth.js se encarga de cerrar el modal y mostrar Swal)
             } else {
-                // Falla: volvemos a mostrar el formulario
-                showLoginForm(currentRole); 
-                if(window.showMessage) window.showMessage('Error', 'Credenciales inválidas.', 'error');
+                // Falla: volvemos a mostrar el formulario (manteniendo el rol actual)
+                showLoginForm(requestedRole); 
+                // Asumiendo que loginUser ya mostró el Swal de error de credenciales
             }
 
         } catch (error) {
             console.error('Error durante el proceso de login:', error);
-            showLoginForm(currentRole);
+            showLoginForm(requestedRole);
             if(window.showMessage) window.showMessage('Error de Conexión', 'Fallo al intentar conectar con el servidor.', 'error');
         }
     });

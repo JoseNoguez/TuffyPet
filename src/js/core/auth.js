@@ -45,7 +45,7 @@ export const getUserRole = () => userRole;
 
 /**
  * 💾 Guarda tokens y rol en localStorage
- * 🔑 MODIFICACIÓN 1: Añade la clase 'logged-in' al contenedor.
+ * 🔑 Añade la clase 'logged-in' al contenedor.
  */
 export function setAuthData(accessToken, refreshToken, role) {
     localStorage.setItem(TOKEN_KEYS.ACCESS_TOKEN, accessToken);
@@ -64,7 +64,7 @@ export function setAuthData(accessToken, refreshToken, role) {
 
 /**
  * 🗑️ Limpia la sesión (Logout)
- * 🔑 MODIFICACIÓN 2: Remueve las clases 'logged-in' y 'open' del contenedor.
+ * 🔑 Remueve las clases 'logged-in' y 'open' del contenedor.
  */
 export function clearAuthData() {
     localStorage.removeItem(TOKEN_KEYS.ACCESS_TOKEN);
@@ -76,7 +76,7 @@ export function clearAuthData() {
     // --- Sincronización de UI para LOGOUT ---
     const container = document.getElementById('account-container');
     container?.classList.remove('logged-in'); 
-    container?.classList.remove('open');     
+    container?.classList.remove('open');     
     // ---------------------------------------
 
     if (typeof updateLoginButton === 'function') updateLoginButton();
@@ -226,7 +226,6 @@ export function loginUser(username, password, requestedRole) {
 
 /**
  * 🚀 Abre el modal de login O MUESTRA DROPDOWN DE PERFIL.
- * 🔑 MODIFICACIÓN 3: Alterna la clase 'open' en el contenedor padre (#account-container).
  * @param {Event} e - Evento de clic para prevenir comportamiento por defecto.
  */
 export async function handleLoginClick(e) {
@@ -314,6 +313,7 @@ export function logout() {
 
 /**
  * 🧠 Chequea estado de sesión al iniciar la app
+ * ⭐ IMPORTANTE: Esta función llama a updateLoginButton para sincronizar la UI.
  */
 export function checkAuthStatus() {
     // Sincroniza el estado inicial de 'logged-in' al cargar la página.
@@ -338,4 +338,10 @@ window.handleLoginClick = handleLoginClick;
 window.logout = logout; 
 window.getIsLoggedIn = getIsLoggedIn;
 window.getUserRole = getUserRole;
-// window.loginUser ya se usa solo internamente.
+
+// ====================================
+// 🚀 INICIALIZACIÓN AUTOMÁTICA
+// ====================================
+
+// ⭐ LÍNEA CRUCIAL: Esto asegura que el botón se actualice inmediatamente al cargar el módulo.
+checkAuthStatus();

@@ -1,293 +1,244 @@
 // RUTA: /src/js/utils/pageLoader.js
-// RESPONSABILIDAD: Controlar el ciclo de vida de la carga de vistas (HTML + JS + CSS) en la SPA.
+// CONTROL DE VISTAS DE LA SPA (HTML + JS + CSS)
 
 import { Error_Solicitud } from './coreUtils.js';
 
-const TARGET_SELECTOR = '#app-root'; 
-const moduleCache = {}; 
-let currentModule = null; 
+const TARGET_SELECTOR = '#app-root';
+const moduleCache = {};
+let currentModule = null;
 
-// ===================================
-// A. CONTROL DE SPINNER
-// ===================================
+/* ============================================================
+   A. SPINNER
+============================================================ */
 
-export function startPageLoad() {
+function startPageLoad() {
     const loader = document.getElementById('page-loader');
-    if (loader) { loader.style.display = 'flex'; }
+    if (loader) loader.style.display = 'flex';
 }
 
-export function stopPageLoad() {
+function stopPageLoad() {
     const loader = document.getElementById('page-loader');
-    if (loader) { loader.style.display = 'none'; }
+    if (loader) loader.style.display = 'none';
 }
 
-// ===================================
-// B. GESTIÓN DEL MÓDULO (Ejecución de JS) y CSS
-// ===================================
+/* ============================================================
+   B. LIMPIAR MÓDULO ANTERIOR
+============================================================ */
 
 function unloadPreviousModule() {
-    if (currentModule && typeof currentModule.cleanup === 'function') {
+    if (currentModule && typeof currentModule.cleanup === "function") {
         currentModule.cleanup();
         console.log("🧹 Módulo anterior limpiado.");
     }
     currentModule = null;
 }
 
-/**
- * Inyecta dinámicamente un archivo CSS si aún no ha sido cargado.
- * @param {string} cssPath - Ruta al archivo CSS.
- */
+/* ============================================================
+   C. CARGAR CSS (previene duplicados)
+============================================================ */
+
 function loadCss(cssPath) {
     if (!cssPath) return;
 
-    // Verificar si ya se cargó el CSS para evitar duplicados
-    const existingLink = document.querySelector(`link[href="${cssPath}"]`);
-    if (existingLink) {
-        console.log(`💬 CSS ya cargado: ${cssPath}`);
-        return;
-    }
+    const exists = document.querySelector(`link[href="${cssPath}"]`);
+    if (exists) return;
 
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = cssPath;
+
     document.head.appendChild(link);
-    console.log(`🎨 CSS inyectado: ${cssPath}`);
+    console.log(`🎨 CSS cargado: ${cssPath}`);
 }
 
+/* ============================================================
+   D. IMPORTACIÓN DE MÓDULOS
+============================================================ */
 
-async function executeModule(moduleName) {
-    if (moduleCache[moduleName]) {
-        currentModule = moduleCache[moduleName];
-    } else {
+async function executeModule(moduleName, initData = null) {
+    if (!moduleName) return;
+
+    if (!moduleCache[moduleName]) {
         try {
-            // ⭐ CORRECCIÓN DE RUTA ABSOLUTA PARA CARGA DINÁMICA DE MÓDULOS
-            const modulePath = `/src/js/modules/${moduleName}.js`; 
-            
-            const module = await import(modulePath);
-            moduleCache[moduleName] = module;
-            currentModule = module;
-        } catch (error) {
-            console.error(`❌ Fallo al cargar el módulo ${moduleName}.js:`, error);
-            Error_Solicitud(`Error al cargar la lógica de la vista: ${moduleName}.`);
+            const modulePath = `/src/js/modules/${moduleName}.js`;
+            const imported = await import(modulePath);
+            moduleCache[moduleName] = imported;
+        } catch (err) {
+            console.error(`❌ No se pudo importar ${moduleName}.js`, err);
+            Error_Solicitud(`Error al cargar la lógica de ${moduleName}`);
             return;
         }
     }
-    
-    if (currentModule && typeof currentModule.init === 'function') {
-        currentModule.init(); 
+
+    currentModule = moduleCache[moduleName];
+
+    if (currentModule?.init) {
+        currentModule.init(initData);
         console.log(`✨ Módulo ${moduleName} inicializado.`);
     } else {
-        console.warn(`Módulo ${moduleName} cargado, pero no tiene una función 'init()'.`);
+        console.warn(`⚠️ Módulo ${moduleName} no tiene init().`);
     }
 }
 
+/* ============================================================
+   E. CARGAR UNA VISTA COMPLETA (RUTAS PRINCIPALES)
+============================================================ */
 
-// ===================================
-// C. FUNCIÓN PRINCIPAL DE RENDERING
-// ===================================
-
-export async function loadView(htmlPath, moduleName, cssPath) { // ⭐ Nuevo parámetro cssPath opcional
+async function loadView(htmlPath, moduleName = null, cssPath = null) {
     unloadPreviousModule();
     startPageLoad();
 
     try {
-        // 0. Cargar CSS si existe
         loadCss(cssPath);
 
-        // 1. Cargar e Inyectar HTML
-        const response = await fetch(htmlPath);
-        if (!response.ok) { throw new Error(`No se encontró el archivo HTML: ${htmlPath}`); }
-        const htmlContent = await response.text();
+        const resp = await fetch(htmlPath);
+        if (!resp.ok) throw new Error(`No se encontró ${htmlPath}`);
 
-        const targetElement = document.querySelector(TARGET_SELECTOR);
-        if (targetElement) {
-            targetElement.innerHTML = htmlContent;
-            window.scrollTo(0, 0); 
-            console.log(`✅ Vista inyectada: ${htmlPath}`);
-        } else {
-            throw new Error(`Contenedor principal '${TARGET_SELECTOR}' no encontrado.`);
-        }
+        const html = await resp.text();
+        const root = document.querySelector(TARGET_SELECTOR);
+        if (!root) throw new Error(`No existe el contenedor ${TARGET_SELECTOR}`);
 
-        // 2. Ejecutar Lógica JS
-        if (moduleName) {
-            await executeModule(moduleName);
-        }
+        root.innerHTML = html;
+        window.scrollTo(0, 0);
 
-    } catch (error) {
-        console.error("❌ Fallo en el proceso de carga de vista:", error);
-        Error_Solicitud(`No se pudo cargar la vista. ${error.message}`);
+        console.log(`✅ Vista cargada: ${htmlPath}`);
+
+        await executeModule(moduleName);
+
+    } catch (err) {
+        console.error("❌ Error en loadView:", err);
+        Error_Solicitud(err.message);
     } finally {
         stopPageLoad();
     }
 }
 
-// ===================================
-// D. MANEJADOR DE ANCLAJES INTERNOS
-// ===================================
+/* ============================================================
+   F. CARGAR VISTA COMO MODAL
+============================================================ */
 
-function handleAnchorClick(e) {
-    const target = e.target.closest('a');
-    if (!target) return;
-
-    const href = target.getAttribute('href');
-
-    if (href && href.startsWith('#') && !href.startsWith('#/') && href.length > 1) {
-        
-        const targetId = href.substring(1);
-        const targetElement = document.getElementById(targetId);
-
-        if (targetElement) {
-            e.preventDefault(); 
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-            console.log(`⚓ Navegación ancla interna a #${targetId}.`);
-            
-            const menu = document.querySelector('.menu');
-            const hamburger = document.querySelector('.hamburger');
-            if (menu && menu.classList.contains('open')) {
-                menu.classList.remove('open');
-                if (hamburger) hamburger.classList.remove('active');
-            }
-        }
-    }
-}
-
-export function initAnchorScrollHandler() {
-    document.addEventListener('click', handleAnchorClick);
-    console.log("⚓ Manejador de anclajes internos inicializado.");
-}
-
-// ===================================
-// E. FUNCIÓN PARA CARGAR VISTAS COMO MODAL
-// ===================================
-
-export async function loadModalView(htmlPath, moduleName, targetElement, cssPath) { // ⭐ Nuevo parámetro cssPath opcional
-    startPageLoad(); 
-    try {
-        // 0. Cargar CSS si existe
-        loadCss(cssPath);
-
-        const response = await fetch(htmlPath);
-        if (!response.ok) throw new Error(`No se encontró ${htmlPath}`);
-
-        const htmlContent = await response.text();
-        targetElement.innerHTML = htmlContent;
-
-        // 2. Ejecutar Lógica JS del Modal
-        if (moduleName) {
-            let modalModule;
-            if (moduleCache[moduleName]) {
-                modalModule = moduleCache[moduleName];
-            } else {
-                // ⭐ CORRECCIÓN DE RUTA ABSOLUTA APLICADA TAMBIÉN AQUÍ
-                const modulePath = `/src/js/modules/${moduleName}.js`; 
-                modalModule = await import(modulePath);
-                moduleCache[moduleName] = modalModule; 
-            }
-
-            if (typeof modalModule.init === 'function') {
-                modalModule.init(); 
-            } else {
-                console.log(`✨ Módulo de modal ${moduleName} cargado. Asumiendo inicialización implícita.`);
-            }
-        }
-
-        console.log(`✅ Modal ${moduleName} cargado correctamente.`);
-    } catch (error) {
-        console.error('❌ Error al cargar modal:', error);
-        Error_Solicitud(`No se pudo cargar el modal. ${error.message}`);
-    } finally {
-        stopPageLoad(); 
-    }
-}
-
-// ===================================
-// F. FUNCIÓN PARA CARGAR FRAGMENTOS HTML (Template Loader)
-// ===================================
-
-/**
- * 📥 Carga y devuelve el contenido HTML, e inyecta CSS si se proporciona.
- * Diseñado para cargar plantillas y fragmentos de UI (como tarjetas o componentes).
- * @param {string} htmlPath - Ruta al archivo HTML del fragmento.
- * @param {string} [cssPath] - Ruta opcional al archivo CSS asociado.
- * @returns {Promise<string>} Promesa que resuelve al contenido HTML como cadena.
- */
-export async function loadHtmlFragment(htmlPath, cssPath) { // ⭐ Esta es la función base
-    
-    try {
-        // 1. Cargar CSS (no necesita await, es asíncrono)
-        loadCss(cssPath); 
-
-        // 2. Cargar HTML
-        const response = await fetch(htmlPath);
-        if (!response.ok) {
-            throw new Error(`No se encontró el fragmento HTML: ${htmlPath}`);
-        }
-        const htmlContent = await response.text();
-        console.log(`✅ Fragmento HTML cargado: ${htmlPath}`);
-        return htmlContent;
-
-    } catch (error) {
-        console.error('❌ Error al cargar el fragmento HTML:', error);
-        throw error; 
-    }
-}
-
-// ===================================
-// G. ⭐ NUEVA FUNCIÓN: CARGAR VISTA COMO COMPONENTE (Perfiles)
-// ===================================
-
-/**
- * 🧱 Carga un componente/vista completo (HTML + JS + CSS) y lo inyecta 
- * en un contenedor de destino específico sin afectar el módulo principal (busqueda.js).
- * * @param {string} htmlPath - Ruta al archivo HTML del componente.
- * @param {string} moduleName - Nombre del módulo JS (ej: 'perfilEspecialista').
- * @param {string} cssPath - Ruta al archivo CSS.
- * @param {HTMLElement} targetElement - El elemento del DOM donde inyectar el HTML (ej: cardsContainer).
- */
-// Modifica la definición de la función:
-export async function loadComponentView(htmlPath, moduleName, cssPath, targetElement, initData) { // ⭐ Agrega initData
+async function loadModalView(htmlPath, moduleName, targetElement, cssPath = null, initData = null) {
     if (!targetElement) {
-        console.error("❌ loadComponentView: targetElement es nulo.");
-        Error_Solicitud("Error interno: Contenedor de destino no definido.");
+        console.error("❌ targetElement (global-modal-container) no existe");
         return;
     }
 
     startPageLoad();
-    // No limpiar aquí, ya que el router es el que carga las vistas principales. 
-    // Solo si estás seguro de que el componente reemplaza todo el contenido del contenedor principal. 
-    // Para el perfil, es correcto:
-    targetElement.innerHTML = ''; 
 
     try {
-        // ... (Cargar HTML y CSS) ...
-        const htmlContent = await loadHtmlFragment(htmlPath, cssPath);
-        targetElement.innerHTML = htmlContent;
-        window.scrollTo(0, 0); 
-        console.log(`✅ Componente de vista inyectado en ${targetElement.id || targetElement.tagName}: ${htmlPath}`);
+        loadCss(cssPath);
 
-        // 2. Ejecutar Lógica JS
-        let componentModule;
-        // ... (Lógica para importar y cachear el módulo) ...
-        if (moduleCache[moduleName]) {
-            componentModule = moduleCache[moduleName];
-        } else {
-            const modulePath = `/src/js/modules/${moduleName}.js`; 
-            componentModule = await import(modulePath);
-            moduleCache[moduleName] = componentModule;
-        }
+        const resp = await fetch(htmlPath);
+        if (!resp.ok) throw new Error(`No se encontró ${htmlPath}`);
 
+        const html = await resp.text();
+        targetElement.innerHTML = html;
 
-        if (componentModule && typeof componentModule.init === 'function') {
-            // ⭐ CAMBIO CLAVE: Pasar initData (que será el 'index') a la función init()
-            componentModule.init(initData); 
-            console.log(`✨ Lógica de componente ${moduleName} inicializada con datos.`);
-        } else {
-             console.warn(`Módulo de componente ${moduleName} cargado, pero no tiene una función 'init(data)'.`);
-        }
+        await executeModule(moduleName, initData);
 
-    } catch (error) {
-        // ... (Manejo de errores) ...
+        console.log(`🎉 Modal cargado: ${htmlPath}`);
+
+    } catch (err) {
+        console.error("❌ Error modal:", err);
+        Error_Solicitud(err.message);
     } finally {
         stopPageLoad();
     }
 }
+
+/* ============================================================
+   G. FRAGMENTS (templates como cards)
+============================================================ */
+
+async function loadHtmlFragment(htmlPath, cssPath = null) {
+    try {
+        loadCss(cssPath);
+
+        const resp = await fetch(htmlPath);
+        if (!resp.ok) throw new Error(`Archivo no encontrado: ${htmlPath}`);
+
+        const html = await resp.text();
+        console.log(`📄 Fragmento cargado: ${htmlPath}`);
+
+        return html;
+    } catch (err) {
+        console.error("❌ Error en loadHtmlFragment:", err);
+        throw err;
+    }
+}
+
+/* ============================================================
+   H. CARGAR COMPONENTE DENTRO DE OTRA VISTA
+============================================================ */
+
+async function loadComponentView(htmlPath, moduleName, cssPath, targetElement, initData = null) {
+    if (!targetElement) {
+        Error_Solicitud("Contenedor de componente no encontrado");
+        return;
+    }
+
+    startPageLoad();
+    targetElement.innerHTML = "";
+
+    try {
+        const html = await loadHtmlFragment(htmlPath, cssPath);
+        targetElement.innerHTML = html;
+        window.scrollTo(0, 0);
+
+        await executeModule(moduleName, initData);
+
+        console.log(`🧩 Componente cargado: ${moduleName}`);
+
+    } catch (err) {
+        console.error("❌ Error loadComponentView:", err);
+        Error_Solicitud(err.message);
+    } finally {
+        stopPageLoad();
+    }
+}
+
+/* ============================================================
+   I. SCROLL A SECCIONES INTERNAS (ANCLAS)
+============================================================ */
+
+function initAnchorScrollHandler() {
+    document.addEventListener("click", (e) => {
+        const link = e.target.closest("a");
+        if (!link) return;
+
+        const href = link.getAttribute("href");
+        if (!href || !href.startsWith("#") || href.startsWith("#/")) return;
+
+        const section = document.querySelector(href);
+        if (section) {
+            e.preventDefault();
+            section.scrollIntoView({ behavior: "smooth" });
+        }
+    });
+
+    console.log("⚓ Scroll interno activado.");
+}
+
+/* ============================================================
+   ⭐ EXPONER PARA USO GLOBAL
+============================================================ */
+
+window.loadView = loadView;
+window.loadModalView = loadModalView;   // 🔥 SOLUCIÓN PARA TU ERROR
+window.loadComponentView = loadComponentView;
+window.loadHtmlFragment = loadHtmlFragment;
+
+/* ============================================================
+   EXPORTS FINALES
+============================================================ */
+
+export {
+    startPageLoad,
+    stopPageLoad,
+    loadView,
+    loadModalView,
+    loadHtmlFragment,
+    loadComponentView,
+    loadCss,
+    initAnchorScrollHandler
+};

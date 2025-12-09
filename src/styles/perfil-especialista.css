@@ -1,251 +1,398 @@
 
         /* ================================================= */
-        /* === [0] VARIABLES Y RESET === */
+        /* === ESTILOS CSS UNIFICADOS Y COMPLETOS === */
         /* ================================================= */
         :root {
-            --azul-tuffy: #3080c9;     
-            --azul-petroleo: #0b2247;  
-            --verde-check: #00b388; 
-            --gris-piedra: #6c757d;    
-            --gris-claro: #f4f6f8;
+            /* --- COLORES BASE (TuffyPet) --- */
+            --azul-tuffy: #3080c9;
+            --azul-hover: #24659c;
+            --verde-check: #00b388;
+            --verde-hover: #009977;
+            --gris-piedra: #6c757d;
+            --gris-claro-fondo: #f4f6f8;
             --blanco: #ffffff;
             --negro: #333333;
+            --color-separador: #e0e0e0;
+
+            /* --- ESTILOS VISUALES --- */
+            --color-rating-star: #fcc419;
+            --borde-default: 1px solid var(--color-separador);
+            --box-shadow-light: 0 4px 10px rgba(0, 0, 0, 0.05);
             --radio-sm: 4px;
             --radio-md: 8px;
-            --borde-default: 1px solid #e0e0e0;
-            --color-available: #e6fff4; /* Verde muy claro para días disponibles */
-            --color-partial: #fffbe6; /* Amarillo muy claro para días parciales */
-            --box-shadow-light: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --radio-pill: 20px;
+
+            /* --- CALENDARIO --- */
+            --color-available-bg: #e6fff4;
+            --color-available-text: var(--verde-check);
+            --color-today-bg: #ffe6e6;
+            --color-warning-bg: #fff3cd;
+            --color-warning-text: #856404;
+
+            /* --- CHAT/REVIEWS --- */
+            --chat-bg-patient: #e0f7fa;
+            --chat-bg-pro: var(--gris-claro-fondo);
+            --chat-bg-review: var(--blanco);
         }
 
-        body { 
-            margin: 0; padding: 0; 
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--gris-claro);
-            color: var(--negro);
-        }
-        h1, h2, h3 { color: var(--azul-petroleo); font-weight: 600; }
-        a { text-decoration: none; color: var(--azul-tuffy); }
-        .container { max-width: 1400px; margin: 0 auto; padding: 0 1rem; }
+        /* RESET */
+        * { box-sizing: border-box; }
+        body { margin: 0; padding: 0; font-family: 'Poppins', sans-serif; background-color: var(--gris-claro-fondo); color: var(--negro); line-height: 1.4; }
+        h1, h2, h3 { color: var(--negro); font-weight: 700; }
+        a { text-decoration: none; color: var(--azul-tuffy); transition: color 0.2s; }
 
-        /* ================================================= */
-        /* === [1] ESTRUCTURA DE PERFIL Y BLOQUES === */
-        /* ================================================= */
-        .breadcrumb-bar-inline { background-color: var(--blanco); padding: 0.75rem 0 1.5rem 0; font-size: 0.9rem; color: var(--gris-piedra); width: 100%; }
-        .perfil-main { display: flex; gap: 2rem; max-width: 1400px; margin: 0 auto; padding: 0 1rem 2rem 1rem; align-items: flex-start; flex-wrap: wrap; }
-        .perfil-info-column { flex-basis: 65%; flex-grow: 1; min-width: 300px; }
-        .perfil-sidebar-column { flex-basis: 30%; flex-shrink: 0; min-width: 300px; }
-        .sticky-element { position: sticky; top: 1.5rem; z-index: 10; }
+        .specialist-page-container { max-width: 1200px; margin: 0 auto; padding: 25px 1rem; }
+        .back-link { color: var(--gris-piedra); font-size: 0.9rem; cursor: pointer; margin-bottom: 15px; }
 
-        /* Contenedores con fondo blanco y redondeado */
-        .profile-header-block,
-        .calendar-booking-card,
-        .block-card { /* Clase genérica para todos los bloques de contenido */
-            background: var(--blanco); 
-            padding: 2rem; 
-            border-radius: var(--radio-md); 
-            border: var(--borde-default); 
-            box-shadow: var(--box-shadow-light); 
-            margin-bottom: 2rem;
-        }
+        .pro-card { background: var(--blanco); border-radius: var(--radio-md); border: var(--borde-default); box-shadow: var(--box-shadow-light); margin-bottom: 25px; padding: 25px; overflow: hidden; }
+        .pro-info-card { padding: 30px; }
 
-        .profile-pic { border: 4px solid var(--gris-claro); border-radius: 50%; width: 150px; height: 150px; object-fit: cover; }
-        .rating-balls i { color: #fcc419; font-size: 1.1rem; margin-right: 2px; }
+        /* HEADER */
+        .pro-card-header { display: flex; gap: 30px; align-items: flex-start; }
+        #pro-profile-pic { border: 4px solid var(--verde-check); border-radius: 50%; width: 140px; height: 140px; object-fit: cover; flex-shrink: 0; }
+        .pro-name-title { font-size: 2.2rem; margin-bottom: 5px; }
+        .pro-name-title .verified-icon { color: var(--verde-check); font-size: 0.7em; margin-left: 5px; }
+        .pro-specialty-text { color: var(--azul-tuffy); font-weight: 600; font-size: 1.1rem; margin: 0 0 5px 0; }
+        .pro-sub-specialty-text, .pro-details-main p { color: var(--gris-piedra); font-size: 0.95rem; margin-bottom: 5px; }
+        .pro-details-main p i { color: var(--azul-tuffy); margin-right: 5px; }
+        .review-stars i { color: var(--color-rating-star); font-size: 1.1rem; }
+        .rating-info-container { display: flex; align-items: center; gap: 5px; margin-bottom: 10px; }
+
+        /* BOTONES */
+        .pro-card-action-buttons { display: flex; gap: 15px; margin-top: 20px; }
+        .btn-primary, .btn-secondary { flex-grow: 1; padding: 12px 20px; font-size: 1rem; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+        .btn-primary { background: var(--azul-tuffy); color: var(--blanco); border-radius: var(--radio-md); }
+        .btn-primary:hover { background: var(--azul-hover); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); }
+        .btn-secondary { background: var(--blanco); color: var(--azul-tuffy); border: 1px solid var(--azul-tuffy); box-shadow: none; border-radius: var(--radio-md); }
+        .btn-secondary:hover { background: var(--gris-claro-fondo); }
+
+        /* LAYOUT */
+        .pro-main-layout { display: flex; gap: 25px; align-items: flex-start; }
+        .pro-left-column { flex: 2; min-width: 0; }
+        .pro-right-column { flex: 1; min-width: 300px; }
+        .calendar-sidebar-card { padding: 0; position: sticky; top: 25px; }
+        .sidebar-title { background: var(--azul-tuffy); color: var(--blanco); padding: 1.2rem 1.5rem; font-size: 1.2rem; margin: 0; text-align: center; border-radius: var(--radio-md) var(--radio-md) 0 0; }
+        #calendario-selector { padding: 20px 25px 15px; }
         
-        /* Estilos de Pestañas (Tabs) con Animación */
-        .pro-tabs-nav { display: flex; border-bottom: 2px solid #ccc; margin-bottom: 2rem; overflow-x: auto; 
-            background: var(--blanco); border-radius: var(--radio-md); padding-top: 10px;
-        }
-        .pro-tab-item { 
-            padding: 1rem 1.5rem; cursor: pointer; color: var(--gris-piedra); border-bottom: 3px solid transparent; 
-            transition: all 0.3s ease; 
-            white-space: nowrap; 
-        }
-        .pro-tab-item.active { color: var(--azul-tuffy); border-bottom: 3px solid var(--azul-tuffy); font-weight: 600; }
+        /* CALENDARIO */
+        .calendar-widget { padding: 0; }
+        .calendar-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-weight: 600; }
+        .calendar-nav button { background: none; border: none; font-size: 1rem; color: var(--azul-tuffy); cursor: pointer; }
+        .calendar-days-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 0.85rem; gap: 5px; }
+        .calendar-days-grid span:nth-child(-n+7) { color: var(--gris-piedra); font-weight: 500; }
+        .calendar-date { height: 35px; width: 35px; line-height: 35px; border-radius: 50%; cursor: pointer; margin: 2px auto; font-weight: 500; transition: background-color 0.2s; }
+        .calendar-date.disabled { color: #ccc; cursor: default; }
+        .calendar-date.available { background-color: var(--color-available-bg); color: var(--color-available-text); border: 1px solid var(--verde-check); }
+        .calendar-date.warning { background-color: var(--color-warning-bg); color: var(--color-warning-text); border: 1px solid #ffeeba; }
+        .calendar-date.available:hover, .calendar-date.warning:hover { background-color: var(--azul-tuffy); color: var(--blanco); border-color: var(--azul-tuffy); }
+        .calendar-date.today { background-color: var(--color-today-bg); border: 2px solid var(--azul-tuffy); color: var(--azul-tuffy); }
+        .calendar-date.selected { border: 2px solid var(--negro); background-color: var(--azul-tuffy); color: var(--blanco); } 
+        .sidebar-form-options { padding: 0 25px 25px 25px; }
+        .sidebar-form-options select { width: 100%; padding: 10px; border: var(--borde-default); border-radius: var(--radio-sm); background-color: var(--gris-claro-fondo); color: var(--negro); font-weight: 500; }
         
-        .pro-tabs-content .pro-tab-content { 
-            display: none; padding-top: 1rem; 
-            opacity: 0; 
-            transition: opacity 0.5s ease; 
+        /* --- ESTILOS PARA TABS DE MODALIDAD EN CALENDARIO (NUEVO) --- */
+        .mode-tabs-nav {
+            display: flex;
+            justify-content: space-around;
+            background: var(--gris-claro-fondo);
+            border-radius: var(--radio-md);
+            margin-bottom: 15px;
+            padding: 5px;
+            gap: 5px;
         }
-        .pro-tabs-content .pro-tab-content.active { 
-            display: block; 
-            opacity: 1; 
+        .mode-tab-item {
+            flex: 1;
+            padding: 8px 10px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--gris-piedra);
+            border-radius: var(--radio-md);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
         }
-        .noveties-text { background: #e6f0ff; color: var(--azul-petroleo); padding: 1rem; border-radius: var(--radio-md); border-left: 5px solid var(--azul-tuffy); font-weight: 500;}
-
-        /* Estilos para Consultorios */
-        .clinic-card { border: var(--borde-default); padding: 1rem; margin-bottom: 1.5rem; border-radius: var(--radio-md); background: var(--blanco); }
-        .clinic-tabs { display: flex; margin-bottom: 1rem; border-bottom: 1px solid #eee; }
-        .clinic-tab-item { padding: 8px 15px; cursor: pointer; color: var(--gris-piedra); border-bottom: 2px solid transparent; transition: all 0.2s; }
-        .clinic-tab-item.active { color: var(--azul-tuffy); border-bottom: 2px solid var(--azul-tuffy); font-weight: 600; }
-        .clinic-content-item { display: none; padding-top: 10px; }
-        .clinic-content-item.active { display: block; }
-
-        /* Estilos para Opiniones y Dudas (Basados en Image 2) */
-        .review-item, .question-item { 
-            border: var(--borde-default); 
-            border-radius: var(--radio-md); 
-            padding: 1.5rem; 
-            margin-bottom: 1.5rem; 
-            background: var(--blanco); 
+        .mode-tab-item.active {
+            background-color: var(--blanco);
+            color: var(--azul-tuffy);
+            border: 2px solid var(--azul-tuffy);
             box-shadow: var(--box-shadow-light);
         }
-        .review-header, .question-header { 
-            display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; 
-            flex-wrap: wrap;
-        }
-        .review-meta, .question-meta { display: flex; align-items: center; gap: 10px; }
-        .user-avatar { 
-            width: 40px; height: 40px; border-radius: 50%; background-color: #fcc419; /* Color amarillo para diferenciar */
-            color: var(--azul-petroleo); display: flex; justify-content: center; align-items: center; 
-            font-weight: 600; font-size: 1.1rem; flex-shrink: 0;
-        }
-        .verified-badge { 
-            background-color: var(--verde-check); color: white; padding: 3px 8px; border-radius: var(--radio-sm); 
-            font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 5px;
-        }
-        .review-text, .question-text { margin-top: 10px; margin-bottom: 10px; line-height: 1.6; }
-        .review-info-line, .question-info-line { font-size: 0.85rem; color: var(--gris-piedra); margin-top: 5px; }
+
+        /* TABS PRINCIPALES */
+        .pro-tabs-nav-wrapper { margin-bottom: 25px; }
+        .pro-tabs-nav { display: flex; background: var(--blanco); border-radius: var(--radio-md); border: var(--borde-default); box-shadow: var(--box-shadow-light); overflow-x: auto; white-space: nowrap; padding: 0 10px; }
+        .pro-tab-item { padding: 1rem 15px; cursor: pointer; font-weight: 500; color: var(--gris-piedra); border-bottom: 3px solid transparent; transition: all 0.2s; }
+        .pro-tab-item.active { color: var(--azul-tuffy); font-weight: 600; border-bottom: 3px solid var(--azul-tuffy); }
         
-        .specialist-response { 
-            background-color: var(--gris-claro); 
-            border-left: 3px solid var(--azul-tuffy); 
-            padding: 1rem; 
-            margin-top: 1.5rem; 
+        .pro-tabs-content .pro-tab-content { display: none; } 
+        .pro-tabs-content .pro-tab-content.active { display: block; }
+
+        .pro-card.content-section { padding: 25px; display: flex; flex-direction: column; }
+        .pro-card.content-section>h3 { margin-top: 0; }
+
+        /* GALERIA VISTA PREVIA */
+        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .gallery-item { position: relative; padding-bottom: 100%; overflow: hidden; border-radius: var(--radio-sm); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); cursor: pointer; }
+        .gallery-item img { position: absolute; width: 100%; height: 100%; object-fit: cover; }
+        .gallery-item.show-more-overlay { background-color: var(--verde-check); opacity: 0.95; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--blanco); font-weight: 700; cursor: pointer; }
+        
+        /* CHAT BUBBLES - DUDAS Y OPINIONES */
+        .chat-entry { border-radius: var(--radio-md); padding: 15px; margin-bottom: 15px; position: relative; }
+        .chat-header { font-size: 0.85rem; color: var(--gris-piedra); margin-bottom: 5px; font-weight: 500; }
+        .chat-body p { margin: 0; }
+        .chat-entry.patient { background-color: var(--chat-bg-patient); border-left: 4px solid var(--azul-tuffy); }
+        .chat-entry.pro { background-color: var(--chat-bg-pro); border-right: 4px solid var(--verde-check); margin-left: 30%; }
+        .chat-entry.review { background-color: var(--chat-bg-review); border: var(--borde-default); }
+
+        /* MODALES GENERALES */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: none; justify-content: center; align-items: center; z-index: 1000; overflow-y: auto; }
+        .modal-content { background: var(--blanco); padding: 30px; border-radius: var(--radio-md); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); max-width: 450px; width: 90%; position: relative; }
+        .modal-close { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 2rem; color: var(--gris-piedra); cursor: pointer; }
+        .modal-content h3 { border-bottom: 1px solid var(--color-separador); padding-bottom: 10px; margin-top: 0; }
+        
+        .modal-content-lg { max-width: 800px; } 
+        .full-gallery-view { text-align: center; }
+
+        /* --- ESTILOS ADICIONALES --- */
+        .price-list-cool { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .price-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border: 1px solid var(--color-separador); border-radius: var(--radio-md); background-color: var(--gris-claro-fondo); }
+        .price-item.highlighted { background-color: #e6fff4; border-left: 5px solid var(--verde-check); font-weight: 600; }
+        .office-tabs-nav { display: flex; margin-bottom: 20px; border-bottom: 2px solid var(--color-separador); overflow-x: auto; white-space: nowrap; }
+        .office-tab-item { padding: 10px 15px; cursor: pointer; font-weight: 600; color: var(--gris-piedra); border-bottom: 2px solid transparent; transition: all 0.2s; }
+        .office-tab-item.active { color: var(--azul-tuffy); border-bottom: 2px solid var(--azul-tuffy); }
+        .office-content { display: none; }
+        .office-content.active { display: block; }
+        .btn-map {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: var(--verde-check);
+            color: var(--blanco);
+            border-radius: var(--radio-sm);
+            font-weight: 500;
+        }
+        
+        /* --- TIMELINE DE EXPERIENCIA --- */
+        .experience-timeline { position: relative; padding-left: 25px; }
+        .experience-timeline:before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--color-separador); }
+        .timeline-item { position: relative; margin-bottom: 25px; padding-left: 20px; }
+        .timeline-dot { position: absolute; left: -11px; top: 0; width: 22px; height: 22px; background: var(--blanco); border: 4px solid var(--azul-tuffy); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--azul-tuffy); font-size: 0.8rem; }
+        .timeline-content h4 { margin-top: 0; margin-bottom: 5px; font-size: 1.1rem; color: var(--negro); }
+        .timeline-content p { margin: 0; font-size: 0.9rem; color: var(--gris-piedra); }
+
+        /* --- ESTILOS PARA MODAL DE HORARIOS --- */
+        .modal-time-picker { width: 480px; max-width: 95%; padding: 25px; border-radius: 15px; max-width: 480px; }
+        .modal-close-icon { position: absolute; top: 15px; right: 20px; font-size: 24px; color: #999; cursor: pointer; font-weight: bold; }
+        .modal-title-blue { color: var(--negro); font-size: 1.4rem; font-weight: 700; margin-bottom: 15px; margin-top: 10px; border: none; }
+        .dashed-separator { border-top: 1px dashed #ccc; margin: 15px 0; width: 100%; }
+        .date-display { color: var(--negro); font-size: 1.1rem; margin-bottom: 25px; }
+        .date-highlight { color: var(--azul-tuffy); font-weight: 600; }
+        .time-columns-container { display: flex; gap: 20px; margin-bottom: 30px; justify-content: center; }
+        .time-column { background-color: #f9fbfd; border: 1px solid #eef2f7; border-radius: 12px; padding: 15px; flex: 1; display: flex; flex-direction: column; }
+        .column-header { color: var(--azul-tuffy); font-weight: 700; font-size: 1rem; margin-bottom: 5px; }
+        .dashed-separator-small { border-top: 1px dashed #ddd; margin: 8px 0 15px 0; }
+        .time-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .time-grid.scrollable { max-height: 180px; overflow-y: auto; padding-right: 5px; }
+        .time-chip { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 10px 5px; font-size: 0.9rem; font-weight: 600; color: var(--negro); cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.2; }
+        .time-chip:hover:not(.disabled) { border-color: var(--azul-tuffy); background-color: #f0f7ff; }
+        .time-chip.selected { 
+            background-color: #ff8e8e; 
+            color: var(--negro); 
+            border-color: #ff8e8e;
+            box-shadow: 0 4px 10px rgba(255, 142, 142, 0.4);
+        }
+        .time-chip.disabled { background-color: #f5f5f5; color: #aaa; cursor: default; opacity: 0.6; border-color: #eee; }
+        .modal-footer-actions { display: flex; justify-content: space-between; gap: 20px; margin-top: 10px; }
+        .btn-cancel { background-color: #f1f3f5; color: var(--negro); border: 1px solid #ddd; padding: 12px 25px; border-radius: 25px; font-weight: 600; cursor: pointer; flex: 1; }
+        .btn-confirm { background-color: var(--azul-tuffy); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-weight: 600; cursor: pointer; flex: 1; box-shadow: 0 4px 10px rgba(48, 128, 201, 0.3); }
+
+        /* --- ESTILOS PARA CARRUSEL DE GALERÍA --- */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 750px; 
+            margin: 0 auto 15px auto;
             border-radius: var(--radio-md);
-            display: flex; gap: 10px; align-items: flex-start;
+            overflow: hidden;
         }
-        .specialist-response .profile-pic { width: 40px; height: 40px; border-radius: 50%; } /* Ajuste para avatar de respuesta */
-        .specialist-response-content { flex-grow: 1; }
-        .specialist-response-content strong { color: var(--azul-petroleo); }
-
-        /* Filtros y Búsqueda en Opiniones */
-        .reviews-filters { display: flex; gap: 1rem; margin-top: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
-        .reviews-filters select, .reviews-filters input { 
-            padding: 8px 12px; border: var(--borde-default); border-radius: var(--radio-sm);
-            flex-grow: 1; max-width: 250px; 
+        .main-gallery-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            box-shadow: none; 
         }
-        .reviews-filters button { 
-            background: var(--azul-tuffy); color: white; border: none; padding: 8px 12px; 
-            border-radius: var(--radio-sm); cursor: pointer;
-        }
-        
-        /* ================================================= */
-        /* === [2] CALENDARIO DE 3 MESES Y RESERVAS === */
-        /* ================================================= */
-        .calendar-booking-card { overflow: hidden; } /* Ya tiene fondo blanco y redondeado con .block-card */
-        .booking-header { background: var(--azul-tuffy); color: white; padding: 1rem; font-size: 1.2rem; text-align: center; }
-        .booking-content { padding: 1rem 1.5rem 1.5rem 1.5rem; }
-        
-        .three-month-calendar-container { 
-            display: flex; 
-            overflow-x: auto; 
-            gap: 1.5rem; 
-            padding-bottom: 10px; 
-        }
-        .calendar-widget { padding: 0.5rem; flex-shrink: 0; width: 280px; } 
-        .calendar-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 1.1rem; }
-        .calendar-nav button { background: none; border: none; cursor: pointer; color: var(--azul-tuffy); padding: 0.5rem; }
-        .calendar-nav span { font-weight: 600; color: var(--azul-petroleo); }
-        
-        /* Círculos para los días */
-        .calendar-container { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 0.9rem; }
-        .calendar-day-name { font-weight: 600; color: var(--gris-piedra); padding: 5px 0; }
-        .calendar-date-wrapper { display: flex; justify-content: center; align-items: center; padding: 2px; }
-        .calendar-date { 
-            display: flex; justify-content: center; align-items: center;
-            width: 30px; height: 30px; 
-            border-radius: 50%; /* CRÍTICO: Círculos */
-            cursor: pointer; transition: all 0.2s; position: relative; font-size: 0.9rem;
-        }
-
-        .calendar-date.available { background-color: var(--color-available); color: var(--verde-check); font-weight: 500; border: 1px solid var(--verde-check); }
-        .calendar-date.partially-available { background-color: var(--color-partial); color: orange; font-weight: 500; border: 1px solid orange; }
-        .calendar-date.unavailable, .calendar-date.past { background-color: #eee; color: #aaa; cursor: default; border: 1px solid #ccc; }
-        .calendar-date.unavailable:hover, .calendar-date.past:hover { background-color: #eee; }
-        .calendar-date.today { border: 2px solid var(--azul-tuffy); font-weight: 700; }
-        .calendar-date.available:hover, .calendar-date.partially-available:hover { transform: scale(1.05); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
-
-        /* Media Queries */
-        @media (max-width: 992px) {
-            .perfil-main { flex-direction: column; }
-            .sticky-element { position: static; top: auto; }
-            .perfil-sidebar-column { order: -1; min-width: 100%; margin-bottom: 1.5rem; }
-            .three-month-calendar-container { 
-                overflow-x: scroll; 
-                justify-content: flex-start;
-                padding: 0 10px;
-            }
-        }
-
-        /* --- Estilos de Modal --- */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
-        .modal.active { display: flex; }
-        .modal-content { 
-            background: var(--blanco); padding: 25px; border-radius: var(--radio-md); max-width: 450px; width: 90%; 
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); position: relative; 
-            transform: scale(0.9); opacity: 0; transition: all 0.3s ease; 
-        }
-        .modal.active .modal-content { transform: scale(1); opacity: 1; }
-        .modal-close { position: absolute; top: 10px; right: 10px; font-size: 1.5rem; cursor: pointer; color: var(--gris-piedra); }
-
-        .time-slots-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-        .time-slot { padding: 8px 15px; border: 1px solid var(--azul-tuffy); color: var(--azul-tuffy); border-radius: 50px; cursor: pointer; font-weight: 500; transition: all 0.2s; }
-        .time-slot.selected, .time-slot:hover:not(.unavailable) { background: var(--azul-tuffy); color: white; }
-        .time-slot.unavailable { border: 1px dashed #ccc; color: #aaa; background: #f8f8f8; cursor: default; }
-
-        .modal-form-group { margin-bottom: 1rem; }
-        .modal-form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
-        .modal-form-group textarea { 
-            width: 100%; padding: 10px; border: var(--borde-default); border-radius: var(--radio-sm); 
-            min-height: 100px; resize: vertical; box-sizing: border-box; 
-        }
-        .modal-rating-stars { 
-            display: flex; gap: 5px; font-size: 1.8rem; cursor: pointer; color: #e0e0e0; margin-bottom: 1rem;
-        }
-        .modal-rating-stars i.selected { color: #fcc419; }
-
-        .btn-confirm-schedule, .btn-primary { 
-            background: var(--azul-tuffy); color: white; border: none; padding: 10px 20px; 
-            border-radius: var(--radio-md); margin-top: 20px; width: 100%; font-weight: 600; cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-        .btn-primary:hover { background-color: #216ba5; }
-        .btn-green { background: var(--verde-check); }
-        .btn-green:hover { background: #008f6c; }
-
-        .info-box-review { 
-            background-color: #f0f8ff; 
-            border: 1px solid #d0e8ff;
-            border-radius: var(--radio-md);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 5;
+            font-size: 1.5rem;
+            transition: background 0.2s;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 1.5rem;
-            color: var(--azul-petroleo);
+            justify-content: center;
+        }
+        .carousel-btn:hover:not(:disabled) { background: rgba(0, 0, 0, 0.7); }
+        .carousel-btn:disabled { opacity: 0.4; cursor: default; }
+        .prev-btn { left: 10px; }
+        .next-btn { right: 10px; }
+        .gallery-item.selected-thumbnail { border: 3px solid var(--azul-tuffy); transform: scale(1.05); }
+
+        /* --- ESTILOS PARA MODAL DE CONTACTO --- */
+        .contact-options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            border-radius: var(--radio-md);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .contact-btn i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        .contact-btn.whatsapp {
+            background-color: #25d366; /* WhatsApp Green */
+            color: var(--blanco);
+        }
+        .contact-btn.whatsapp:hover {
+            background-color: #1eab52;
+        }
+        .contact-btn.chat {
+            background-color: var(--gris-claro-fondo);
+            color: var(--negro);
+            border: 1px solid var(--color-separador);
+        }
+        .contact-btn.chat:hover {
+            background-color: #e8e8e8;
+        }
+        
+        /* --- ESTILOS ADICIONALES PARA MODALES --- */
+        #new-review-rating { margin-bottom: 20px; }
+        #new-review-rating i { color: var(--color-separador); cursor: pointer; font-size: 1.5rem; }
+        #new-review-rating i.active { color: var(--color-rating-star); }
+        .modal-content textarea { width: 100%; min-height: 100px; padding: 10px; border: var(--borde-default); border-radius: var(--radio-md); margin-top: 5px; resize: vertical; font-family: inherit; }
+        .modal-content label { font-weight: 600; color: var(--negro); display: block; margin-top: 15px; }
+
+
+        /* --- ESTILOS PARA CHAT FLOTANTE (FALTABAN) --- */
+        .chat-float-window {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 400px;
+            background: var(--blanco);
+            border-radius: var(--radio-md);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            display: none; /* Inicia oculto */
+            flex-direction: column;
+            z-index: 1010;
+            overflow: hidden;
+            transition: transform 0.3s, height 0.3s, opacity 0.3s;
+        }
+        .chat-float-window.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .chat-float-window.minimized {
+            height: 50px;
+            transform: translateY(350px);
+        }
+        .chat-float-header {
+            background: var(--azul-tuffy);
+            color: var(--blanco);
+            padding: 12px 15px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        .chat-float-header-info { display: flex; align-items: center; }
+        .chat-status-dot { width: 10px; height: 10px; background: var(--verde-check); border-radius: 50%; margin-right: 8px; border: 1px solid var(--blanco); }
+        .chat-float-controls i { margin-left: 10px; cursor: pointer; }
+        .chat-float-body {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: var(--gris-claro-fondo);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .chat-float-window.minimized .chat-float-body, 
+        .chat-float-window.minimized .chat-float-input { display: none; }
+
+        .chat-float-input {
+            display: flex;
+            padding: 10px;
+            border-top: var(--borde-default);
+        }
+        .chat-float-input input {
+            flex-grow: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: var(--radio-md);
+            margin-right: 10px;
+        }
+        .chat-float-input button {
+            background: var(--azul-tuffy);
+            color: var(--blanco);
+            border: none;
+            border-radius: var(--radio-md);
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .float-msg {
+            max-width: 80%;
+            padding: 10px 12px;
+            border-radius: 12px;
+            word-wrap: break-word;
             font-size: 0.95rem;
         }
-        .info-box-review i { font-size: 2.5rem; color: var(--azul-tuffy); }
-/* Dentro de tu bloque <style> */
+        .float-msg.user {
+            align-self: flex-end;
+            background-color: var(--azul-tuffy);
+            color: var(--blanco);
+            border-bottom-right-radius: 4px;
+        }
+        .float-msg.pro {
+            align-self: flex-start;
+            background-color: var(--blanco);
+            border: var(--borde-default);
+            border-bottom-left-radius: 4px;
+        }
 
-.profile-image-container {
-
-
-
-
-    background-color: #00b388;
-        /* 🔑 ESTOS SON LOS ESTILOS CLAVE */
-    background-size:contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    
-    /* Si usas la imagen del doctor, el background-image solo se verá en el borde */
-    /* Asegúrate de que el style inline apunte a una ruta válida */
-}
-
-
-
-
-
+        /* --- RESPONSIVE --- */
+        @media (max-width: 992px) {
+            .pro-main-layout { flex-direction: column; }
+            .pro-right-column { order: -1; min-width: 100%; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .chat-float-window { width: 90%; right: 5%; bottom: 10px; }
+            .chat-float-window.minimized { transform: translateY(350px); }
+        }
+        @media (max-width: 500px) {
+            .time-columns-container { flex-direction: column; }
+            .modal-time-picker { padding: 15px; }
+        }
+  

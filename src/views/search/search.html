@@ -1,111 +1,204 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TuffyPet - Búsqueda de Profesionales</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Pacifico&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">   
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-    
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="/src/styles/busqueda.css">     
-</head>
-<body>
-    <header>
+<!-- ========================================================= -->
+<!-- SEARCH PAGE (TuffyPet)                                    -->
+<!-- ========================================================= -->
+
+<!-- CSS PRINCIPAL -->
+<link rel="stylesheet" href="/src/styles/busqueda.css">
+<link rel="stylesheet" href="/src/styles/calendar-mini.css">
+
+<!-- FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Pacifico&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
+<!-- SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<div id="search-page">
+
+    <!-- ========================================================= -->
+    <!-- HEADER                                                    -->
+    <!-- ========================================================= -->
+    <header class="search-header">
+
         <button class="mobile-menu-toggle" id="mobileMenuToggle" onclick="window.openModal('mobileMenuModal')">
             <i class="material-icons">menu</i>
         </button>
+
         <div class="header-content-wrapper">
+
+            <!-- LOGO -->
             <div class="logo">
-                <a href="/index.html" class="logo-link">Tuffy<span>Pet</span></a>
+                <a href="#/" class="logo-link">Tuffy<span>Pet</span></a>
             </div>
-            
+
+            <!-- BUSCADOR -->
             <div class="search-bar">
                 <input type="text" id="searchInput" placeholder="Buscar nombre, servicio o zona...">
-                <button onclick="window.buscar()">🔍</button>
+                
             </div>
 
+            <!-- ACCIONES: LOGIN / CUENTA -->
             <div class="nav-right-actions">
                 <div id="account-container" class="account-container">
-                    <button id="auth-btn" class="btn btn-login" type="button">Iniciar sesión</button>
 
-                     <div id="account-dropdown" class="account-dropdown">
-                <p style="padding: 0.75rem 1rem; font-weight: 700;">Hola, <span id="user-name">Usuario</span></p>
-                <a href="#perfil">Mi Perfil</a>
-                <a href="#perfil">Mis Mascotas</a>
-                <a href="#perfil">Mis Pagos</a>
-                <a href="#reservas">Mis Citas</a>
-                <button class="logout-btn"  id="logout-btn" type="button"> <i class="fa-solid fa-door-closed"></i>Cerrar Sesión</button>
-            </div>
+                    <!-- BOTÓN LOGIN / MI CUENTA -->
+                    <button id="auth-btn" class="btn btn-login" type="button">
+                        Iniciar sesión
+                    </button>
+
+                    <!-- DROPDOWN CUENTA -->
+                    <div id="account-dropdown" class="account-dropdown">
+                        <p class="dropdown-title">Hola, <span id="user-name">Usuario</span></p>
+
+                        <a href="#perfil">Mi Perfil</a>
+                        <a href="#perfil">Mis Mascotas</a>
+                        <a href="#perfil">Mis Pagos</a>
+                        <a href="#reservas">Mis Citas</a>
+
+                        <button class="logout-btn" id="logout-btn" type="button">
+                            <i class="fa-solid fa-door-closed"></i> Cerrar Sesión
+                        </button>
+                    </div>
+
                 </div>
             </div>
+
         </div>
+
     </header>
 
+
+    <!-- ========================================================= -->
+    <!-- FILTERS BAR                                               -->
+    <!-- ========================================================= -->
     <div class="filters-bar">
-        <div class="filters-container" id="desktopFiltersContainer">
-            <div class="select-wrapper"><select class="filter-select" id="tipoFiltro"><option value="">🔍 Tipo de servicio</option></select><i class="material-icons select-arrow">arrow_drop_down</i></div>
-            <div class="select-wrapper"><select class="filter-select" id="ubicacionFiltro"><option value="">📍 Ubicación</option></select><i class="material-icons select-arrow">arrow_drop_down</i></div>
-            <div class="select-wrapper"><select class="filter-select" id="mascotaFiltro"><option value="">🐶 Mascota</option></select><i class="material-icons select-arrow">arrow_drop_down</i></div>
-            <div class="select-wrapper"><select class="filter-select" id="calificacionFiltro"><option value="">⭐ Calificación</option></select><i class="material-icons select-arrow">arrow_drop_down</i></div>
-            <div class="select-wrapper"><select class="filter-select" id="disponibilidadFiltro"><option value="">🗓️ Disponibilidad</option><option value="true">Disponible hoy</option></select><i class="material-icons select-arrow">arrow_drop_down</i></div>
+        <div class="filters-container">
+
+            <div class="select-wrapper">
+                <select class="filter-select" id="tipoFiltro">
+                    <option value="">🔍 Tipo de servicio</option>
+                </select>
+            </div>
+
+            <div class="select-wrapper">
+                <select class="filter-select" id="ubicacionFiltro">
+                    <option value="">📍 Ubicación</option>
+                </select>
+            </div>
+
+            <div class="select-wrapper">
+                <select class="filter-select" id="mascotaFiltro">
+                    <option value="">🐶 Mascota</option>
+                </select>
+            </div>
+
+            <div class="select-wrapper">
+                <select class="filter-select" id="calificacionFiltro">
+                    <option value="">⭐ Calificación</option>
+                </select>
+            </div>
+
+            <div class="select-wrapper">
+                <select class="filter-select" id="disponibilidadFiltro">
+                    <option value="">🗓️ Disponibilidad</option>
+                    <option value="true">Disponible hoy</option>
+                </select>
+            </div>
+
         </div>
     </div>
 
-    <main>
+
+    <!-- ========================================================= -->
+    <!-- LISTA DE CARDS                                            -->
+    <!-- ========================================================= -->
+    <main class="search-results">
         <div class="cards" id="cardsContainer">
-            <span id="resultCount" style="grid-column: 1 / -1; margin-bottom: 10px; font-weight: 600;">Cargando resultados...</span>
+            <span id="resultCount" class="result-loading">Cargando resultados...</span>
         </div>
-        <div class="map">Mapa Interactivo (Se oculta en móvil)</div>
     </main>
 
-    <div id="promoModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="window.closeModal('promoModal')">×</span>
-            <h2>¡Promoción Exclusiva!</h2>
-            <div class="coupon-box">
-                <h3>¡Tu cupón te espera!</h3>
-                <p id="promoModalText" style="font-weight: 600; color: var(--negro);"></p>
-            </div>         
-        </div>
+</div> <!-- cierre #search-page -->
+
+
+
+<!-- ========================================================= -->
+<!-- ⭐ MODAL - PROMOCIÓN                                       -->
+<!-- ========================================================= -->
+<div id="promoModal" class="modal-overlay" style="display:none;">
+    <div class="modal-content" id="promoModalContent"></div>
+</div>
+
+
+
+<!-- ========================================================= -->
+<!-- ⭐ MODAL - AGENDAR CITA (SE ABRE DESDE calendar-mini.js)   -->
+<!-- ========================================================= -->
+<div id="agendarCitaModal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+
+        <span class="close-button" onclick="window.closeModal('agendarCitaModal')">×</span>
+
+        <h2>Agendar Cita</h2>
+
+        <p>Fecha seleccionada: <span id="scheduleModalDate"></span></p>
+
+        <div id="timeSlotsContainer"></div>
+
+        <button class="modal-btn primary">Confirmar</button>
     </div>
+</div>
 
-    <div id="scheduleModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="window.closeModal('scheduleModal')">×</span>
-            <h2>Selecciona horario para tu cita</h2>
-            <div style="border-bottom: 2px dashed #ccc; margin: 10px 0;"></div>
-            <p style="font-size: 1.1rem; color: #555;">Día seleccionado: <span id="scheduleModalDate" style="color: var(--azul-tuffy);"></span></p>
 
-            <div class="schedule-sections" id="timeSlotsContainer">
+
+<!-- ========================================================= -->
+<!-- ⭐ MODAL - MENÚ MOBILE (FILTROS)                            -->
+<!-- ========================================================= -->
+<div id="mobileMenuModal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+
+        <div class="mobile-menu-header">
+            <h3>Opciones de Búsqueda</h3>
+            <span class="close-button" onclick="window.closeModal('mobileMenuModal')">×</span>
+        </div>
+
+        <div class="mobile-filter-content">
+            <h4>Aplicar Filtros</h4>
+
+            <div class="select-wrapper">
+                <select class="filter-select" id="tipoFiltroMobile">
+                    <option value="">🔍 Tipo de servicio</option>
+                </select>
             </div>
 
-            <div class="modal-buttons" style="display: flex; justify-content: space-around; margin-top: 30px;">
-                <button class="modal-btn secondary" onclick="window.closeModal('scheduleModal')">Cancelar</button>
-                <button class="modal-btn primary" onclick="window.confirmSchedule()">Confirmar cita</button>
+            <div class="select-wrapper">
+                <select class="filter-select" id="ubicacionFiltroMobile">
+                    <option value="">📍 Ubicación</option>
+                </select>
             </div>
-        </div>
-    </div>
 
-    <div id="mobileMenuModal" class="modal">
-        <div class="modal-content">
-            <div class="mobile-menu-header">
-                <h3>Opciones de Búsqueda</h3>
-                <span class="close-button" style="position: static; color: white;" onclick="window.closeModal('mobileMenuModal')">×</span>
-            </div>                      
-            <div class="mobile-filter-content">
-                <h4>Aplicar Filtros</h4>
-                <div class="select-wrapper"><select class="filter-select" id="tipoFiltroMobile"><option value="">🔍 Tipo de servicio</option></select><i class="material-icons select-arrow">arrow_drop_down</i></div>
-                <div class="select-wrapper"><select class="filter-select" id="ubicacionFiltroMobile"><option value="">📍 Ubicación</option></select><i class="material-icons select-arrow">arrow_drop_down</i></div>
-                <div class="select-wrapper"><select class="filter-select" id="mascotaFiltroMobile"><option value="">🐶 Mascota</option></select><i class="material-icons select-arrow">arrow_drop_down</i></div>
-                <div class="select-wrapper"><select class="filter-select" id="calificacionFiltroMobile"><option value="">⭐ Calificación</option></select><i class="material-icons select-arrow">arrow_drop_down</i></div>
-                <div class="select-wrapper"><select class="filter-select" id="disponibilidadFiltroMobile"><option value="">🗓️ Disponibilidad</option><option value="true">Disponible hoy</option></select><i class="material-icons select-arrow">arrow_drop_down</i></div>
-            </div>            
-        </div>
-    </div>
+            <div class="select-wrapper">
+                <select class="filter-select" id="mascotaFiltroMobile">
+                    <option value="">🐶 Mascota</option>
+                </select>
+            </div>
 
-    <script type="module" src="/src/js/modules/busqueda.js"></script>
-</body>
-</html>
+            <div class="select-wrapper">
+                <select class="filter-select" id="calificacionFiltroMobile">
+                    <option value="">⭐ Calificación</option>
+                </select>
+            </div>
+
+            <div class="select-wrapper">
+                <select class="filter-select" id="disponibilidadFiltroMobile">
+                    <option value="">🗓️ Disponibilidad</option>
+                    <option value="true">Disponible hoy</option>
+                </select>
+            </div>
+
+        </div>
+
+    </div>
+</div>

@@ -1,199 +1,1206 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil de la Clínica</title>
+    <title>Perfil de Especialista | TuffyPet Pro</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
-<link rel="stylesheet" href="/src/styles/perfil.css">
-    
-</head>
-<body id="clinic-body">
-    
-    <header style="background: var(--azul-petroleo); color: white; padding: 10px; text-align: center;">
-        PERFIL DE CLÍNICA - CON ESPECIALISTAS
-    </header>
 
-    <section class="pro-profile-page">
-        <div class="pro-container">
-            
-            <div class="pro-main-column">
-                
-                <div class="pro-info-block">
-                    <div class="pro-header">
-                        <img 
-                            id="clinic-profile-pic" 
-                            class="pro-profile-image" 
-                            src="" 
-                            alt="Logo de la Clínica"
-                        >
-                        <div class="pro-name-container">
-                            <h1 id="clinic-name" class="pro-name"></h1>
-                            <p id="clinic-slogan" class="pro-specialty"></p>
-                        </div>
-                    </div>
-                    
-                    <div class="pro-stats">
-                        <div class="pro-stat-item">
-                            <span id="clinic-rating-badge"></span>
-                            <span>Calificación</span>
-                        </div>
-                        <div class="pro-stat-item">
-                            <strong id="clinic-reviews-count">0</strong>
-                            <span>Opiniones</span>
-                        </div>
-                        <div class="pro-stat-item">
-                            <i class="fa-solid fa-star-half-stroke" style="color: var(--amarillo-mostaza); font-size: 1.5rem;"></i>
-                            <span>Certificación</span>
-                        </div>
-                    </div>
-                    
-                    <div class="pro-details-list">
-                        <div class="pro-detail-item">
-                            <i class="fa-solid fa-location-dot icon-spacing"></i>
-                            <strong>Dirección:</strong> <span id="clinic-address"></span>
-                        </div>
-                    </div>
+    <style>
+        /* ================================================= */
+        /* === ESTILOS CSS UNIFICADOS Y COMPLETOS === */
+        /* ================================================= */
+        :root {
+            /* --- COLORES BASE (TuffyPet) --- */
+            --azul-tuffy: #3080c9;
+            --azul-hover: #24659c;
+            --verde-check: #00b388;
+            --verde-hover: #009977;
+            --gris-piedra: #6c757d;
+            --gris-claro-fondo: #f4f6f8;
+            --blanco: #ffffff;
+            --negro: #333333;
+            --color-separador: #e0e0e0;
 
-                    <div class="pro-action-buttons">
-                        <button class="btn btn-primary-outline" onclick="window.showMessage('Contacto', 'Llamando a la clínica...')">
-                            <i class="fa-solid fa-phone"></i> Llamar Ahora
-                        </button>
-                    </div>
-                </div>
+            /* --- ESTILOS VISUALES --- */
+            --color-rating-star: #fcc419;
+            --borde-default: 1px solid var(--color-separador);
+            --box-shadow-light: 0 4px 10px rgba(0, 0, 0, 0.05);
+            --radio-sm: 4px;
+            --radio-md: 8px;
+            --radio-pill: 20px;
 
-                <div class="pro-tabs-container">
-                    <div class="pro-tabs-nav" id="pro-tabs-clinic">
-                        <div class="pro-tab-item active" data-tab="novedades">Novedades</div>
-                        <div class="pro-tab-item" data-tab="opiniones">Opiniones</div>
-                        <div class="pro-tab-item" data-tab="especialistas">Especialistas</div>
-                        <div class="pro-tab-item" data-tab="servicios">Servicios</div>
-                    </div>
+            /* --- CALENDARIO --- */
+            --color-available-bg: #e6fff4;
+            --color-available-text: var(--verde-check);
+            --color-today-bg: #ffe6e6;
+            --color-warning-bg: #fff3cd;
+            --color-warning-text: #856404;
 
-                    <div class="pro-tabs-content">
-                        <div id="tab-content-novedades" class="pro-tab-content"></div>
-                        <div id="tab-content-opiniones" class="pro-tab-content">
-                            <h3>Opiniones de Pacientes (<span id="opiniones-count-clinic"></span>)</h3>
-                            <div id="reviews-container-clinic"></div>
-                        </div>
-                        <div id="tab-content-especialistas" class="pro-tab-content">
-                            <h3>Nuestro Equipo Médico</h3>
-                            <ul id="specialist-list-container" class="specialist-list">
-                                </ul>
-                        </div>
-                        <div id="tab-content-servicios" class="pro-tab-content"></div>
-                    </div>
-                </div>
+            /* --- CHAT/REVIEWS --- */
+            --chat-bg-patient: #e0f7fa;
+            --chat-bg-pro: var(--gris-claro-fondo);
+            --chat-bg-review: var(--blanco);
+        }
 
-            </div>
+        /* RESET */
+        * { box-sizing: border-box; }
+        body { margin: 0; padding: 0; font-family: 'Poppins', sans-serif; background-color: var(--gris-claro-fondo); color: var(--negro); line-height: 1.4; }
+        h1, h2, h3 { color: var(--negro); font-weight: 700; }
+        a { text-decoration: none; color: var(--azul-tuffy); transition: color 0.2s; }
 
-            <div class="pro-sidebar-column">
-                <div class="pro-appointment-card">
-                    <h2><i class="fa-solid fa-calendar-check icon-spacing"></i> Agenda de la Clínica</h2>
-                    
-                    <div class="location-details">
-                        <i class="fa-solid fa-map-marker-alt icon-spacing"></i>
-                        <p id="clinic-address-sidebar-clinic"></p>
-                    </div>
+        .specialist-page-container { max-width: 1200px; margin: 0 auto; padding: 25px 1rem; }
+        .back-link { color: var(--gris-piedra); font-size: 0.9rem; cursor: pointer; margin-bottom: 15px; }
 
-                    <label for="service-select-clinic">Servicio Requerido:</label>
-                    <select id="service-select-clinic" class="form-select">
-                        </select>
+        .pro-card { background: var(--blanco); border-radius: var(--radio-md); border: var(--borde-default); box-shadow: var(--box-shadow-light); margin-bottom: 25px; padding: 25px; overflow: hidden; }
+        .pro-info-card { padding: 30px; }
 
-                    <div id="calendar-container-clinic" class="calendar-mock-container">
-                        </div>
+        /* HEADER */
+        .pro-card-header { display: flex; gap: 30px; align-items: flex-start; }
+        #pro-profile-pic { border: 4px solid var(--verde-check); border-radius: 50%; width: 140px; height: 140px; object-fit: cover; flex-shrink: 0; }
+        .pro-name-title { font-size: 2.2rem; margin-bottom: 5px; }
+        .pro-name-title .verified-icon { color: var(--verde-check); font-size: 0.7em; margin-left: 5px; }
+        .pro-specialty-text { color: var(--azul-tuffy); font-weight: 600; font-size: 1.1rem; margin: 0 0 5px 0; }
+        .pro-sub-specialty-text, .pro-details-main p { color: var(--gris-piedra); font-size: 0.95rem; margin-bottom: 5px; }
+        .pro-details-main p i { color: var(--azul-tuffy); margin-right: 5px; }
+        .review-stars i { color: var(--color-rating-star); font-size: 1.1rem; }
+        .rating-info-container { display: flex; align-items: center; gap: 5px; margin-bottom: 10px; }
 
-                    <button class="btn btn-primary" onclick="window.showMessage('Reserva', 'Selecciona un día en el calendario y luego la hora en el pop-up.')">
-                        Reservar Cita
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
+        /* BOTONES */
+        .pro-card-action-buttons { display: flex; gap: 15px; margin-top: 20px; }
+        .btn-primary, .btn-secondary { flex-grow: 1; padding: 12px 20px; font-size: 1rem; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+        .btn-primary { background: var(--azul-tuffy); color: var(--blanco); border-radius: var(--radio-md); }
+        .btn-primary:hover { background: var(--azul-hover); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); }
+        .btn-secondary { background: var(--blanco); color: var(--azul-tuffy); border: 1px solid var(--azul-tuffy); box-shadow: none; border-radius: var(--radio-md); }
+        .btn-secondary:hover { background: var(--gris-claro-fondo); }
 
-    <div id="scheduleModal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="modal-close" onclick="window.closeModal('scheduleModal')"><i class="fa-solid fa-times-circle"></i></span>
-            <h3>Horarios Disponibles para: <span id="scheduleModalDate" style="color:var(--azul-tuffy);"></span></h3>
-            
-            <div id="timeSlotsContainer"></div>
-
-            <button class="btn btn-primary" style="margin-top: 1.5rem;" onclick="confirmSchedule()">
-                Confirmar Cita
-            </button>
-        </div>
-    </div>
-    
-    <div id="specialistModal" class="modal-overlay">
-        <div class="modal-content specialist-modal-content">
-            <span class="modal-close" onclick="window.closeModal('specialistModal')"><i class="fa-solid fa-times-circle"></i></span>
-            <div id="specialistModalContent">
-                </div>
-        </div>
-    </div>
-       <script type="module" src="/src/js/modules/perfil.js"></script>
-    <script>
-        // ... Pegar el contenido del punto B (JavaScript) aquí ...
+        /* LAYOUT */
+        .pro-main-layout { display: flex; gap: 25px; align-items: flex-start; }
+        .pro-left-column { flex: 2; min-width: 0; }
+        .pro-right-column { flex: 1; min-width: 300px; }
+        .calendar-sidebar-card { padding: 0; position: sticky; top: 25px; }
+        .sidebar-title { background: var(--azul-tuffy); color: var(--blanco); padding: 1.2rem 1.5rem; font-size: 1.2rem; margin: 0; text-align: center; border-radius: var(--radio-md) var(--radio-md) 0 0; }
+        #calendario-selector { padding: 20px 25px 15px; }
         
-        // Lógica de Renderizado específica de la Clínica
+        /* CALENDARIO */
+        .calendar-widget { padding: 0; }
+        .calendar-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-weight: 600; }
+        .calendar-nav button { background: none; border: none; font-size: 1rem; color: var(--azul-tuffy); cursor: pointer; }
+        .calendar-days-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 0.85rem; gap: 5px; }
+        .calendar-days-grid span:nth-child(-n+7) { color: var(--gris-piedra); font-weight: 500; }
+        .calendar-date { height: 35px; width: 35px; line-height: 35px; border-radius: 50%; cursor: pointer; margin: 2px auto; font-weight: 500; transition: background-color 0.2s; }
+        .calendar-date.disabled { color: #ccc; cursor: default; }
+        .calendar-date.available { background-color: var(--color-available-bg); color: var(--color-available-text); border: 1px solid var(--verde-check); }
+        .calendar-date.warning { background-color: var(--color-warning-bg); color: var(--color-warning-text); border: 1px solid #ffeeba; }
+        .calendar-date.available:hover, .calendar-date.warning:hover { background-color: var(--azul-tuffy); color: var(--blanco); border-color: var(--azul-tuffy); }
+        .calendar-date.today { background-color: var(--color-today-bg); border: 2px solid var(--azul-tuffy); color: var(--azul-tuffy); }
+        .calendar-date.selected { border: 2px solid var(--negro); background-color: var(--azul-tuffy); color: var(--blanco); } 
+        .sidebar-form-options { padding: 0 25px 25px 25px; }
+        .sidebar-form-options select { width: 100%; padding: 10px; border: var(--borde-default); border-radius: var(--radio-sm); background-color: var(--gris-claro-fondo); color: var(--negro); font-weight: 500; }
+        
+        /* --- ESTILOS PARA TABS DE MODALIDAD EN CALENDARIO (NUEVO) --- */
+        .mode-tabs-nav {
+            display: flex;
+            justify-content: space-around;
+            background: var(--gris-claro-fondo);
+            border-radius: var(--radio-md);
+            margin-bottom: 15px;
+            padding: 5px;
+            gap: 5px;
+        }
+        .mode-tab-item {
+            flex: 1;
+            padding: 8px 10px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--gris-piedra);
+            border-radius: var(--radio-md);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .mode-tab-item.active {
+            background-color: var(--blanco);
+            color: var(--azul-tuffy);
+            border: 2px solid var(--azul-tuffy);
+            box-shadow: var(--box-shadow-light);
+        }
+
+        /* TABS PRINCIPALES */
+        .pro-tabs-nav-wrapper { margin-bottom: 25px; }
+        .pro-tabs-nav { display: flex; background: var(--blanco); border-radius: var(--radio-md); border: var(--borde-default); box-shadow: var(--box-shadow-light); overflow-x: auto; white-space: nowrap; padding: 0 10px; }
+        .pro-tab-item { padding: 1rem 15px; cursor: pointer; font-weight: 500; color: var(--gris-piedra); border-bottom: 3px solid transparent; transition: all 0.2s; }
+        .pro-tab-item.active { color: var(--azul-tuffy); font-weight: 600; border-bottom: 3px solid var(--azul-tuffy); }
+        
+        .pro-tabs-content .pro-tab-content { display: none; } 
+        .pro-tabs-content .pro-tab-content.active { display: block; }
+
+        .pro-card.content-section { padding: 25px; display: flex; flex-direction: column; }
+        .pro-card.content-section>h3 { margin-top: 0; }
+
+        /* GALERIA VISTA PREVIA */
+        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .gallery-item { position: relative; padding-bottom: 100%; overflow: hidden; border-radius: var(--radio-sm); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); cursor: pointer; }
+        .gallery-item img { position: absolute; width: 100%; height: 100%; object-fit: cover; }
+        .gallery-item.show-more-overlay { background-color: var(--verde-check); opacity: 0.95; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--blanco); font-weight: 700; cursor: pointer; }
+        
+        /* CHAT BUBBLES - DUDAS Y OPINIONES */
+        .chat-entry { border-radius: var(--radio-md); padding: 15px; margin-bottom: 15px; position: relative; }
+        .chat-header { font-size: 0.85rem; color: var(--gris-piedra); margin-bottom: 5px; font-weight: 500; }
+        .chat-body p { margin: 0; }
+        .chat-entry.patient { background-color: var(--chat-bg-patient); border-left: 4px solid var(--azul-tuffy); }
+        .chat-entry.pro { background-color: var(--chat-bg-pro); border-right: 4px solid var(--verde-check); margin-left: 30%; }
+        .chat-entry.review { background-color: var(--chat-bg-review); border: var(--borde-default); }
+
+        /* MODALES GENERALES */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: none; justify-content: center; align-items: center; z-index: 1000; overflow-y: auto; }
+        .modal-content { background: var(--blanco); padding: 30px; border-radius: var(--radio-md); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); max-width: 450px; width: 90%; position: relative; }
+        .modal-close { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 2rem; color: var(--gris-piedra); cursor: pointer; }
+        .modal-content h3 { border-bottom: 1px solid var(--color-separador); padding-bottom: 10px; margin-top: 0; }
+        
+        .modal-content-lg { max-width: 800px; } 
+        .full-gallery-view { text-align: center; }
+
+        /* --- ESTILOS ADICIONALES --- */
+        .price-list-cool { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .price-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border: 1px solid var(--color-separador); border-radius: var(--radio-md); background-color: var(--gris-claro-fondo); }
+        .price-item.highlighted { background-color: #e6fff4; border-left: 5px solid var(--verde-check); font-weight: 600; }
+        .office-tabs-nav { display: flex; margin-bottom: 20px; border-bottom: 2px solid var(--color-separador); overflow-x: auto; white-space: nowrap; }
+        .office-tab-item { padding: 10px 15px; cursor: pointer; font-weight: 600; color: var(--gris-piedra); border-bottom: 2px solid transparent; transition: all 0.2s; }
+        .office-tab-item.active { color: var(--azul-tuffy); border-bottom: 2px solid var(--azul-tuffy); }
+        .office-content { display: none; }
+        .office-content.active { display: block; }
+        .btn-map {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: var(--verde-check);
+            color: var(--blanco);
+            border-radius: var(--radio-sm);
+            font-weight: 500;
+        }
+        
+        /* --- TIMELINE DE EXPERIENCIA --- */
+        .experience-timeline { position: relative; padding-left: 25px; }
+        .experience-timeline:before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--color-separador); }
+        .timeline-item { position: relative; margin-bottom: 25px; padding-left: 20px; }
+        .timeline-dot { position: absolute; left: -11px; top: 0; width: 22px; height: 22px; background: var(--blanco); border: 4px solid var(--azul-tuffy); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--azul-tuffy); font-size: 0.8rem; }
+        .timeline-content h4 { margin-top: 0; margin-bottom: 5px; font-size: 1.1rem; color: var(--negro); }
+        .timeline-content p { margin: 0; font-size: 0.9rem; color: var(--gris-piedra); }
+
+        /* --- ESTILOS PARA MODAL DE HORARIOS --- */
+        .modal-time-picker { width: 480px; max-width: 95%; padding: 25px; border-radius: 15px; max-width: 480px; }
+        .modal-close-icon { position: absolute; top: 15px; right: 20px; font-size: 24px; color: #999; cursor: pointer; font-weight: bold; }
+        .modal-title-blue { color: var(--negro); font-size: 1.4rem; font-weight: 700; margin-bottom: 15px; margin-top: 10px; border: none; }
+        .dashed-separator { border-top: 1px dashed #ccc; margin: 15px 0; width: 100%; }
+        .date-display { color: var(--negro); font-size: 1.1rem; margin-bottom: 25px; }
+        .date-highlight { color: var(--azul-tuffy); font-weight: 600; }
+        .time-columns-container { display: flex; gap: 20px; margin-bottom: 30px; justify-content: center; }
+        .time-column { background-color: #f9fbfd; border: 1px solid #eef2f7; border-radius: 12px; padding: 15px; flex: 1; display: flex; flex-direction: column; }
+        .column-header { color: var(--azul-tuffy); font-weight: 700; font-size: 1rem; margin-bottom: 5px; }
+        .dashed-separator-small { border-top: 1px dashed #ddd; margin: 8px 0 15px 0; }
+        .time-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .time-grid.scrollable { max-height: 180px; overflow-y: auto; padding-right: 5px; }
+        .time-chip { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 10px 5px; font-size: 0.9rem; font-weight: 600; color: var(--negro); cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.2; }
+        .time-chip:hover:not(.disabled) { border-color: var(--azul-tuffy); background-color: #f0f7ff; }
+        .time-chip.selected { 
+            background-color: #ff8e8e; 
+            color: var(--negro); 
+            border-color: #ff8e8e;
+            box-shadow: 0 4px 10px rgba(255, 142, 142, 0.4);
+        }
+        .time-chip.disabled { background-color: #f5f5f5; color: #aaa; cursor: default; opacity: 0.6; border-color: #eee; }
+        .modal-footer-actions { display: flex; justify-content: space-between; gap: 20px; margin-top: 10px; }
+        .btn-cancel { background-color: #f1f3f5; color: var(--negro); border: 1px solid #ddd; padding: 12px 25px; border-radius: 25px; font-weight: 600; cursor: pointer; flex: 1; }
+        .btn-confirm { background-color: var(--azul-tuffy); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-weight: 600; cursor: pointer; flex: 1; box-shadow: 0 4px 10px rgba(48, 128, 201, 0.3); }
+
+        /* --- ESTILOS PARA CARRUSEL DE GALERÍA --- */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 750px; 
+            margin: 0 auto 15px auto;
+            border-radius: var(--radio-md);
+            overflow: hidden;
+        }
+        .main-gallery-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            box-shadow: none; 
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 5;
+            font-size: 1.5rem;
+            transition: background 0.2s;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .carousel-btn:hover:not(:disabled) { background: rgba(0, 0, 0, 0.7); }
+        .carousel-btn:disabled { opacity: 0.4; cursor: default; }
+        .prev-btn { left: 10px; }
+        .next-btn { right: 10px; }
+        .gallery-item.selected-thumbnail { border: 3px solid var(--azul-tuffy); transform: scale(1.05); }
+
+        /* --- ESTILOS PARA MODAL DE CONTACTO --- */
+        .contact-options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            border-radius: var(--radio-md);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .contact-btn i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        .contact-btn.whatsapp {
+            background-color: #25d366; /* WhatsApp Green */
+            color: var(--blanco);
+        }
+        .contact-btn.whatsapp:hover {
+            background-color: #1eab52;
+        }
+        .contact-btn.chat {
+            background-color: var(--gris-claro-fondo);
+            color: var(--negro);
+            border: 1px solid var(--color-separador);
+        }
+        .contact-btn.chat:hover {
+            background-color: #e8e8e8;
+        }
+        
+        /* --- ESTILOS ADICIONALES PARA MODALES --- */
+        #new-review-rating { margin-bottom: 20px; }
+        #new-review-rating i { color: var(--color-separador); cursor: pointer; font-size: 1.5rem; }
+        #new-review-rating i.active { color: var(--color-rating-star); }
+        .modal-content textarea { width: 100%; min-height: 100px; padding: 10px; border: var(--borde-default); border-radius: var(--radio-md); margin-top: 5px; resize: vertical; font-family: inherit; }
+        .modal-content label { font-weight: 600; color: var(--negro); display: block; margin-top: 15px; }
+
+
+        /* --- ESTILOS PARA CHAT FLOTANTE (FALTABAN) --- */
+        .chat-float-window {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 400px;
+            background: var(--blanco);
+            border-radius: var(--radio-md);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            display: none; /* Inicia oculto */
+            flex-direction: column;
+            z-index: 1010;
+            overflow: hidden;
+            transition: transform 0.3s, height 0.3s, opacity 0.3s;
+        }
+        .chat-float-window.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .chat-float-window.minimized {
+            height: 50px;
+            transform: translateY(350px);
+        }
+        .chat-float-header {
+            background: var(--azul-tuffy);
+            color: var(--blanco);
+            padding: 12px 15px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        .chat-float-header-info { display: flex; align-items: center; }
+        .chat-status-dot { width: 10px; height: 10px; background: var(--verde-check); border-radius: 50%; margin-right: 8px; border: 1px solid var(--blanco); }
+        .chat-float-controls i { margin-left: 10px; cursor: pointer; }
+        .chat-float-body {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: var(--gris-claro-fondo);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .chat-float-window.minimized .chat-float-body, 
+        .chat-float-window.minimized .chat-float-input { display: none; }
+
+        .chat-float-input {
+            display: flex;
+            padding: 10px;
+            border-top: var(--borde-default);
+        }
+        .chat-float-input input {
+            flex-grow: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: var(--radio-md);
+            margin-right: 10px;
+        }
+        .chat-float-input button {
+            background: var(--azul-tuffy);
+            color: var(--blanco);
+            border: none;
+            border-radius: var(--radio-md);
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .float-msg {
+            max-width: 80%;
+            padding: 10px 12px;
+            border-radius: 12px;
+            word-wrap: break-word;
+            font-size: 0.95rem;
+        }
+        .float-msg.user {
+            align-self: flex-end;
+            background-color: var(--azul-tuffy);
+            color: var(--blanco);
+            border-bottom-right-radius: 4px;
+        }
+        .float-msg.pro {
+            align-self: flex-start;
+            background-color: var(--blanco);
+            border: var(--borde-default);
+            border-bottom-left-radius: 4px;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 992px) {
+            .pro-main-layout { flex-direction: column; }
+            .pro-right-column { order: -1; min-width: 100%; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .chat-float-window { width: 90%; right: 5%; bottom: 10px; }
+            .chat-float-window.minimized { transform: translateY(350px); }
+        }
+        @media (max-width: 500px) {
+            .time-columns-container { flex-direction: column; }
+            .modal-time-picker { padding: 15px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="specialist-body" class="specialist-page-container">
+
+        <p class="back-link"><i class="fa-solid fa-arrow-left"></i> Volver a la Búsqueda</p>
+
+        <div class="pro-card pro-info-card">
+            <div class="pro-card-header">
+                <div class="pro-profile-pic-wrapper">
+                    <img id="pro-profile-pic" src="https://via.placeholder.com/150/00b388/ffffff?text=Dra.+Chen" alt="Dra. Chen">
+                </div>
+                <div class="pro-details-main">
+                    <h1 class="pro-name-title">Dra. Amelia Chen <i class="fa-solid fa-circle-check verified-icon"></i></h1>
+                    <p class="pro-specialty-text">Médico Veterinario Especialista</p>
+                    <p class="pro-sub-specialty-text">Oncología y Cirugía de Tejidos Blandos</p>
+                    <p><i class="fa-solid fa-location-dot"></i> Clínica Central TuffyPet - Col. Condesa</p>
+                    <div class="rating-info-container">
+                        <span class="rating-value">4.9</span>
+                        <div class="review-stars">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-alt"></i>
+                        </div>
+                        <span class="reviews-count">(50 Opiniones)</span>
+                    </div>
+                    <div class="pro-card-action-buttons">
+                        <button class="btn-primary" id="btn-agendar-header"><i class="fa-solid fa-calendar-check"></i> Agendar Cita</button>
+                        <button class="btn-secondary" onclick="window.openModal('contactModal')"><i class="fa-solid fa-envelope"></i> Contactar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pro-main-layout">
+
+            <div class="pro-left-column">
+                <div class="pro-tabs-nav-wrapper">
+                    <div class="pro-tabs-nav" id="pro-tabs-specialist">
+                        <div class="pro-tab-item active" data-tab="servicios-precios">Servicios y Precios</div>
+                        <div class="pro-tab-item" data-tab="consultorios">Consultorios</div>
+                        <div class="pro-tab-item" data-tab="galeria">Galería</div>
+                        <div class="pro-tab-item" data-tab="experiencia">Experiencia</div>
+                        <div class="pro-tab-item" data-tab="dudas">Dudas</div>
+                        <div class="pro-tab-item" data-tab="opiniones">Opiniones</div>
+                    </div>
+                </div>
+
+                <div class="pro-tabs-content">
+                    <div class="pro-tab-content active" id="tab-content-servicios-precios">
+                        <div class="pro-card content-section">
+                            <h3><i class="fa-solid fa-tags"></i> Servicios y Precios</h3>
+                            <div class="price-list-cool">
+                                <div class="price-item"><span class="service-name">Consulta de Medicina General</span><span class="service-price">$850.00 MXN</span></div>
+                                <div class="price-item highlighted"><span class="service-name"><i class="fa-solid fa-stethoscope"></i> Revisión de Oncología Inicial</span><span class="service-price">$1,400.00 MXN</span></div>
+                                <div class="price-item"><span class="service-name">Cirugía de Tejidos Blandos</span><span class="service-price">$5,500.00+ MXN</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pro-tab-content" id="tab-content-consultorios">
+                        <div class="pro-card content-section">
+                            <h3><i class="fa-solid fa-building"></i> Consultorios</h3>
+                            <div class="office-tabs-nav" id="office-tabs">
+                                <div class="office-tab-item active" data-office="central">Clínica Central</div>
+                                <div class="office-tab-item" data-office="satelite">Consultorio Satélite</div>
+                            </div>
+                            <div id="office-content-central" class="office-content active">
+                                <p class="office-address"><i class="fa-solid fa-map-pin"></i> Av. México 150, Col. Condesa, CDMX</p>
+                                <a href="#" class="btn-map">Ver en Mapa</a>
+                            </div>
+                            <div id="office-content-satelite" class="office-content">
+                                <p class="office-address"><i class="fa-solid fa-map-pin"></i> Blvd. Satélite 200, Edo. Mex</p>
+                                <a href="#" class="btn-map">Ver en Mapa</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pro-tab-content" id="tab-content-galeria">
+                        <div class="pro-card content-section">
+                            <h3><i class="fa-solid fa-images"></i> Galería</h3>
+                            <div class="gallery-grid" id="gallery-preview">
+                                <div class="gallery-item" data-img-index="0"><img src="https://indierocks.sfo3.digitaloceanspaces.com/wp-content/uploads/2017/10/Brandon-Flowers.jpg" alt="Brandon Flowers 1"></div>
+                                <div class="gallery-item" data-img-index="1"><img src="https://indierocks.sfo3.digitaloceanspaces.com/wp-content/uploads/2017/10/Brandon-Flowers.jpg" alt="Brandon Flowers 2"></div>
+                                <div class="gallery-item" data-img-index="2"><img src="https://indierocks.sfo3.digitaloceanspaces.com/wp-content/uploads/2017/10/Brandon-Flowers.jpg" alt="Brandon Flowers 3"></div>
+                                <div class="gallery-item show-more-overlay" onclick="window.openModal('fullGalleryModal')">
+                                    <span>Ver 3 fotos más</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pro-tab-content" id="tab-content-experiencia">
+                        <div class="pro-card content-section">
+                            <h3><i class="fa-solid fa-graduation-cap"></i> Experiencia</h3>
+                            <div class="experience-timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-dot"><i class="fa-solid fa-briefcase"></i></div>
+                                    <div class="timeline-content"><h4>Jefa de Oncología</h4><p>Clínica Central TuffyPet (2018 - Presente)</p></div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-dot"><i class="fa-solid fa-graduation-cap"></i></div>
+                                    <div class="timeline-content"><h4>Maestría en Cirugía de Tejidos Blandos</h4><p>Universidad Veterinaria Nacional (2016 - 2018)</p></div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-dot"><i class="fa-solid fa-hospital"></i></div>
+                                    <div class="timeline-content"><h4>Médico General</h4><p>Hospital Veterinario San Miguel (2014 - 2016)</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pro-tab-content" id="tab-content-dudas">
+                        <div class="pro-card content-section">
+                            <h3><i class="fa-solid fa-headset"></i> Preguntas y Respuestas</h3>
+                            <button class="btn-secondary" style="align-self:flex-start; margin-bottom:15px;" onclick="window.openModal('askQuestionModal')">
+                                <i class="fa-solid fa-circle-question"></i> Enviar Duda
+                            </button>
+                            
+                            <div id="dudas-list">
+                                <div class="chat-entry patient"><div class="chat-body"><div class="chat-header">Paciente</div><p>¿Hacen quimioterapia?</p></div></div>
+                                <div class="chat-entry pro"><div class="chat-body"><div class="chat-header">Dra. Chen</div><p>Sí, contamos con protocolos especializados.</p></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pro-tab-content" id="tab-content-opiniones">
+                        <div class="pro-card content-section">
+                            <h3><i class="fa-solid fa-star"></i> Opiniones</h3>
+                            <button class="btn-primary" style="align-self:flex-start; margin-bottom:15px;" onclick="window.openModal('addReviewModal')">
+                                <i class="fa-solid fa-pen"></i> Escribir Opinión
+                            </button>
+
+                            <div id="reviews-list">
+                                <div class="chat-entry review">
+                                    <div class="chat-header">Usuario Verificado | 01/12/2025</div>
+                                    <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                                    <div class="chat-body"><p>Excelente doctora, muy humana.</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pro-right-column">
+                <div class="pro-card calendar-sidebar-card">
+                    <h2 class="sidebar-title"><i class="fa-solid fa-calendar-alt"></i> Agendar Cita</h2>
+                    
+                    <div class="sidebar-form-options" style="padding-bottom: 0;">
+                        <div class="mode-tabs-nav" id="appointment-mode-tabs">
+                            <div class="mode-tab-item active" data-mode="presencial">
+                                <i class="fa-solid fa-location-dot"></i> Presencial
+                            </div>
+                            <div class="mode-tab-item" data-mode="online">
+                                <i class="fa-solid fa-video"></i> Online
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="calendario-selector">
+                        <div class="calendar-widget">
+                            <div class="calendar-nav">
+                                <button class="prev-month" id="prev-month-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                                <span class="current-month-year" id="calendar-title">Diciembre 2025</span>
+                                <button class="next-month" id="next-month-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="calendar-days-grid" id="calendar-grid">
+                                </div>
+                        </div>
+                    </div>
+                    <div class="sidebar-form-options" style="padding-top: 0;">
+                        <p style="font-weight: 500;">Servicio:</p>
+                        <select id="select-service-calendar"><option>Consulta General ($800)</option><option>Oncología ($1400)</option></select>
+                        <p style="font-size:0.85rem; color:var(--gris-piedra); margin-top:10px;">* Haz click en un día disponible para ver horarios.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('contactModal')">×</button>
+            <h3>Contactar a la Dra. Chen</h3>
+            <p>Selecciona tu medio preferido:</p>
+            <div class="contact-options-grid">
+                <a href="https://wa.me/5211234567890" target="_blank" class="contact-btn whatsapp">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                </a>
+                <div class="contact-btn chat" onclick="openLiveChat()">
+                    <i class="fa-solid fa-comments"></i> Iniciar Chat Live
+                </div>
+            </div>
+            <p style="font-size:0.8rem; color:var(--gris-piedra); text-align:center; margin-top:20px;">* El chat te conecta directamente con la Dra. Chen cuando está disponible.</p>
+        </div>
+    </div>
+
+    <div class="modal" id="addReviewModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('addReviewModal')">×</button>
+            <h3>Escribir Opinión</h3>
+            <label>Puntuación:</label>
+            <div class="rating-input" id="new-review-rating" data-current-rating="5">
+                <i class="fa-solid fa-star active" data-rating="1"></i><i class="fa-solid fa-star active" data-rating="2"></i><i class="fa-solid fa-star active" data-rating="3"></i><i class="fa-solid fa-star active" data-rating="4"></i><i class="fa-solid fa-star active" data-rating="5"></i>
+            </div>
+            <label>Comentario:</label>
+            <textarea id="new-review-text" placeholder="Comparte tu experiencia..."></textarea>
+            <button class="btn-primary" id="btn-submit-review" style="margin-top:20px;">Publicar Opinión</button>
+        </div>
+    </div>
+
+    <div class="modal" id="askQuestionModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('askQuestionModal')">×</button>
+            <h3>Enviar Duda</h3>
+            <label>Tu pregunta:</label>
+            <textarea id="new-question-text" placeholder="Escribe tu pregunta aquí..."></textarea>
+            <button class="btn-primary" id="btn-submit-question" style="margin-top:20px;">Enviar Pregunta</button>
+        </div>
+    </div>
+
+    <div class="modal" id="fullGalleryModal">
+        <div class="modal-content modal-content-lg full-gallery-view">
+            <button class="modal-close" onclick="closeModal('fullGalleryModal')">×</button>
+            <h3>Galería de la Clínica</h3>
+            <div id="full-gallery-display">
+                <div class="carousel-container">
+                    <button id="prev-btn" class="carousel-btn prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                    <img id="main-gallery-img" class="main-gallery-img" src="" alt="Imagen principal">
+                    <button id="next-btn" class="carousel-btn next-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                
+                <div class="gallery-grid" id="full-gallery-thumbnails" style="grid-template-columns: repeat(6, 1fr);">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal" id="timeSelectModal">
+        <div class="modal-content modal-time-picker">
+            <span class="modal-close-icon" onclick="closeModal('timeSelectModal')">×</span>
+            
+            <h3 class="modal-title-blue">Selecciona horario para tu cita</h3>
+            
+            <div class="dashed-separator"></div>
+            
+            <p class="date-display">
+                Día seleccionado: <span id="selected-date-display" class="date-highlight">--/--/----</span>
+            </p>
+
+            <div class="time-columns-container">
+                <div class="time-column">
+                    <div class="column-header">Mañana (AM)</div>
+                    <div class="dashed-separator-small"></div>
+                    <div class="time-grid morning-grid scrollable" id="morning-time-grid">
+                        </div>
+                </div>
+
+                <div class="time-column">
+                    <div class="column-header">Tarde (PM)</div>
+                    <div class="dashed-separator-small"></div>
+                    <div class="time-grid afternoon-grid scrollable" id="afternoon-time-grid">
+                        </div>
+                </div>
+            </div>
+
+            <div class="modal-footer-actions">
+                <button class="btn-cancel" onclick="closeModal('timeSelectModal')">Cancelar</button>
+                <button class="btn-confirm" id="confirm-schedule-button">Confirmar cita</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="officeDetailsModal">
+        <div class="modal-content modal-content-lg">
+            <button class="modal-close" onclick="closeModal('officeDetailsModal')">×</button>
+            <h3 id="office-details-title">Detalles del Consultorio</h3>
+            
+            <div id="office-details-body">
+                <div style="height: 250px; background-color: var(--gris-claro-fondo); border: var(--borde-default); border-radius: var(--radio-md); margin-bottom: 15px; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--gris-piedra);">
+                    [Vista de Mapa Mock]
+                </div>
+                <p style="font-size: 1.1rem; font-weight: 600;" id="office-details-address"><i class="fa-solid fa-location-dot"></i> Dirección Completa</p>
+                <a href="#" target="_blank" class="btn-primary" id="btn-get-directions" style="display:inline-block; margin-bottom:20px;"><i class="fa-solid fa-route"></i> Cómo llegar</a>
+
+                <h4 style="border-bottom: 1px solid var(--color-separador); padding-bottom: 5px; margin-bottom: 15px;"><i class="fa-solid fa-clock"></i> Horario de Atención</h4>
+                <div id="office-details-schedule" style="display: flex; flex-direction: column; gap: 8px;">
+                    <p>Lunes a Viernes: <strong>9:00 AM - 7:00 PM</strong></p>
+                    <p>Sábados: <strong>9:00 AM - 1:00 PM</strong></p>
+                    <p>Domingos: <strong style="color: #dc3545;">Cerrado</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="chat-float-window" id="chat-float">
+        <div class="chat-float-header" onclick="toggleChat()">
+            <div class="chat-float-header-info">
+                <div class="chat-status-dot"></div>
+                Dra. Amelia Chen
+            </div>
+            <div class="chat-float-controls">
+                <i class="fa-solid fa-minus" title="Minimizar"></i>
+                <i class="fa-solid fa-times" title="Cerrar" onclick="closeChat(event)"></i> 
+            </div>
+        </div>
+        <div class="chat-float-body" id="chat-body">
+            </div>
+        <div class="chat-float-input">
+            <input type="text" id="chat-input" placeholder="Escribe a la Dra...">
+            <button onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script>
+        /* ================================================= */
+        /* === LÓGICA JAVASCRIPT UNIFICADA Y CORREGIDA === */
+        /* ================================================= */
         document.addEventListener('DOMContentLoaded', () => {
             
-            // Función de Inicialización del Calendario (profileIndex 1)
-            window.renderCalendarClinic = () => {
-                renderCalendar('calendar-container-clinic', calendarDates['calendar-container-clinic'] ? new Date(calendarDates['calendar-container-clinic']) : new Date(), 1);
+            /* --- VARIABLES GLOBALES Y UTILIDADES --- */
+            const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            
+            // Función auxiliar para abrir y cerrar modales
+            window.openModal = (id) => { document.getElementById(id).style.display = 'flex'; };
+            window.closeModal = (id) => { document.getElementById(id).style.display = 'none'; };
+            
+            // Cerrar modales al hacer clic en la X (asegura que funciona en todos los modales)
+            document.querySelectorAll('.modal-close, .modal-close-icon').forEach(btn => {
+                btn.addEventListener('click', (e) => { 
+                    e.target.closest('.modal').style.display = 'none';
+                });
+            });
+
+
+            /* ----------------------------------- */
+            /* --- 1. LÓGICA DE PESTAÑAS Y MAPAS --- */
+            /* ----------------------------------- */
+            const tabs = document.querySelectorAll('#pro-tabs-specialist .pro-tab-item');
+            const contents = document.querySelectorAll('.pro-tabs-content .pro-tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    const targetId = 'tab-content-' + tab.getAttribute('data-tab');
+                    const targetElement = document.getElementById(targetId);
+                    if(targetElement) targetElement.classList.add('active');
+                });
+            });
+
+            /* --- TABS INTERNOS (Consultorios) --- */
+            const officeTabs = document.querySelectorAll('#office-tabs .office-tab-item');
+            const officeContents = document.querySelectorAll('.office-content');
+            
+            officeTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    officeTabs.forEach(t => t.classList.remove('active'));
+                    officeContents.forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    const targetElement = document.getElementById('office-content-' + tab.getAttribute('data-office'));
+                    if(targetElement) targetElement.classList.add('active');
+                });
+            });
+
+            // --- FUNCIONALIDAD "VER EN MAPA" (ABRIR MODAL DE DETALLES) ---
+            const mapLinks = document.querySelectorAll('.office-content .btn-map');
+
+            const officeData = {
+                central: { 
+                    name: "Clínica Central TuffyPet", 
+                    address: "Av. México 150, Col. Condesa, CDMX", 
+                    coords: "19.416801,-99.176466" 
+                },
+                satelite: { 
+                    name: "Consultorio Satélite", 
+                    address: "Blvd. Satélite 200, Edo. Mex", 
+                    coords: "19.537233,-99.231998" 
+                }
             };
 
-            const data = MOCK_CLINIC_DATA;
-            if (!data || data.type !== 'clinic') return;
+            mapLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const officeId = e.target.closest('.office-content').id.replace('office-content-', '');
+                    const data = officeData[officeId];
+                    
+                    // 1. Llenar el modal de detalles
+                    document.getElementById('office-details-title').textContent = `Detalles del Consultorio: ${data.name}`;
+                    document.getElementById('office-details-address').innerHTML = `<i class="fa-solid fa-location-dot"></i> ${data.address}`;
+                    
+                    // 2. Mock de "Cómo llegar" (Google Maps Directions URL)
+                    const mapUrl = `https://www.google.com/maps/dir/?api=1&destination=$$${encodeURIComponent(data.address)}`;
+                    document.getElementById('btn-get-directions').href = mapUrl;
+                    
+                    // 3. Abrir el nuevo modal
+                    window.openModal('officeDetailsModal');
+                    
+                    console.log(`[MAPA MOCK] Abriendo Modal de Detalles para: ${data.address}`);
+                });
+            });
 
-            // Rellenar Info Principal
-            document.getElementById('clinic-name').textContent = data.name;
-            document.getElementById('clinic-slogan').textContent = data.slogan;
-            document.getElementById('clinic-profile-pic').src = data.profilePicUrl;
-            document.getElementById('clinic-address').textContent = data.address;
+
+            /* ----------------------------------- */
+            /* --- 2. CALENDARIO Y SELECCIÓN DE HORA --- */
+            /* ----------------------------------- */
             
-            // Rellenar Stats
-            document.getElementById('clinic-rating-badge').innerHTML = `${renderStars(data.rating)} ${data.rating.toFixed(1)}/5`;
-            document.getElementById('clinic-reviews-count').textContent = data.reviewCount;
-
-            // Rellenar Sidebar
-            document.getElementById('clinic-address-sidebar-clinic').textContent = data.address;
-            const serviceSelect = document.getElementById('service-select-clinic');
-            serviceSelect.innerHTML = data.services.map(s => `<option>${s}</option>`).join('');
-
-            // Pestañas
-            document.getElementById('tab-content-novedades').innerHTML = `<p class="noveties-text">${data.noveties}</p>`;
-            document.getElementById('reviews-container-clinic').innerHTML = renderReviews(data.reviews);
-            document.getElementById('opiniones-count-clinic').textContent = data.reviewCount;
+            let currentMonth = new Date().getMonth();
+            let currentYear = new Date().getFullYear();
+            const today = new Date();
             
-            // Pestaña Especialistas
-            const specialistList = document.getElementById('specialist-list-container');
-            // Usamos MOCK_SPECIALIST_DATA como mock para el modal, ya que es el perfil detallado.
-            specialistList.innerHTML = data.specialists.map(s => `
-                <li>
-                    <img class="specialist-avatar" src="${s.profilePicUrl}" alt="${s.name}">
-                    <div class="specialist-info">
-                        <h4>${s.name}</h4>
-                        <p>${s.specialty}</p>
+            const calendarGrid = document.getElementById('calendar-grid');
+            const calendarTitle = document.getElementById('calendar-title');
+            const dateDisplay = document.getElementById('selected-date-display');
+            const morningTimeGrid = document.getElementById('morning-time-grid');
+            const afternoonTimeGrid = document.getElementById('afternoon-time-grid');
+            
+            let selectedDate = null;
+            let selectedTime = null;
+
+            const availableTimes = [
+                '9:00 AM', '10:00 AM', '11:00 AM', 
+                '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM'
+            ];
+            
+            function renderTimeChips() {
+                morningTimeGrid.innerHTML = '';
+                afternoonTimeGrid.innerHTML = '';
+
+                availableTimes.forEach(time => {
+                    const isMorning = time.includes('AM');
+                    const isDisabled = time === '1:00 PM' && selectedDate === '2025-12-31'; // Ejemplo de día ocupado (mock)
+                    
+                    const chip = document.createElement('button');
+                    chip.className = `time-chip ${isDisabled ? 'disabled' : ''}`;
+                    chip.setAttribute('data-time', time);
+                    chip.innerHTML = time.replace(' ', '<br>');
+                    chip.disabled = isDisabled;
+
+                    if (!isDisabled) {
+                        chip.addEventListener('click', handleTimeSelection);
+                    }
+                    
+                    if (time === selectedTime) {
+                        chip.classList.add('selected');
+                    }
+
+                    if (isMorning) {
+                        morningTimeGrid.appendChild(chip);
+                    } else {
+                        afternoonTimeGrid.appendChild(chip);
+                    }
+                });
+            }
+
+            function handleTimeSelection(e) {
+                document.querySelectorAll('.time-chip').forEach(c => c.classList.remove('selected'));
+                e.currentTarget.classList.add('selected');
+                selectedTime = e.currentTarget.getAttribute('data-time');
+            }
+
+            function renderCalendar() {
+                calendarTitle.innerText = `${months[currentMonth]} ${currentYear}`;
+                calendarGrid.innerHTML = `<span>Dom</span><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span>`; 
+
+                const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+                for(let i=0; i<firstDay; i++) calendarGrid.innerHTML += `<span></span>`;
+                
+                for(let i=1; i<=daysInMonth; i++) {
+                    const day = new Date(currentYear, currentMonth, i);
+                    const dayElement = document.createElement('span');
+                    dayElement.className = 'calendar-date';
+                    dayElement.innerText = i;
+                    
+                    const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                    dayElement.setAttribute('data-date', dateStr);
+
+                    let isAvailable = true;
+                    
+                    if (day < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+                        dayElement.classList.add('disabled');
+                        isAvailable = false;
+                    } else if (i % 7 === 0) { // Simulación: Domingo
+                        dayElement.classList.add('disabled');
+                        isAvailable = false;
+                    } else if (i % 5 === 0) { // Simulación: Días de advertencia (pocos espacios)
+                        dayElement.classList.add('warning');
+                    } else {
+                        dayElement.classList.add('available');
+                    }
+
+                    if (day.getDate() === today.getDate() && day.getMonth() === today.getMonth() && day.getFullYear() === today.getFullYear()) {
+                        dayElement.classList.add('today');
+                    }
+
+                    if (isAvailable) {
+                        dayElement.addEventListener('click', handleDateSelection);
+                    }
+                    
+                    calendarGrid.appendChild(dayElement);
+                }
+                if(selectedDate) {
+                    const dayElement = calendarGrid.querySelector(`[data-date="${selectedDate}"]`);
+                    if(dayElement) dayElement.classList.add('selected');
+                }
+            }
+
+            document.getElementById('prev-month-btn').addEventListener('click', () => {
+                currentMonth--;
+                if(currentMonth < 0) { currentMonth = 11; currentYear--; }
+                renderCalendar();
+            });
+
+            document.getElementById('next-month-btn').addEventListener('click', () => {
+                currentMonth++;
+                if(currentMonth > 11) { currentMonth = 0; currentYear++; }
+                renderCalendar();
+            });
+            
+            renderCalendar();
+
+            // Lógica al seleccionar un día del calendario (ABRIR MODAL DE HORA)
+            function handleDateSelection(e) {
+                if (e.currentTarget.classList.contains('disabled')) return;
+                
+                document.querySelectorAll('.calendar-date.selected').forEach(d => d.classList.remove('selected'));
+                e.currentTarget.classList.add('selected');
+
+                selectedDate = e.currentTarget.getAttribute('data-date');
+
+                const dateParts = selectedDate.split('-');
+                const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+                dateDisplay.textContent = formattedDate;
+
+                selectedTime = null;
+                renderTimeChips();
+
+                window.openModal('timeSelectModal');
+            }
+
+            document.getElementById('btn-agendar-header').addEventListener('click', () => {
+                document.getElementById('calendario-selector').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            document.getElementById('confirm-schedule-button').addEventListener('click', () => {
+                if (!selectedTime) {
+                    alert('⚠️ Por favor, selecciona una hora antes de confirmar.');
+                    return;
+                }
+                
+                const service = document.getElementById('select-service-calendar').value;
+                const date = dateDisplay.textContent;
+                const mode = document.querySelector('#appointment-mode-tabs .mode-tab-item.active').getAttribute('data-mode');
+                
+                alert(`✅ ¡Cita Confirmada!\nModo: ${mode.toUpperCase()}\nServicio: ${service.split('(')[0].trim()}\nFecha: ${date}\nHora: ${selectedTime}\n\nTe esperamos.`);
+                
+                selectedDate = null;
+                selectedTime = null;
+                document.querySelectorAll('.calendar-date.selected').forEach(d => d.classList.remove('selected'));
+                window.closeModal('timeSelectModal');
+                renderCalendar(); 
+            });
+
+
+            /* ----------------------------------- */
+            /* --- 3. LÓGICA DE GALERÍA (CARRUSEL) (ACTUALIZADA) --- */
+            /* ----------------------------------- */
+
+            const singleImageUrl = 'https://indierocks.sfo3.digitaloceanspaces.com/wp-content/uploads/2017/10/Brandon-Flowers.jpg';
+            
+            // Usamos la misma URL para todas las imágenes de la galería completa
+            const allGalleryImages = [
+                singleImageUrl, singleImageUrl, singleImageUrl, 
+                singleImageUrl, singleImageUrl, singleImageUrl
+            ];
+
+            const mainGalleryImg = document.getElementById('main-gallery-img');
+            const galleryThumbnailsContainer = document.getElementById('full-gallery-thumbnails');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            let currentIndex = 0;
+
+            function displayImage(index) {
+                if (index < 0 || index >= allGalleryImages.length) return; 
+
+                currentIndex = index;
+                mainGalleryImg.src = allGalleryImages[currentIndex];
+                
+                // Actualizar el estado de los botones de navegación
+                prevBtn.disabled = currentIndex === 0;
+                nextBtn.disabled = currentIndex === allGalleryImages.length - 1;
+                
+                // Marcar el thumbnail seleccionado
+                document.querySelectorAll('#full-gallery-thumbnails .gallery-item').forEach((item, i) => {
+                    item.classList.toggle('selected-thumbnail', i === currentIndex);
+                });
+            }
+            
+            function setupFullGallery() {
+                galleryThumbnailsContainer.innerHTML = '';
+                allGalleryImages.forEach((src, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'gallery-item';
+                    item.setAttribute('data-index', index);
+                    item.addEventListener('click', () => displayImage(index));
+                    
+                    const img = document.createElement('img');
+                    img.src = src; 
+                    item.appendChild(img);
+                    galleryThumbnailsContainer.appendChild(item);
+                });
+            }
+            
+            prevBtn.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    displayImage(currentIndex - 1);
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentIndex < allGalleryImages.length - 1) {
+                    displayImage(currentIndex + 1);
+                }
+            });
+
+            function initializeGalleryModal(initialIndex = 0) {
+                setupFullGallery();
+                displayImage(initialIndex);
+                window.openModal('fullGalleryModal');
+            }
+            
+            // Inicialización de la galería (al hacer click en una vista previa o en "Ver más")
+            document.querySelector('.show-more-overlay').addEventListener('click', () => {
+                initializeGalleryModal(0); 
+            });
+
+            document.querySelectorAll('#gallery-preview .gallery-item').forEach((item, index) => {
+                if (!item.classList.contains('show-more-overlay')) {
+                    item.addEventListener('click', () => {
+                        initializeGalleryModal(index);
+                    });
+                }
+            });
+
+
+            /* ----------------------------------- */
+            /* --- 4. LÓGICA DUDAS Y OPINIONES (MODALES FUNCIONANDO) --- */
+            /* ----------------------------------- */
+
+            const ratingContainer = document.getElementById('new-review-rating');
+            const stars = ratingContainer.querySelectorAll('i');
+            
+            stars.forEach(star => {
+                star.addEventListener('click', (e) => {
+                    const val = parseInt(e.target.getAttribute('data-rating'));
+                    ratingContainer.setAttribute('data-current-rating', val);
+                    
+                    stars.forEach(s => {
+                        if(parseInt(s.getAttribute('data-rating')) <= val) {
+                            s.classList.add('active');
+                            s.style.color = 'var(--color-rating-star)';
+                        } else {
+                            s.classList.remove('active');
+                            s.style.color = 'var(--color-separador)';
+                        }
+                    });
+                });
+            });
+            
+            document.getElementById('addReviewModal').addEventListener('transitionend', (e) => {
+                // Reinicia las estrellas al abrir el modal (si usas animaciones)
+                if (e.propertyName === 'opacity' && document.getElementById('addReviewModal').style.display === 'flex') {
+                    stars.forEach(s => { s.classList.add('active'); s.style.color = 'var(--color-rating-star)'; });
+                    ratingContainer.setAttribute('data-current-rating', 5);
+                }
+            });
+
+            document.getElementById('btn-submit-review').addEventListener('click', () => {
+                const text = document.getElementById('new-review-text').value;
+                const rating = document.getElementById('new-review-rating').getAttribute('data-current-rating');
+                
+                if(text.trim() === "") { alert("Por favor escribe un comentario."); return; }
+
+                let starsHtml = '';
+                for(let i=0; i<5; i++) {
+                    const starColor = i < rating ? 'var(--color-rating-star)' : 'var(--color-separador)';
+                    starsHtml += `<i class="fa-solid fa-star" style="color:${starColor}"></i>`;
+                }
+
+                const reviewDiv = document.createElement('div');
+                reviewDiv.className = 'chat-entry review';
+                reviewDiv.innerHTML = `
+                    <div class="chat-header">Usuario Nuevo | Hace un momento</div>
+                    <div class="review-stars">${starsHtml}</div>
+                    <div class="chat-body"><p>${text}</p></div>
+                `;
+
+                const list = document.getElementById('reviews-list');
+                list.insertBefore(reviewDiv, list.firstChild);
+
+                document.getElementById('new-review-text').value = "";
+                window.closeModal('addReviewModal');
+                alert("¡Opinión publicada con éxito!");
+            });
+
+            document.getElementById('btn-submit-question').addEventListener('click', () => {
+                const text = document.getElementById('new-question-text').value;
+                
+                if(text.trim() === "") { alert("Por favor escribe tu pregunta."); return; }
+
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'chat-entry patient';
+                questionDiv.innerHTML = `
+                    <div class="chat-body">
+                        <div class="chat-header">Usuario (Tú) - Hace un momento</div>
+                        <p>${text}</p>
                     </div>
-                    <button class="btn-view-profile" onclick="renderSpecialistProfileModal(MOCK_SPECIALIST_DATA)">
-                        <i class="fa-solid fa-user-circle"></i> Ver Perfil
-                    </button>
-                </li>
-            `).join('');
+                `;
 
-            // Pestaña Servicios
-            document.getElementById('tab-content-servicios').innerHTML = `
-                <h3>Servicios de la Clínica</h3>
-                <ul class="service-list">${data.services.map(s => `<li>${s}</li>`).join('')}</ul>
-            `;
+                const list = document.getElementById('dudas-list');
+                list.insertBefore(questionDiv, list.firstChild);
+
+                document.getElementById('new-question-text').value = "";
+                window.closeModal('askQuestionModal');
+                alert("Tu duda ha sido enviada.");
+            });
+
+
+            /* ----------------------------------- */
+            /* --- 5. CHAT LIVE FLOTANTE (ESTILOS AÑADIDOS) --- */
+            /* ----------------------------------- */
             
-            // Inicializar Listeners y Calendario
-            document.getElementById('pro-tabs-clinic').addEventListener('click', handleTabChange);
-            document.querySelector('.pro-tab-item[data-tab="novedades"]').click();
-            window.renderCalendarClinic();
+            const chatWin = document.getElementById('chat-float');
+            const chatBody = document.getElementById('chat-body');
+            const chatInput = document.getElementById('chat-input');
+
+            window.openLiveChat = () => {
+                window.closeModal('contactModal');
+                chatWin.classList.add('active');
+                chatWin.classList.remove('minimized');
+                if(chatBody.children.length === 0) {
+                    addMessage("¡Hola! Soy la Dra. Amelia Chen. 👋", 'pro');
+                    setTimeout(() => addMessage("Estoy en consulta, pero dime ¿en qué te puedo ayudar?", 'pro'), 1000);
+                }
+            };
+
+            window.toggleChat = () => { chatWin.classList.toggle('minimized'); };
+            window.closeChat = (e) => { 
+                e.stopPropagation(); 
+                chatWin.classList.remove('active'); 
+                chatWin.classList.remove('minimized');
+            };
+
+            window.sendChatMessage = () => {
+                const txt = chatInput.value.trim();
+                if(!txt) return;
+                addMessage(txt, 'user');
+                chatInput.value = '';
+                // Simulación de respuesta del profesional
+                setTimeout(() => addMessage("Gracias por tu pregunta. Enseguida te confirmo.", 'pro'), 1500);
+            };
+
+            function addMessage(text, type) {
+                const div = document.createElement('div');
+                div.className = `float-msg ${type}`;
+                div.innerText = text;
+                chatBody.appendChild(div);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+
+            /* ----------------------------------- */
+            /* --- 6. LÓGICA DE MODALIDAD (CALENDARIO) --- */
+            /* ----------------------------------- */
+            const modeTabs = document.querySelectorAll('#appointment-mode-tabs .mode-tab-item');
+            let selectedMode = 'presencial'; 
+
+            modeTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    modeTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    selectedMode = tab.getAttribute('data-mode');
+                    
+                    console.log(`Modo de cita cambiado a: ${selectedMode}`);
+                    
+                    // Forzar una re-renderización del calendario (por si los días cambian)
+                    renderCalendar(); 
+                });
+            });
         });
     </script>
 </body>

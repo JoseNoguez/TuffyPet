@@ -1,0 +1,270 @@
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="/src/styles/perfil-especialista.css">
+
+<div id="specialist-body" class="specialist-page-container" data-pro-id="">
+
+    <!-- BOTÓN VOLVER (ID CORRECTO PARA EL JS) -->
+    <p class="back-link" id="btnVolverBusqueda">
+        <i class="fa-solid fa-arrow-left"></i> Volver a la Búsqueda
+    </p>
+
+    <!-- ========================================================= -->
+    <!-- CARD PRINCIPAL DEL PERFIL -->
+    <!-- ========================================================= -->
+    <div class="pro-card pro-info-card">
+        <div class="pro-card-header">
+
+            <div class="pro-profile-pic-wrapper">
+                <img id="perfilFoto" src="" alt="Foto del especialista">
+            </div>
+
+            <div class="pro-details-main">
+
+                <h1 id="perfilNombre" class="pro-name-title"></h1>
+
+                <p id="perfilEspecialidad" class="pro-specialty-text"></p>
+                <p id="perfilSubEspecialidad" class="pro-sub-specialty-text"></p>
+
+                <p id="perfilDireccion" class="pro-address">
+                    <i class="fa-solid fa-location-dot"></i>
+                </p>
+
+                <div class="rating-info-container">
+                    <span id="perfilRating" class="rating-value"></span>
+                    <span id="perfilReviewCount" class="reviews-count"></span>
+                </div>
+
+                <div class="pro-card-action-buttons">
+                    <button class="btn-secondary" onclick="window.openModal('contactModal')">
+                        <i class="fa-solid fa-envelope"></i> Contactar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- LAYOUT IZQUIERDA + DERECHA -->
+    <!-- ========================================================= -->
+    <div class="pro-main-layout">
+
+        <!-- ============================= -->
+        <!-- COLUMNA IZQUIERDA -->
+        <!-- ============================= -->
+        <div class="pro-left-column">
+
+            <!-- NAV TABS -->
+            <div class="pro-tabs-nav-wrapper">
+                <div class="pro-tabs-nav">
+                    <div class="pro-tab-item active" data-tab="servicios">Servicios y Precios</div>
+                    <div class="pro-tab-item" data-tab="consultorios">Consultorios</div>
+                    <div class="pro-tab-item" data-tab="galeria">Galería</div>
+                    <div class="pro-tab-item" data-tab="experiencia">Experiencia</div>
+                    <div class="pro-tab-item" data-tab="dudas">Dudas</div>
+                    <div class="pro-tab-item" data-tab="opiniones">Opiniones</div>
+                </div>
+            </div>
+
+            <!-- CONTENIDOS -->
+            <div class="pro-tabs-content">
+
+                <!-- SERVICIOS -->
+                <div class="pro-tab-content active" id="tab-content-servicios">
+                    <div class="pro-card content-section">
+                        <h3><i class="fa-solid fa-tags"></i> Servicios y Precios</h3>
+                        <div id="perfilServicios" class="price-list-cool"></div>
+                    </div>
+                </div>
+
+                <!-- CONSULTORIOS -->
+                <div class="pro-tab-content" id="tab-content-consultorios">
+                    <div class="pro-card content-section">
+                        <h3><i class="fa-solid fa-building"></i> Consultorios</h3>
+                        <div id="office-tabs"></div>
+                        <div id="office-contents"></div>
+                    </div>
+                </div>
+
+                <!-- GALERÍA -->
+                <div class="pro-tab-content" id="tab-content-galeria">
+                    <div class="pro-card content-section">
+                        <h3><i class="fa-solid fa-images"></i> Galería</h3>
+                        <div id="perfilGaleria" class="gallery-grid"></div>
+                    </div>
+                </div>
+
+                <!-- EXPERIENCIA -->
+                <div class="pro-tab-content" id="tab-content-experiencia">
+                    <div class="pro-card content-section">
+                        <h3><i class="fa-solid fa-graduation-cap"></i> Experiencia</h3>
+                        <div id="experience-timeline"></div>
+                    </div>
+                </div>
+
+                <!-- DUDAS -->
+                <div class="pro-tab-content" id="tab-content-dudas">
+                    <div class="pro-card content-section">
+                        <h3><i class="fa-solid fa-headset"></i> Preguntas y Respuestas</h3>
+
+                        <button class="btn-secondary" id="btnHacerPregunta">
+                            <i class="fa-solid fa-circle-question"></i> Enviar Duda
+                        </button>
+
+                        <div id="perfilDudas"></div>
+                    </div>
+                </div>
+
+                <!-- OPINIONES -->
+                <div class="pro-tab-content" id="tab-content-opiniones">
+                    <div class="pro-card content-section">
+                        <h3><i class="fa-solid fa-star"></i> Opiniones</h3>
+
+                        <button class="btn-primary" id="btnAgregarOpinion">
+                            <i class="fa-solid fa-pen"></i> Escribir Opinión
+                        </button>
+
+                        <div id="perfilResenas"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================= -->
+        <!-- COLUMNA DERECHA (CALENDARIO) -->
+        <!-- ============================= -->
+        <div class="pro-right-column">
+
+            <div class="pro-card calendar-sidebar-card">
+
+                <h2 class="sidebar-title">
+                    <i class="fa-solid fa-calendar-alt"></i> Agendar Cita
+                </h2>
+
+                <div class="mode-tabs-nav">
+                    <div class="mode-tab-item active" id="modoPresencial">Presencial</div>
+                    <div class="mode-tab-item" id="modoOnline">Online</div>
+                </div>
+
+                <div id="perfilCalendar" class="calendar-widget"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<!-- CONTACTO -->
+<div class="modal" id="contactModal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal('contactModal')">×</button>
+        <h3>Contactar</h3>
+
+        <div class="contact-options-grid">
+            <a id="whatsapp-link" target="_blank" class="contact-btn whatsapp">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+            </a>
+
+            <div class="contact-btn chat" onclick="openLiveChat()">
+                <i class="fa-solid fa-comments"></i> Iniciar Chat Live
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- MODAL OPINIONES -->
+<div class="modal" id="addReviewModal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal('addReviewModal')">×</button>
+        <h3>Escribir Opinión</h3>
+
+        <div class="rating-input" id="new-review-rating" data-current-rating="5"></div>
+
+        <textarea id="new-review-text" placeholder="Comparte tu experiencia..."></textarea>
+        <button id="btn-submit-review" class="btn-primary">Publicar Opinión</button>
+    </div>
+</div>
+
+<!-- MODAL DUDAS -->
+<div class="modal" id="askQuestionModal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal('askQuestionModal')">×</button>
+        <h3>Enviar Duda</h3>
+
+        <textarea id="new-question-text" placeholder="Escribe tu pregunta aquí..."></textarea>
+        <button id="btn-submit-question" class="btn-primary">Enviar Pregunta</button>
+    </div>
+</div>
+
+<!-- GALERÍA COMPLETA -->
+<div class="modal" id="fullGalleryModal">
+    <div class="modal-content modal-content-lg full-gallery-view">
+        <button class="modal-close" onclick="closeModal('fullGalleryModal')">×</button>
+
+        <h3>Galería</h3>
+
+        <div id="full-gallery-display">
+            <button id="prev-btn" class="carousel-btn"><i class="fa-solid fa-chevron-left"></i></button>
+            <img id="main-gallery-img" class="main-gallery-img" src="">
+            <button id="next-btn" class="carousel-btn"><i class="fa-solid fa-chevron-right"></i></button>
+
+            <div class="gallery-grid" id="full-gallery-thumbnails"></div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL HORARIOS -->
+<div class="modal" id="timeSelectModal">
+    <div class="modal-content modal-time-picker">
+        <button class="modal-close" onclick="closeModal('timeSelectModal')">×</button>
+
+        <h3>Selecciona horario para tu cita</h3>
+        <p>Día seleccionado: <span id="selected-date-display">--/--/----</span></p>
+
+        <div class="time-columns-container">
+            <div class="time-column">
+                <div class="column-header">Mañana (AM)</div>
+                <div class="time-grid" id="morning-time-grid"></div>
+            </div>
+            <div class="time-column">
+                <div class="column-header">Tarde (PM)</div>
+                <div class="time-grid" id="afternoon-time-grid"></div>
+            </div>
+        </div>
+
+        <button id="confirm-schedule-button" class="btn-confirm">Confirmar</button>
+    </div>
+</div>
+
+<!-- CHAT -->
+<div class="chat-float-window" id="chat-float">
+    <div class="chat-float-header" onclick="toggleChat()">
+        <div class="chat-float-header-info">
+            <div class="chat-status-dot"></div>
+            <span id="chat-pro-name"></span>
+        </div>
+        <div class="chat-float-controls">
+            <i class="fa-solid fa-minus"></i>
+            <i class="fa-solid fa-times" onclick="closeChat(event)"></i>
+        </div>
+    </div>
+
+    <div class="chat-float-body" id="chat-body"></div>
+
+    <div class="chat-float-input">
+        <input type="text" id="chat-input" placeholder="Escribe tu mensaje...">
+        <button onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+</div>
+
+<script src="/src/js/api/apiMock.js"></script>
+<script src="/src/js/modules/perfil-especialista.js"></script>

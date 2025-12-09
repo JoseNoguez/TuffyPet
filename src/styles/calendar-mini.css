@@ -1,0 +1,94 @@
+.calendar-mini {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e2e2e2;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    font-family: "Poppins", sans-serif;
+}
+
+.calendar-mini-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.calendar-mini-header button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #3E8ECD;
+    font-size: 1rem;
+}
+
+.calendar-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.calendar-mini-dayname {
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.calendar-mini-day {
+    text-align: center;
+    font-size: 0.85rem;
+    padding: 6px 0;
+    border-radius: 4px;
+}
+
+/* Verde = disponibilidad completa */
+.calendar-mini-day.green {
+    background: #49d6a2;
+    color: white;
+    cursor: pointer;
+}
+
+/* Amarillo = disponibilidad parcial */
+.calendar-mini-day.yellow {
+    background: #F7C04A;
+    color: white;
+    cursor: pointer;
+}
+
+.calendar-mini-day.none {
+    background: #e9e9e9;
+    color: #aaa;
+}
+
+/* Hover */
+.calendar-mini-day.green:hover,
+.calendar-mini-day.yellow:hover {
+    transform: scale(1.05);
+    transition: 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+/* MODAL overlay estándar */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 9999;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    width: 90%;
+    max-width: 480px;
+}

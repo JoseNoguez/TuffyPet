@@ -1,0 +1,153 @@
+/* ============================================================
+   MODAL AGENDAR CITA – TuffyPet
+   Estilo profesional tipo Doctoralia
+   ============================================================ */
+
+#acModalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+
+#acModal {
+    width: 95%;
+    max-width: 550px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    animation: fadeIn 0.25s ease-out;
+    position: relative;
+}
+
+#acModalHeader {
+    background: var(--amarillo-mostaza, #F7C04A);
+    padding: 18px 22px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+#acModalClose {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #fff;
+}
+
+#acModalBody {
+    padding: 22px;
+    background: #fff;
+}
+
+.ac-step {
+    display: none;
+}
+
+.ac-step.active {
+    display: block;
+}
+
+/* TITULOS DE PASOS */
+.ac-step-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+/* INPUTS */
+.ac-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.ac-input:focus {
+    border-color: var(--azul-tuffy, #3E8ECD);
+}
+
+/* RADIO GROUP */
+.ac-radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    cursor: pointer;
+}
+
+/* BOTONES */
+#acModalFooter {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 22px;
+}
+
+.ac-btn {
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+}
+
+#acPrevBtn {
+    background: #d9d9d9;
+    color: #333;
+}
+
+#acNextBtn {
+    background: var(--azul-tuffy);
+    color: white;
+}
+
+#acConfirmBtn {
+    background: var(--amarillo-mostaza);
+    color: white;
+    width: 100%;
+    border-radius: 12px;
+    margin-top: 16px;
+    padding: 14px;
+    font-size: 1rem;
+}
+
+/* REVIEW LIST */
+.ac-summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+    #acModal {
+        width: 98%;
+        max-width: none;
+        border-radius: 12px;
+    }
+
+    #acModalHeader {
+        font-size: 1.05rem;
+    }
+
+    .ac-btn {
+        font-size: 0.9rem;
+    }
+}
+
+/* Fade */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}

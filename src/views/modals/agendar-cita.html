@@ -1,0 +1,133 @@
+<!-- =============================================== -->
+<!--   MODAL AGENDAR CITA (4 PASOS) TUFFYPET         -->
+<!-- =============================================== -->
+<link rel="stylesheet" href="/src/styles/agendar-cita.css">
+<div id="agendarCitaModal" class="modal-overlay agendar-cita-modal" style="display: none;">
+    <div class="ac-modal-content">
+
+        <!-- =============================================== -->
+        <!--   HEADER                                        -->
+        <!-- =============================================== -->
+        <div class="ac-header">
+            <h2>Agendar Cita</h2>
+            <button class="ac-close-btn" onclick="window.closeModal('agendarCitaModal')">
+                <i class="material-icons">close</i>
+            </button>
+        </div>
+
+        <!-- =============================================== -->
+        <!--   PASOS / WIZARD TOP                            -->
+        <!-- =============================================== -->
+        <div class="ac-steps">
+            <div class="ac-step-item active" data-step="1">1. Selección</div>
+            <div class="ac-step-item" data-step="2">2. Mascota</div>
+            <div class="ac-step-item" data-step="3">3. Dueño</div>
+            <div class="ac-step-item" data-step="4">4. Confirmar</div>
+        </div>
+
+        <!-- =============================================== -->
+        <!--   CONTENIDO DINÁMICO DEL WIZARD                 -->
+        <!-- =============================================== -->
+        <div class="ac-body">
+
+            <!-- ================================================= -->
+            <!-- =============== PASO 1 ========================== -->
+            <!-- ================================================= -->
+            <div class="ac-step" id="ac-step-1">
+
+                <h3>1. Selecciona la modalidad y horario</h3>
+
+                <label>Modalidad *</label>
+                <div class="ac-radio-group">
+                    <label><input type="radio" name="acMode" value="online"> En línea</label>
+                    <label><input type="radio" name="acMode" value="presencial"> Presencial</label>
+                </div>
+
+                <label>Fecha *</label>
+                <input type="date" id="acDate">
+
+                <label>Horario *</label>
+                <select id="acTime">
+                    <option value="">Selecciona un horario</option>
+                </select>
+            </div>
+
+            <!-- ================================================= -->
+            <!-- =============== PASO 2 ========================== -->
+            <!-- ================================================= -->
+            <div class="ac-step" id="ac-step-2" style="display:none;">
+
+                <h3>2. Información de tu mascota</h3>
+
+                <label>Nombre de la mascota *</label>
+                <input type="text" id="acPetName" placeholder="Firulais">
+
+                <label>Edad *</label>
+                <input type="number" id="acPetAge" placeholder="3">
+
+                <label>Comentarios</label>
+                <textarea id="acPetNotes" placeholder="Describe síntomas, comportamientos, etc."></textarea>
+
+                <label>¿Es tu primera cita con este especialista? *</label>
+                <div class="ac-radio-group">
+                    <label><input type="radio" name="acFirstVisit" value="si"> Sí</label>
+                    <label><input type="radio" name="acFirstVisit" value="no"> No</label>
+                </div>
+
+                <label>¿La clínica acepta tu seguro médico veterinario?</label>
+                <input type="text" id="acSeguro" placeholder="Opcional">
+            </div>
+
+            <!-- ================================================= -->
+            <!-- =============== PASO 3 ========================== -->
+            <!-- ================================================= -->
+            <div class="ac-step" id="ac-step-3" style="display:none;">
+
+                <h3>3. Datos del dueño</h3>
+
+                <label>Nombre completo *</label>
+                <input type="text" id="acOwnerName" placeholder="Juan Pérez">
+
+                <label>Teléfono *</label>
+                <input type="text" id="acOwnerPhone" placeholder="55 1234 5678">
+
+                <label>Correo *</label>
+                <input type="email" id="acOwnerEmail" placeholder="correo@ejemplo.com">
+            </div>
+
+            <!-- ================================================= -->
+            <!-- =============== PASO 4 ========================== -->
+            <!-- ================================================= -->
+            <div class="ac-step" id="ac-step-4" style="display:none;">
+                <h3>4. Confirmar datos</h3>
+
+                <div class="ac-summary">
+                    <p><strong>Modalidad:</strong> <span id="sumMode"></span></p>
+                    <p><strong>Fecha:</strong> <span id="sumDate"></span></p>
+                    <p><strong>Horario:</strong> <span id="sumTime"></span></p>
+                    <p><strong>Mascota:</strong> <span id="sumPetName"></span></p>
+                    <p><strong>Edad:</strong> <span id="sumPetAge"></span></p>
+                    <p><strong>Primera cita:</strong> <span id="sumFirstVisit"></span></p>
+                    <p><strong>Dueño:</strong> <span id="sumOwnerName"></span></p>
+                    <p><strong>Teléfono:</strong> <span id="sumOwnerPhone"></span></p>
+                    <p><strong>Email:</strong> <span id="sumOwnerEmail"></span></p>
+                </div>
+
+                <button id="acConfirmBtn" class="ac-confirm-btn">
+                    Confirmar Cita
+                </button>
+            </div>
+
+        </div>
+
+        <!-- =============================================== -->
+        <!--   FOOTER – BOTONES SIG / ANT                    -->
+        <!-- =============================================== -->
+        <div class="ac-footer">
+            <button id="acBackBtn" class="ac-nav-btn" style="display:none;">Atrás</button>
+            <button id="acNextBtn" class="ac-nav-btn ac-next-btn">Siguiente</button>
+        </div>
+
+    </div>
+</div>
+<script src="/src/js/modules/agendarCita.js"></script>
